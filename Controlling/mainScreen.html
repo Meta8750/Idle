@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <title>main page</title>
+    <meta charset="utf-8">
+    <meta name="charset" content="width=device-width,initial-scale=1.0">
+    <link rel="stylesheet" href="stylesheet.css">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
+
+</head>
+
+<body>
+    <div class="grid-container">   
+        <header class="header">
+            <div class="menu-icon" onclick="openSidebar()">
+                <span class="material-symbols-outlined">menu </span>
+            </div>
+            
+            <div class="header-left">
+                <span class="material-symbols-outlined">search</span>
+                    
+                    
+            </div>
+            
+            <div class="header-right">
+                
+                <span class="material-symbols-outlined">notifications</span>
+                <span class="material-symbols-outlined">email</span>
+                <span class="material-symbols-outlined">account_circle</span>
+                    
+            </div>
+        </header>
+        
+        <aside id="sidebar">
+            <div class="sidebar-title">
+                <div class="sidebar-brand">
+                    <span class="material-symbols-outlined" >inventory</span> Gearsaver
+                </div>
+                <span class="material-symbols-outlined" onclick="closeSidebar()">close</span>
+            </div>
+
+        <ul class="sidebar-list">
+            <li class="sidebar-list-item active" onclick="showElement('hub')" ><a href="#"></a><span class="material-symbols-outlined" >dashboard</span> Übersicht </a></li>
+            <li class="sidebar-list-item" onclick="showElement('prozess')" ><span class="material-symbols-outlined" >inventory_2</span> Prozesse </li>
+            <li class="sidebar-list-item" onclick="showElement('sql')"><span class="material-symbols-outlined">fact_check</span> Inventory </li>
+            <li class="sidebar-list-item" onclick="showElement('sql_add')"><span class="material-symbols-outlined">add_shopping_cart</span> Purchase Orders </li>
+            <li class="sidebar-list-item"><span class="material-symbols-outlined">shopping_cart</span> Sales Orders </li>
+            <li class="sidebar-list-item"><span class="material-symbols-outlined">poll</span> Reports </li>
+            <li class="sidebar-list-item"  onclick="showElement('settings')"><span class="material-symbols-outlined">settings</span> Settings </li>
+        </ul>
+            
+        </aside>
+        
+            <main class="hub-c" id="hub">
+                <div>
+                    <p>nein</p>
+                </div>
+            </main>
+            
+            <main class="prozess-c" id="prozess">
+                <div id="prozess">
+                    
+                    <div id="functions">
+                        <button id="fill">Data Fill</button>
+                        <button id="add">Data add</button>
+                    </div>   
+                    
+                    <div id="file">
+                        <div id="file-header">
+                            <p>input</p>
+                            <p>output</p>
+                            
+                        </div>
+                        <i></i>
+                        <div id="file-body">
+                            
+                            <ul id="fileList"></ul>
+                            
+                            <ul id="fileListOutput"></ul>
+                            
+                        </div>
+                    </div>
+                    <div id="prozessWindow">
+                        <p id="p-fill" class="prozess"></p>
+                        <p id="p-add" class="prozess"> </p>
+                        <canvas id="timeChart"></canvas>
+                    </div>
+                </div>
+            </main>
+
+            <main class="sql-c" id="sql">
+                <div id="sql-header">
+                  <button id="search">suchen</button> 
+                  <button id="back">zurück</button>
+                  GearsaverNr<input id="gearsaverNr" type="text"></input>
+                  GatewayNr<input id="gatewayNr" type="text"></input>  
+                  Datum von<input id="date from" type="text"></input>
+                  Datum bis<input id="date to" type="text"></input>     
+                  Temperatur<input id="Temperatur" class="checkbox" type="checkbox" onchange="checkboxChange()">  
+                </div>
+                
+                <div id="table-c"></div>
+            </main>
+
+            <main class="sql_add-c" id="sql_add"> 
+                <div>
+                    Kunde<input type="text" id="Kunde">
+                    <input type="text" id="KundenNr">
+                    <input type="text" id="Land">
+                    <input type="text" id="Ort">
+                    <input type="text" id="Straße">
+                    <input type="text" id="Hausnummer">
+                    <input type="text" id="Betrieb">
+                    <input type="text" id="Fahrzeugtyp">
+                    <input type="text" id="Gateway">
+                    <input type="text" id="Gearsaver">
+                    <input type="text" id="Getriebe">
+                    
+
+                </div>
+
+            </main>
+
+            <main class="settings-c" id="settings">
+                <div>
+                    <h1>Dark Mode</h1>
+                    <label class="switch">
+                        <input type="checkbox" id="darkModeSwitch">
+                        <span class="slider"></span>
+                    </label>
+                </div>
+            </main>
+
+        
+       </div>
+   
+<script src="mainScreen.js"></script>
+<script src="sql_query.js"></script>
+<script src="prozess.js"></script>
+<script src="runfile.js"></script>
+
+
+<script>
+    let items = document.querySelectorAll(".sidebar-list-item");
+    items.forEach(item => {
+        item.addEventListener('click', () => {
+            items.forEach(item => item.classList.remove('active'))
+            item.classList.add('active')
+        })
+    });
+     
+
+</script>
+  <script>
+    function updateFileList() {
+        $.ajax({
+            url: 'http://cn:8080/api/fileList',
+            type: 'GET',
+            dataType: 'json',
+            success: async function (data) {
+                const inputFiles = data.input;
+                const outputFiles = data.output;
+                const companyFiles = data.company;
+                
+                const fileListinput = document.getElementById('fileList');
+                fileListinput.innerHTML = ''; // Leere die Dateiliste, um sie zu aktualisieren
+
+                const fileListoutput = document.getElementById('fileListOutput');
+                fileListoutput.innerHTML = ''; // Leere die Dateiliste, um sie zu aktualisieren
+
+                
+                inputFiles.forEach(file => {
+                    const listItem = document.createElement('li');
+                    listItem.textContent = file;
+                    fileListinput.appendChild(listItem);
+                
+                });
+                outputFiles.forEach(file => {
+                    const listItem = document.createElement('li');
+                    listItem.textContent = file;
+                    fileListoutput.appendChild(listItem);
+                
+                });
+                
+},
+            
+            error: function (error) {
+                console.error('Fehler beim Abrufen der Dateiliste:', error);
+            }
+        });
+    }
+
+    // Aktualisiere die Dateiliste alle 5 Sekunden
+    setInterval(updateFileList, 1000);
+</script>
+
+
+</body>
+
+</html>

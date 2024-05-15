@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <title>WelcomeMaker</title>
+    <meta charset="utf-8">
+    <meta name="charset" content="width=device-width,initial-scale=1.0">
+    <link rel="stylesheet" href="stylesheet.css">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
+
+</head>
+
+<body>
+    <div class="grid-container">   
+        <header class="header">
+            <div class="menu-icon" onclick="openSidebar()">
+                <span class="material-symbols-outlined">menu </span>
+            </div>
+            
+            
+            
+        </header>
+        
+        <aside id="sidebar">
+            <div class="sidebar-title">
+                <div class="sidebar-brand">
+                    <span class="material-symbols-outlined" >inventory</span> WelcomeMaker
+                </div>
+                <span class="material-symbols-outlined" onclick="closeSidebar()">close</span>
+            </div>
+
+        <ul class="sidebar-list">
+            <li class="sidebar-list-item active" onclick="showElement('hub')" ><a href="#"></a><span class="material-symbols-outlined" >dashboard</span> Übersicht </a></li>
+            <li class="sidebar-list-item" onclick="showElement('overview')" ><span class="material-symbols-outlined" >inventory_2</span>  </li>
+            <li class="sidebar-list-item" onclick="showElement('sql')"><span class="material-symbols-outlined">fact_check</span>  </li>
+            <li class="sidebar-list-item" onclick="showElement('sql_add')"><span class="material-symbols-outlined">add_shopping_cart</span>   </li>
+            <li class="sidebar-list-item"><span class="material-symbols-outlined">shopping_cart</span>   </li>
+            <li class="sidebar-list-item"><span class="material-symbols-outlined">poll</span>  </li>
+            <li class="sidebar-list-item"  onclick="showElement('settings')"><span class="material-symbols-outlined">settings</span> Settings </li>
+        </ul>
+            
+        </aside>
+        
+            <main class="hub-c" id="hub">
+                <div id="upper">
+                <div id="inputField">
+                     
+                        
+                    <div>
+                        <input type="text" placeholder="Name" id="names" class="input"><i></i>
+                        <input type="text" placeholder="Firma "id="company" class="input">
+                        <input type="text" placeholder="Bearbeiter" id="editor" class="input">
+                        <input type="text" placeholder="Terminal" id="trm" class="input">
+                        <input type="date" placeholder="von" id="fromDate" name="date" class="input">
+                        <input type="date" placeholder="ID" id="toDate" name="date" class="input">
+                        <input type="text" id="ID" placeholder="ID Löschen" class="input">
+                        <label><u>Name nachträglich einfügen/löschen:</u></label>
+                        <input type="text" placeholder="Name" id="addNameLater" class="input">
+                        <input type="text" placeholder="ID" id="addNameLaterID" class="input">
+                    </div>
+  
+                    
+                </div>    
+                <div id="trmExplain" class="buttonField">
+                    <button onclick="extractNames()">Namen einfügen</button>
+                        <button onclick="deletNames()">Namen löschen</button>
+                        <button onclick="sqlData('add')">einfügen</button>
+                        <button onclick="sqlData('delete')">Löschen</button>
+                        <button onclick="sqlData('addNameLater')">Name nachträglich einfügen</button>
+                        <button onclick="sqlData('deleteNameLater')">Name nachträglich löschen</button>
+              
+                    <label>0 = alle</label>
+                    <label>1 = Eingang H1</label>
+                    <label>2 = Eingang H3</label>
+                    <label>Namen Liste:</label>
+                    <label id="nameList"></label>  
+                </div>     
+                       
+            </div>
+
+            <div id="outSqlTable"><div id="sqlTable"></div></div>
+            
+            </div>
+            </main>
+
+        <main class="overview-c" id="overview"></main>
+            
+           
+   
+<script src="mainScreen.js"></script>
+<script src="designInteractions.js"></script>
+<script src="sql_query.js"></script>
+
+<script>
+
+    let items = document.querySelectorAll(".sidebar-list-item");
+    items.forEach(item => {
+        item.addEventListener('click', () => {
+            items.forEach(item => item.classList.remove('active'))
+            item.classList.add('active')
+        })
+    });
+     
+
+</script>
+
+<script>setInterval(updateFileList, 500)</script>
+
+</body>
+
+</html>

@@ -94,7 +94,7 @@ def data_select_for_BS():
     
     names_dict = {firma_id: list(group['Name']) for firma_id, group in names_df.groupby('Firma_ID')}
     company_dict = {firma_id: list(group['Firma']) for firma_id, group in company_df.groupby('ID')}
-    language = language['language'].tolist()
+    language = language['Sprache'].tolist()
     
     id_list = company_df['ID'].tolist()
     

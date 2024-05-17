@@ -82,8 +82,6 @@ def delete_old_data(current_date):
 
     sql_query.delete(f"DELETE FROM Firma WHERE bis < '{current_date}'")
 
-
-
 def data_select_for_BS():
 
     current_date = datetime.datetime.now()

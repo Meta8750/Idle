@@ -13,7 +13,7 @@ import json
 from sqlQuery import SqlQuery
 import htmlprozess
 
-
+import randomPic
 
 sql_query = SqlQuery()
 def data_insert(sqlFilter,trm):
@@ -35,20 +35,20 @@ def data_insert(sqlFilter,trm):
     Names = sqlFilter.get("name")
     Date = sqlFilter.get("date")
     editor = sqlFilter.get("editor")
+    language = sqlFilter.get("language")
     
 
     try:
-        values = (Firma, newID, Date[0], Date[1],trm)
+        values = (Firma, newID, Date[0], Date[1],trm, language)
         
-        sql_query.insert(f"INSERT INTO Firma (Firma ,ID ,von ,bis,trm ) VALUES (?, ?, ?, ?,?)", values)
+        sql_query.insert(f"INSERT INTO Firma (Firma ,ID ,von ,bis,trm, language ) VALUES (?, ?, ?, ?,?,?)", values)
                
         for Name in Names:
             values = (Name, newID, editor)
-            print(values)
+            
             sql_query.insert(f"INSERT INTO Person (Name , Firma_ID, Bearbeiter) VALUES (?,?,?)", values)
 
     except Exception as error:
-        print(1)
         print(error)
 
 def data_insert_later(sqlFilter):
@@ -82,21 +82,25 @@ def delete_old_data(current_date):
 
     sql_query.delete(f"DELETE FROM Firma WHERE bis < '{current_date}'")
 
+
+
 def data_select_for_BS():
 
     current_date = datetime.datetime.now()
 
     names_df = sql_query.select(f"SELECT Name, Firma_ID FROM Firma LEFT JOIN Person ON Firma.ID = Person.Firma_ID WHERE von <= '{current_date}' and trm ='2' or trm = '0' ")
     company_df = sql_query.select(f"SELECT Firma, ID FROM Firma  WHERE von <= '{current_date}' and trm ='2' or trm = '0'")
-   
+    language = sql_query.select(f"SELECT TOP (1) Sprache FROM Firma WHERE von <= '{current_date}' and trm = '2' or trm = '0'")
+    
     names_dict = {firma_id: list(group['Name']) for firma_id, group in names_df.groupby('Firma_ID')}
     company_dict = {firma_id: list(group['Firma']) for firma_id, group in company_df.groupby('ID')}
+    language = language['language'].tolist()
     
     id_list = company_df['ID'].tolist()
     
     delete_old_data(current_date)
 
-    result = {"name" : names_dict, "company": company_dict, "id": id_list}
+    result = {"name" : names_dict, "company": company_dict, "id": id_list, "language" : language}
 
     return result
 
@@ -123,6 +127,7 @@ def daten_manage():
     trmList = selectTRM()
 
     type = sqlFilter.get('type')
+    
 
     if type == 'add':
         trm = sqlFilter.get('trm')
@@ -136,6 +141,7 @@ def daten_manage():
         htmlprozess.htmlChoose(0)
         for trm in trmList:
             if trm != 2:
+                
                 htmlprozess.htmlChoose(trm)
         return jsonify(data_select())
     
@@ -144,8 +150,12 @@ def daten_manage():
     
     elif type == 'selectForBS':
         return jsonify(data_select_for_BS())
-    
-    
+    elif type == 'randomPic':
+        
+        randomPic.update_background_image("G:\\Abteilungen\\Datenverarbeitung\\Programme_und_Features\\Greeting\\styleS.css")
+        randomPic.update_background_image("G:\\Abteilungen\\Datenverarbeitung\\Programme_und_Features\\Greeting\\empfangH3\\style.css")
+        randomPic.changeBG
+        return jsonify(data_select())
     
 if __name__ == '__main__':
     from waitress import serve

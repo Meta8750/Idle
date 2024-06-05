@@ -155,6 +155,7 @@ def daten_manage():
         randomPic.update_background_image("G:\\Abteilungen\\Datenverarbeitung\\Programme_und_Features\\Greeting\\styleS.css")
         randomPic.update_background_image("G:\\Abteilungen\\Datenverarbeitung\\Programme_und_Features\\Greeting\\empfangH3\\style.css")
         randomPic.changeBG
+        
         return jsonify(data_select())
     
 if __name__ == '__main__':

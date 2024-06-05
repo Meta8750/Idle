@@ -20,6 +20,8 @@ class Data {
 
 dataArray = new Data();
 
+let counter = 0;
+
 function extractNames() {
     
     const namesInput = document.getElementById('names').value;
@@ -66,7 +68,7 @@ function sqlData(type) {
         
         add_data(dataObj);
     }
-    else if (type === 'select') {
+    else if (type === 'select' | type === 'randomPic') {
         readData(dataObj);
     } else if (type === 'delete') {
         readData(dataObj);
@@ -80,7 +82,14 @@ function updateFileList() {
     const nameListLabel = document.getElementById('nameList');
     nameListLabel.innerHTML = ''; // Leere die Dateiliste, um sie zu aktualisieren
 
-   
+    if (counter >= 30) {
+        sqlData('randomPic')
+        counter = 0;
+
+   } else {
+    counter++;
+    console.log(counter)
+   }
 
     sqlData('select')
 

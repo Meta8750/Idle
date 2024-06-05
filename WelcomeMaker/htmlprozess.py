@@ -52,7 +52,7 @@ def update_html(id_list, company_list, names_dict,trm,html):
             html_content = f.read()
 
     except Exception as e:
-        pass
+        print('could open Html')
     changeCSS(html_content, htmlPath)
     
     # Erstellen eines BeautifulSoup-Objekts

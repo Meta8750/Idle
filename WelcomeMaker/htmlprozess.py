@@ -3,38 +3,11 @@ from bs4 import BeautifulSoup
 
 from sqlQuery import SqlQuery
 
+
+
 sql_query = SqlQuery()
 
-
-def changeCSS(html_code,html_path):
-   
-    soup = BeautifulSoup(html_code, "html.parser")
-
-    # Überprüfen, ob der Inhalt von tableNames leer ist
-    table_names_content = soup.find(id='tableNames').get_text().strip()
-
-    if table_names_content == '':
-        # Wenn leer, ändern Sie die CSS-Stileigenschaften
-        soup.find(id='text')['style'] = 'font-size: 70px; padding-top: 70px;'
-        soup.find(id='pic')['style'] = 'height: 200%;'
-    else:
-        # Andernfalls ändern Sie die CSS-Stileigenschaften zurück
-        soup.find(id='text')['style'] = 'font-size: 50px; padding-top: 0px;'
-        soup.find(id='pic')['style'] = 'height: 140%;'
-
-    # Den modifizierten HTML-Code in eine Datei schreiben
-    with open(html_path, 'w') as file:
-        file.write(soup.prettify())
-
-    # Funktion zum Umwandeln von Umlauten in Umschreibungen
-def umlaute_umwandeln(text):
-        umlaute_dict = {'ä': 'ae', 'ö': 'oe', 'ü': 'ue', 'Ä': 'Ae', 'Ö': 'Oe', 'Ü': 'Ue', 'ß': 'ss'}
-        for umlaut, umschreibung in umlaute_dict.items():
-            text = text.replace(umlaut, umschreibung)
-        return text
-
 def htmlChoose(trm):
-    
         if trm == 0 or 1:
             return change("TRM025", trm)
         elif trm == 2:
@@ -42,6 +15,19 @@ def htmlChoose(trm):
         #elif trm == 3:
 
     #   retunr "TRM369"
+
+    
+def umlaute_umwandeln(text):
+        umlaute_dict = {'ä': 'ae', 'ö': 'oe', 'ü': '&uuml;', 'Ä': 'Ae', 'Ö': 'Oe', 'Ü': 'Ue', 'ß': '&szlig;', 'ÃŸ': 'ß', 'Ã¼': 'ü', 'begr��en': 'begrüßen'}
+        print(text)
+        for umlaut, umschreibung in umlaute_dict.items():
+            text = text.replace(umlaut, umschreibung)
+            
+        
+        return text
+
+
+
 
 def update_html(id_list, company_list, names_dict,trm,html):
 
@@ -52,8 +38,9 @@ def update_html(id_list, company_list, names_dict,trm,html):
             html_content = f.read()
 
     except Exception as e:
-        print('could open Html')
+        pass
     changeCSS(html_content, htmlPath)
+    
     
     # Erstellen eines BeautifulSoup-Objekts
     soup = BeautifulSoup(html_content, "html.parser")
@@ -88,6 +75,7 @@ def update_html(id_list, company_list, names_dict,trm,html):
         # Füge das erstellte Div-Tag dem Element hinzu
         element.append(div_tag)
     try:
+        soup  =umlaute_umwandeln(soup)
         # Speichern der geänderten HTML-Datei
         with open(htmlPath, "w") as f:
             f.write(str(soup))
@@ -117,4 +105,28 @@ def change(html,trm):
 
 
 
+def changeCSS(html_code,html_path):
+   
+    soup = BeautifulSoup(html_code, "html.parser")
 
+    # Überprüfen, ob der Inhalt von tableNames leer ist
+    table_names_content = soup.find(id='tableNames').get_text().strip()
+
+    if table_names_content == '':
+        # Wenn leer, ändern Sie die CSS-Stileigenschaften
+        soup.find(id='text')['style'] = 'font-size: 70px; padding-top: 20px;'
+        soup.find(id='pic')['style'] = 'height: 40%; width: 40%'
+    else:
+        # Andernfalls ändern Sie die CSS-Stileigenschaften zurück
+        soup.find(id='text')['style'] = 'font-size: 50px; padding-top: 20px;'
+        soup.find(id='pic')['style'] = 'height: 30%; width: 30%'
+
+    # Den modifizierten HTML-Code in eine Datei schreiben
+    with open(html_path, 'w') as file:
+        file.write(soup.prettify())
+
+
+
+
+
+change("Test", 10)

@@ -51,12 +51,17 @@ function sqlData(type) {
             inputFields.forEach(function(input) {
                 
                 let value = input.value.trim();
-                
+                if  (input.type === 'checkbox') {
+                    if (input.checked) {
+                        let attribute = input.id;
+                        jsonData[attribute] = value;
+                    }
+                } else {
                 if (value !== '') { // Überprüfe, ob das Feld nicht leer ist
                     let attribute = input.id; // Platzhaltertext des Feldes
                     jsonData[attribute] = value; // Füge das Paar 'Platzhaltertext: Wert' zum Array hinzu
                 }
-            });
+            }});
     jsonData['name'] = dataArray.namesArray
     jsonData['type'] = type;
     jsonData['date'] = date

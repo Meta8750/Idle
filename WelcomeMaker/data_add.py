@@ -72,7 +72,7 @@ def data_select():
     return result
 
 def delete_old_data(current_date):
-     
+   
     ID_df = sql_query.select(f"Select ID FROM Firma WHERE bis < '{current_date}'")
     ID_list = ID_df['ID'].tolist()
     
@@ -155,7 +155,6 @@ def daten_manage():
         randomPic.update_background_image("G:\\Abteilungen\\Datenverarbeitung\\Programme_und_Features\\Greeting\\styleS.css")
         randomPic.update_background_image("G:\\Abteilungen\\Datenverarbeitung\\Programme_und_Features\\Greeting\\empfangH3\\style.css")
         randomPic.changeBG
-        
         return jsonify(data_select())
     
 if __name__ == '__main__':

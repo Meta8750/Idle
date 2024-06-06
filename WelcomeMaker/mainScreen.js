@@ -82,7 +82,7 @@ function updateFileList() {
     const nameListLabel = document.getElementById('nameList');
     nameListLabel.innerHTML = ''; // Leere die Dateiliste, um sie zu aktualisieren
 
-    if (counter >= 30) {
+    if (counter >= 100) {
         sqlData('randomPic')
         counter = 0;
 

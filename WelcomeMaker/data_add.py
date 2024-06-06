@@ -41,7 +41,7 @@ def data_insert(sqlFilter,trm):
     try:
         values = (Firma, newID, Date[0], Date[1],trm, language)
         
-        sql_query.insert(f"INSERT INTO Firma (Firma ,ID ,von ,bis,trm, language ) VALUES (?, ?, ?, ?,?,?)", values)
+        sql_query.insert(f"INSERT INTO Firma (Firma ,ID ,von ,bis,trm, Sprache ) VALUES (?, ?, ?, ?,?,?)", values)
                
         for Name in Names:
             values = (Name, newID, editor)

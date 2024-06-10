@@ -19,7 +19,7 @@ def htmlChoose(trm):
     
 def umlaute_umwandeln(text):
         umlaute_dict = {'ä': 'ae', 'ö': 'oe', 'ü': '&uuml;', 'Ä': 'Ae', 'Ö': 'Oe', 'Ü': 'Ue', 'ß': '&szlig;', 'ÃŸ': 'ß', 'Ã¼': 'ü', 'begr��en': 'begrüßen'}
-        print(text)
+        
         for umlaut, umschreibung in umlaute_dict.items():
             text = text.replace(umlaut, umschreibung)
             
@@ -38,7 +38,7 @@ def update_html(id_list, company_list, names_dict,trm,html):
             html_content = f.read()
 
     except Exception as e:
-        pass
+        print(e)
     changeCSS(html_content, htmlPath)
     
     

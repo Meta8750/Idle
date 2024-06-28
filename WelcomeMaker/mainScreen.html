@@ -11,6 +11,13 @@
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
 
+    <link rel="stylesheet" href="node_modules\jjourney.js\dist\journey.js.css" />
+    <script src="node_modules\jjourney.js\src\journey.js"></script>
+    
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/intro.js/4.3.0/introjs.min.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/intro.js/4.3.0/intro.min.js"></script>
+
 </head>
 
 <body>
@@ -32,14 +39,17 @@
                 <span class="material-symbols-outlined" onclick="closeSidebar()">close</span>
             </div>
 
-        <ul class="sidebar-list">
+          
+            <ul class="sidebar-list">
             <li class="sidebar-list-item active" onclick="showElement('hub')" ><a href="#"></a><span class="material-symbols-outlined" >dashboard</span> Übersicht </a></li>
             <li class="sidebar-list-item" onclick="showElement('overview')" ><span class="material-symbols-outlined" >inventory_2</span>  </li>
             <li class="sidebar-list-item" onclick="showElement('sql')"><span class="material-symbols-outlined">fact_check</span>  </li>
             <li class="sidebar-list-item" onclick="showElement('sql_add')"><span class="material-symbols-outlined">add_shopping_cart</span>   </li>
             <li class="sidebar-list-item"><span class="material-symbols-outlined">shopping_cart</span>   </li>
             <li class="sidebar-list-item"><span class="material-symbols-outlined">poll</span>  </li>
+            
             <li class="sidebar-list-item"  onclick="showElement('settings')"><span class="material-symbols-outlined">settings</span> Settings </li>
+            
         </ul>
             
         </aside>
@@ -55,7 +65,9 @@
                         <input type="text" placeholder="Bearbeiter" id="editor" class="input">
                         <input type="text" placeholder="Terminal" id="trm" class="input">
                         <input type="date" placeholder="von" id="fromDate" name="date" class="input">
-                        <input type="date" placeholder="ID" id="toDate" name="date" class="input">
+                        <i id="fromLabel">von</i>
+                        <input type="date" placeholder="bis" id="toDate" name="date" class="input">
+                        <i id="untilLabel">bis</i>
                         <input type="text" id="ID" placeholder="ID Löschen" class="input">
                         <label><u>Name nachträglich einfügen/löschen:</u></label>
                         <input type="text" placeholder="Name" id="addNameLater" class="input">
@@ -68,18 +80,28 @@
                     
                 </div>    
                 <div id="trmExplain" class="buttonField">
-                    <button onclick="extractNames()">Namen einfügen</button>
-                        <button onclick="deletNames()">Namen löschen</button>
-                        <button onclick="sqlData('add')">einfügen</button>
-                        <button onclick="sqlData('delete')">Löschen</button>
-                        <button onclick="sqlData('addNameLater')">Name nachträglich einfügen</button>
-                        <button onclick="sqlData('deleteNameLater')">Name nachträglich löschen</button>
-              
+                        <button  id="button1"   onclick="extractNames()">Namen einfügen</button>
+                        <button  id="button2"   onclick="deletNames()">Namen löschen</button>
+                        <button  id="button3"   onclick="sqlData('add')">einfügen</button>
+                        <button  id="button4"   onclick="sqlData('delete')">Löschen</button>
+                        <button  id="button5"   onclick="sqlData('addNameLater')">Name nachträglich einfügen</button>
+                        <button  id="button6"   onclick="sqlData('deleteNameLater')" >Name nachträglich löschen</button>
+
+                        
+                        
+                    
+                        <script src="https://cdnjs.cloudflare.com/ajax/libs/intro.js/4.3.0/intro.min.js"></script>
+                      
+
                     <label>0 = alle</label>
                     <label>1 = Eingang H1</label>
                     <label>2 = Eingang H3</label>
                     <label>Namen Liste:</label>
-                    <label id="nameList"></label>  
+                    <label id="nameList"></label>
+                <button class="infoButton"  id="start-tour" >i</button>  
+                
+                
+                
                 </div>     
                        
             </div>
@@ -96,6 +118,9 @@
 <script src="mainScreen.js"></script>
 <script src="designInteractions.js"></script>
 <script src="sql_query.js"></script>
+<script src="tutorial.js"></script>
+
+
 
 <script>
 
@@ -107,8 +132,10 @@
         })
     });
      
+    startIntro()
 
 </script>
+
 
 <script>setInterval(updateFileList, 500)</script>
 

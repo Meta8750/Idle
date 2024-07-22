@@ -1,0 +1,36 @@
+.App {
+    display: grid;
+    grid-template-areas:
+      "aside header header"
+      "aside main main";
+    grid-template-rows: 0.06fr 1fr;
+    grid-template-columns: 0.8fr 3fr 3fr;
+    height: 100vh;
+  }
+
+  body{
+
+  }
+  
+  header {
+    grid-area: header;
+    background-color: #e9ecef;
+    
+   
+  }
+  
+  aside {
+    grid-area: aside;
+    background-color: #001d3a;
+    padding: 1rem;
+  }
+  
+  main {
+    grid-area: main;
+    background-color: #fff;
+    padding: 1rem;
+  }
+
+
+
+

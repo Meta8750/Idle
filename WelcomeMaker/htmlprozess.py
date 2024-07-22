@@ -75,12 +75,12 @@ def update_html(id_list, company_list, names_dict,trm,html):
         # Füge das erstellte Div-Tag dem Element hinzu
         element.append(div_tag)
     try:
-        soup  =umlaute_umwandeln(soup)
+        
         # Speichern der geänderten HTML-Datei
         with open(htmlPath, "w") as f:
             f.write(str(soup))
-    except Exception:
-        pass
+    except Exception as e:
+        print(e)
 
 def change(html,trm):
     current_date = datetime.datetime.now()
@@ -129,4 +129,4 @@ def changeCSS(html_code,html_path):
 
 
 
-change("Test", 10)
+change("TRM025", 1)

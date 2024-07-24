@@ -19,4 +19,12 @@
     li:hover {
         background-color: chartreuse;
     }
+
+    li.active {
+        background-color: #007bff;
+            color: white;
+    }
+
+    
 }
+

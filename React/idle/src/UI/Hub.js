@@ -1,5 +1,5 @@
 import React from "react";
-import styles from '../UIcss/.module.css'
+import styles from '../UIcss/Hub.module.css'
 
 function Hub() {
     return (

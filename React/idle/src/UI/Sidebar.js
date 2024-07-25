@@ -16,8 +16,8 @@ function Sidebar({ activeTab, setActiveTab }) {
                 {tabs.map((tab, index) => (
                     <li
                         key={index}
-                        className={activeTab === index ? styles.active : ''}
-                        onClick={() => setActiveTab(index)}
+                        className={activeTab === tab ? styles.active : ''}
+                        onClick={() => setActiveTab(tab)}
                         
                     >   
                         {tab}

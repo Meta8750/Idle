@@ -14,12 +14,22 @@ function Player({time, activity}) {
     }
   
   });
-  
-  
 
-useEffect(() => {
-  console.log(time)
-},[time]);
+
+  
+  useEffect(() => {
+    if (activity){
+      console.log(activity)
+      
+      if (time >= player.skills.job){
+        console.log(activity);
+    
+      
+    }
+  }
+  
+}, [time, activity, player]);
+
 
       
  

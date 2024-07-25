@@ -6,11 +6,11 @@ import Header from '../src/UI/Header';
 import Main from '../src/UI/Main.js'
 
 function App() {
-  const [activeTab, setActiveTab] = useState();
+  const [activeTab, setActiveTab] = useState("player");
   
   return (
     <div className="App">
-      <header> <Header /> </header>
+      <header> <Header  activeTab={activeTab}/> </header>
         
       <aside> <Sidebar  activeTab={activeTab} setActiveTab={setActiveTab} /> </aside>
        

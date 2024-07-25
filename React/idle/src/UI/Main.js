@@ -1,14 +1,17 @@
 import React, {useState, useEffect} from 'react';
 
+import styles from '../UIcss/Main.module.css';
+
 import Hub from './Hub.js'
 import Mining from './Mining.js';
-
 import Player from '../system/Player.js';
+
+
 
 
 function Main({ activeTab }) {
 
-    const [activity, setActivity] = useState();
+    const [activity, setActivity] = useState(null);
     const [time, setTime] = useState(0);
 
     useEffect(() => {
@@ -18,44 +21,25 @@ function Main({ activeTab }) {
 
         return () => {
             
-            clearInterval(interval); 
+            clearInterval(interval);
+
             
             }
                 
             
     }, [])
 
-   
-
-   
-
-
-    const renderContent = () => {
     
-    
-        switch(activeTab) {
-            case 0:
-                return <Hub />;
-            case 1:
-                return <Player time={time} activity={activity}/>;
-            case 2:
-                return <h2>Shop Content<p>{time}</p></h2>;
-            case 3:
-                return <p>Cutting</p>  
-            case 4:
-                return <Mining activity={activity} setActivity={setActivity}/>;
-            case 5:
-                return <h2>Settings Content</h2>;
-            case 6:
-                return <h2>Logout Content</h2>;
-            default:
-                return <h2>Error</h2>;
-    }
-  };
 
   return (
     <div>
-      {renderContent()}
+      
+      <div className={activeTab === 'Player' ? styles.visible : styles.hidden}>
+        <Player time={time} activity={activity} />
+      </div>
+      <div className={activeTab === 'Mining' ? styles.visible : styles.hidden}>
+        <Mining setActivity={setActivity}/>
+      </div>
       <p>{activity}</p>
     </div>
   );

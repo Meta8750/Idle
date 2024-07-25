@@ -20,7 +20,7 @@ function Main({ activeTab }) {
   return (
     <div>
       <div className={activeTab === 'Player' ? styles.visible : styles.hidden}>
-        <Player time={time} activity={activity} />
+        <Player time={time} setTime={setTime} activity={activity} />
       </div>
       <div className={activeTab === 'Mining' ? styles.visible : styles.hidden}>
         <Mining setActivity={setActivity} />

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 
-function Player({time, setTime, activity}) {
+function Player({time, setTime, updateItem, activity}) {
   // Initialisieren des Spielerzustands
   const [player, setPlayer] = useState({
     name: 'Player1',
@@ -9,30 +9,35 @@ function Player({time, setTime, activity}) {
     exp: 0,
     skills: {
       cutting: { level: 1, exp: 0 , CD: 3},
-      mining: { level: 1, exp: 0, CD: 4 },
+      mining: { level: 1, exp: 0, CD: 1 },
     }
   });
 
-  cosnt [inventory, setInventory] = useState([]);
+   
 
-  
 
   useEffect(() => {
     if (activity){
       const job = activity.job;
       const skill = player.skills[job]
       
+      
       if (time >= skill.CD){
         setTime((prev)=> prev = 0)
         skill.exp += job.exp
         activity.mastery += 1
-      
+        updateItem(activity)
+
     }
   }
   
 }, [time, activity, player]);
 
-  // Funktion zum Erhöhen der EXP und Level eines Skills
+  
+
+
+
+// Funktion zum Erhöhen der EXP und Level eines Skills
   const increaseSkillExp = (skill, exp) => {
     setPlayer((prevPlayer) => {
       const newExp = prevPlayer.skills[skill].exp + exp;
@@ -64,7 +69,7 @@ function Player({time, setTime, activity}) {
           <h3>{skill}</h3>
           <p>Level: {player.skills[skill].level}</p>
           <p>EXP: {player.skills[skill].exp}</p>
-          <button onClick={() => increaseSkillExp(skill)}>Increase {skill} EXP</button>
+          
         </div>
       ))}
     </div>

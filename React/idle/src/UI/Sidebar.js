@@ -5,7 +5,7 @@ import styles from '../UIcss/Sidebar.module.css'
 
 function Sidebar({ activeTab, setActiveTab }) {
     
-    const tabs = ["Hub", "Player", "Shop","Cutting", "Mining", "Settings", "Logout"];
+    const tabs = ["Hub", "Player", "Inventory","Shop","Cutting", "Mining", "Settings", "Logout"];
 
     return (
         <div className={styles.sidebar}>

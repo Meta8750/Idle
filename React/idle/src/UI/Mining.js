@@ -11,8 +11,13 @@ function Mining({setActivity}) {
     
     job: "mining",
     type: {
-      stone:    {exp: 1,  minLevel : 1, mastery : 0, additionalCD : 0, job: "mining"},
-      iron:     {exp: 3,   minLevel : 3, mastery : 0, additionalCD : 0, job: "mining"},
+      stone:    {name: "stone", quantity: 1, exp: 1,  minLevel : 1, mastery : 0, additionalCD : 0, job: "mining"},
+      iron:     {name: "iron", quantity: 1, exp: 1,  minLevel : 1, mastery : 0, additionalCD : 0, job: "mining"},
+      bronze:     {name: "bronze", quantity: 1, exp: 1,  minLevel : 1, mastery : 0, additionalCD : 0, job: "mining"},
+      silver:     {name: "silver", quantity: 1, exp: 1,  minLevel : 1, mastery : 0, additionalCD : 0, job: "mining"},
+      gold:     {name: "gold", quantity: 1, exp: 1,  minLevel : 1, mastery : 0, additionalCD : 0, job: "mining"},
+      emerald:     {name: "emerald", quantity: 1, exp: 1,  minLevel : 1, mastery : 0, additionalCD : 0, job: "mining"},
+      
     
     }
   });

@@ -1,5 +1,5 @@
 .header {
-    background-color: midnightblue;
+    background-color: rgb(0, 0, 0);
     color: white;
     height: 100%;
     width: 100%;
@@ -10,4 +10,16 @@
     padding: 0px;
     margin: 0px;
    
+}
+
+.Progessbar {
+    background-color: rgb(46, 45, 45);
+    height: 10px;
+}
+
+.i {
+    display:block;
+    background-color: turquoise;
+    height: 10px;
+    
 }

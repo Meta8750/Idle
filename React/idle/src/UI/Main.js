@@ -4,7 +4,7 @@ import Mining from './Mining';
 import Player from '../system/Player.js';
 import Inventory from './Inventory.js';
 
-function Main({ activeTab }) {
+function Main({ activeTab, skills}) {
   const [activity, setActivity] = useState(null);
   const [time, setTime] = useState(0);
   const [inventory, setInventory] = useState([]);
@@ -43,7 +43,7 @@ function Main({ activeTab }) {
   return (
     <div>
       <div className={activeTab === 'Player' ? styles.visible : styles.hidden}>
-        <Player time={time} setTime={setTime} updateItem={updateItem} activity={activity} />
+        <Player time={time} setTime={setTime} updateItem={updateItem} activity={activity} skills={skills}/>
       </div>
       <div className={activeTab === 'Inventory' ? styles.visible : styles.hidden}>
         <Inventory inventory={inventory}/>

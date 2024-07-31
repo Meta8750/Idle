@@ -3,14 +3,13 @@ import styles from '../UIcss/Inventory.module.css'
 
 function Inventory({inventory})  {
 
-  const [focusedItem, setFocusedItem] = useState();
-
+  const [focusedItem, setFocusedItem] = useState(null);
+  
     return (
         <div className={styles.inventory}>
           <div className={styles.storage}>
           
-            
-              {inventory.map((item, index) => (
+          {inventory.map((item, index) => (
                 <ul onClick={() => setFocusedItem(item)}>
                 <li key={index}>
                   <p>{item.name}</p>
@@ -18,23 +17,18 @@ function Inventory({inventory})  {
                 </li>
                 </ul>
               ))}
-            
-         
           </div>
-
-          <div className={styles.details}>
-            {focusedItem === 0 ? (
-              <p>No Item selected</p>
-            ) : (
-              <div>
-              <p>{focusedItem.name}</p>
-              <p>{focusedItem.quantity}</p>
-              
-              <button>sell</button>
+            <div className={styles.details}>
+              {focusedItem ? (
+                <div>
+                  <p>{focusedItem.name}</p>
+                  <p>{focusedItem.quantity}</p>
+                  <button>sell</button>
               </div>
-            )}
+              ) : (
+                <p>No Item selected</p>
+              )}
           </div>
-
         </div>
       );
     }

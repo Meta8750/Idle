@@ -14,4 +14,4 @@ function UserProfile() {
       ...prevUser, // Beibehalten der bestehenden Eigenschaften
       name: newName // Überschreiben des Namens
     }));
-  };
+  };}

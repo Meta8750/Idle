@@ -6,7 +6,7 @@ function Header({activeTab, skills}) {
         
         width: '100px',
     };
-    console.log(skills)
+    
     
 
     return (

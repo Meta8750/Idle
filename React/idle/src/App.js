@@ -64,11 +64,11 @@ function App() {
   });
  
  
-  
+
   
   return (
     <div className="App">
-      <header> <Header  activeTab={activeTab} skills={activity ? skills[activity] : null}/> </header>
+      <header> <Header  activeTab={activeTab} skills={activity ? skills[activity.job] : null}/> </header>
       <aside> <Sidebar  activeTab={activeTab} setActiveTab={setActiveTab} /> </aside>
       <main className={styles.main}> 
         <div>

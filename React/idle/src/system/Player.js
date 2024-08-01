@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 
-function Player({time, setTime, updateItem, activity, skills}) {
+function Player({time, setTime, updateItem, activity, skills, updateSkillExp}) {
   // Initialisieren des Spielerzustands
   const [player, setPlayer] = useState({
     name: 'Player1',
@@ -15,8 +15,8 @@ function Player({time, setTime, updateItem, activity, skills}) {
       const job = activity.job;
       const skill = skills[job]
       
-      
-      if (time >= skill){
+      updateSkillExp('Mining', 10)
+      if (time >= skill.CD){
         setTime((prev)=> prev = 0)
         skill.exp += job.exp
         activity.mastery += 1

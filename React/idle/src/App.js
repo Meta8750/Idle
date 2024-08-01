@@ -63,7 +63,22 @@ function App() {
     return skillsWithNextLevel;
   });
  
- 
+  const updateSkillExp = (skillName, exp) => {
+    setSkills((prevSkills) => {
+      const updatedSkill = { ...prevSkills[skillName] };
+      updatedSkill.exp += exp;
+
+      if (updatedSkill.exp >= updatedSkill.nextLevel) {
+        updatedSkill.level += 1;
+        updatedSkill.exp = 0;  // Reset exp after leveling up
+        updatedSkill.nextLevel = calculateNextLevel(updatedSkill.level);
+      }
+
+      return {
+        ...prevSkills,
+        [skillName]: updatedSkill,
+      };
+    });}
 
   
   return (
@@ -73,7 +88,7 @@ function App() {
       <main className={styles.main}> 
         <div>
           <div className={activeTab === 'Player' ? styles.visible : styles.hidden}>
-            <Player time={time} setTime={setTime} updateItem={updateItem} activity={activity} skills={skills}/>
+            <Player time={time} setTime={setTime} updateItem={updateItem} activity={activity} skills={skills} updateSkillExp={updateSkillExp}/>
           </div>
           <div className={activeTab === 'Inventory' ? styles.visible : styles.hidden}>
             <Inventory inventory={inventory}/>
@@ -88,3 +103,4 @@ function App() {
 }
 
 export default App;
+

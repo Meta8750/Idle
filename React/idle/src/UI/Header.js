@@ -2,12 +2,13 @@ import React from "react";
 import styles from '../UIcss/Header.module.css'
 
 function Header({activeTab, skills}) {
-    const ProgressBar = {
-        
-        width: '100px',
+    const progressBarWidth = skills ? (skills.exp / skills.nextLevel) * 100 + '%' : '0%';
+
+   
+    const progressBarStyle = {
+      width: progressBarWidth,
+
     };
-    
-    
 
     return (
         <div>
@@ -15,7 +16,7 @@ function Header({activeTab, skills}) {
                 <p className={styles.p}>{activeTab}</p>
             </div>
             <div className={styles.ProgressBar}>
-                <i style={ProgressBar} className={styles.i}></i>
+                <i style={progressBarStyle} className={styles.i}></i>
             
             </div>
         </div>

@@ -5,7 +5,14 @@ import { useState } from 'react';
 
 
 
-function Mining({setActivity}) {
+function Mining({setActivity, time, skills}) {
+    
+    const progressBarWidth = skills ? (skills.CD / time) * 100 + '%' : '0%';
+
+        const progressBarStyle = {
+          width: progressBarWidth,
+    
+        };
     
     const [ores, setOres] = useState({
     
@@ -31,7 +38,7 @@ function Mining({setActivity}) {
                     
                     <p>{ores.type[ore].exp}</p>
                     <p>{ores.type[ore].mastery}</p>
-                    
+                    <i style={progressBarStyle} ></i>
                 </div>
             
             ))}

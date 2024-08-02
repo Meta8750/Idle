@@ -95,7 +95,7 @@ function App() {
             <Inventory inventory={inventory}/>
           </div>
           <div className={activeTab === 'Mining' ? styles.visible : styles.hidden}>
-            <Mining setActivity={setActivity} />
+            <Mining setActivity={setActivity} time={time} skills={skills['Mining']}/>
           </div>
         </div>
       </main>

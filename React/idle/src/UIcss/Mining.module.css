@@ -19,3 +19,9 @@
     }
     
 }
+
+.i {
+    display: block;
+    height: 10px;
+    background-color: aqua;
+}

@@ -16,8 +16,6 @@ function Player({time, setTime, updateItem, activity, skills, updateSkillExp}) {
       const skill = skills[job]
       
       
-      
-      console.log(skills)
       if (time >= skill.CD){
         setTime((prev)=> prev = 0)
         updateSkillExp('Mining', activity.exp)

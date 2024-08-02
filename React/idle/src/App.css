@@ -14,7 +14,7 @@
   
   header {
     grid-area: header;
-    background-color: #e9ecef;
+    
     
    
   }
@@ -27,7 +27,7 @@
   
   main {
     grid-area: main;
-    background-color: #fff;
+    background-color: rgb(255, 255, 255);
     padding: 1rem;
   }
 

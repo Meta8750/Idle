@@ -9,12 +9,35 @@
 .p {
     padding: 0px;
     margin: 0px;
-   
+    
 }
 
-.Progessbar {
-    background-color: rgb(46, 45, 45);
+.progessInfo {
+    display: flex;
+    justify-content: space-around;
+    background: black;
+    color:white;
+}
+
+.expBar {
+    margin: 0px;
+    padding: 0px;
+    text-align: center;
+
+}
+
+.levelBar {
+    margin: 0px;
+    padding: 0px;
+    text-align: center;
+
+}
+
+
+.ProgressBar {
+    background-color: rgb(96, 96, 96);
     height: 10px;
+    
 }
 
 .i {

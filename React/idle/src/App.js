@@ -46,8 +46,8 @@ function App() {
   }, []);
 
   const initialSkills = {
-    Mining: { level: 1, exp: 0, nextLevel: 0 , CD: 2},
-    Cutting: { level: 1, exp: 0, nextLevel: 0, CD: 2},
+    Mining: { level: 1, maxLevel: 100, exp: 0, nextLevel: 0 , CD: 2},
+    Cutting: { level: 1, maxLevel: 100, exp: 0, nextLevel: 0, CD: 2},
   };
 
   const calculateNextLevel = (level) => 0.5 * Math.pow(level, 3.5) + 9.5;
@@ -66,11 +66,12 @@ function App() {
   const updateSkillExp = (skillName, exp) => {
     setSkills((prevSkills) => {
       const updatedSkill = { ...prevSkills[skillName] };
+      
       updatedSkill.exp += exp;
-
+      
       if (updatedSkill.exp >= updatedSkill.nextLevel) {
         updatedSkill.level += 1;
-        updatedSkill.exp = 0;  // Reset exp after leveling up
+        updatedSkill.exp = 0; 
         updatedSkill.nextLevel = calculateNextLevel(updatedSkill.level);
       }
 
@@ -83,7 +84,7 @@ function App() {
   
   return (
     <div className="App">
-      <header> <Header  activeTab={activeTab} skills={activity ? skills[activity.job] : null}/> </header>
+      <header> <Header  activeTab={activeTab} skills={activity ? skills[activeTab] : null}/> </header>
       <aside> <Sidebar  activeTab={activeTab} setActiveTab={setActiveTab} /> </aside>
       <main className={styles.main}> 
         <div>

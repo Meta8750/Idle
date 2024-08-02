@@ -15,10 +15,12 @@ function Player({time, setTime, updateItem, activity, skills, updateSkillExp}) {
       const job = activity.job;
       const skill = skills[job]
       
-      updateSkillExp('Mining', 10)
+      
+      
+      console.log(skills)
       if (time >= skill.CD){
         setTime((prev)=> prev = 0)
-        skill.exp += job.exp
+        updateSkillExp('Mining', activity.exp)
         activity.mastery += 1
         updateItem(activity)
 

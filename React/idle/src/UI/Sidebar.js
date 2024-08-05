@@ -3,7 +3,7 @@ import { useState } from "react";
 import styles from '../UIcss/Sidebar.module.css'
 
 
-function Sidebar({ activeTab, setActiveTab }) {
+function Sidebar({ activeTab, setActiveTab, player}) {
     
     const tabs = ["Hub", "Player", "Inventory","Shop","Cutting", "Mining", "Settings", "Logout"];
 
@@ -20,7 +20,7 @@ function Sidebar({ activeTab, setActiveTab }) {
                         onClick={() => setActiveTab(tab)}
                         
                     >   
-                        {tab}
+                        {tab}{tab === 'Shop' ? <p>{player.coins}</p> : <p></p>}
                     </li>
                     ))}
                 

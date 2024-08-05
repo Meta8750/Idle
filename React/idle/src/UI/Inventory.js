@@ -1,9 +1,21 @@
 import React, { useState, useEffect } from 'react';
 import styles from '../UIcss/Inventory.module.css'
 
-function Inventory({inventory})  {
+function Inventory({inventory, updateItem, setPlayer})  {
 
   const [focusedItem, setFocusedItem] = useState(null);
+  
+  const handleSell = () => {
+    
+    if (focusedItem) {
+      setPlayer((prevPlayer) => ({
+        ...prevPlayer,
+        coins: prevPlayer.coins + (focusedItem.value * focusedItem.quantity),
+        }))
+        focusedItem.quantity = 0;
+
+      }
+  };
   
     return (
         <div className={styles.inventory}>
@@ -23,7 +35,7 @@ function Inventory({inventory})  {
                 <div>
                   <p>{focusedItem.name}</p>
                   <p>{focusedItem.quantity}</p>
-                  <button>sell</button>
+                  <button onClick={handleSell}>sell</button>
               </div>
               ) : (
                 <p>No Item selected</p>

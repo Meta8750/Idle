@@ -15,12 +15,21 @@ function App() {
   const [time, setTime] = useState(0);
   const [inventory, setInventory] = useState([]);
 
+  const [player, setPlayer] = useState({
+    name: 'Player1',
+    health: 100,
+    level: 1,
+    exp: 0,
+    coins: 0
+    
+  });
+  
   // Funktion zum Hinzufügen oder Aktualisieren eines Items im Inventar
   const updateItem = (item) => {
         setInventory((prevInventory) => {
         const existingItemIndex = prevInventory.findIndex(i => i.name === item.name);
         if (existingItemIndex >= 0) {
-            // Item existiert, aktualisiere die Menge
+            
             const updatedInventory = [...prevInventory];
             updatedInventory[existingItemIndex] = {
             ...updatedInventory[existingItemIndex],
@@ -28,17 +37,17 @@ function App() {
             };
             return updatedInventory;
         } else {
-            // Item existiert nicht, füge es hinzu
-            return [...prevInventory, { name: item.name, quantity: item.quantity }];
+            
+            return [...prevInventory, { name: item.name, quantity: item.quantity , value: item.value}];
         }
         });
     };
 
   useEffect(() => {
     const interval = setInterval(() => {
-      setTime((prev) => prev + 1);
+      setTime((prev) => prev + 0.01);
       
-    }, 1000);
+    }, 10);
 
     return () => {
       clearInterval(interval);
@@ -85,17 +94,17 @@ function App() {
   return (
     <div className="App">
       <header> <Header  activeTab={activeTab} skills={activity ? skills[activeTab] : null}/> </header>
-      <aside> <Sidebar  activeTab={activeTab} setActiveTab={setActiveTab} /> </aside>
+      <aside> <Sidebar  activeTab={activeTab} setActiveTab={setActiveTab} player={player}/> </aside>
       <main className={styles.main}> 
         <div>
           <div className={activeTab === 'Player' ? styles.visible : styles.hidden}>
-            <Player time={time} setTime={setTime} updateItem={updateItem} activity={activity} skills={skills} updateSkillExp={updateSkillExp}/>
+            <Player time={time} setTime={setTime} updateItem={updateItem} activity={activity} skills={skills} updateSkillExp={updateSkillExp} player={player} setPlayer={setPlayer}/>
           </div>
           <div className={activeTab === 'Inventory' ? styles.visible : styles.hidden}>
-            <Inventory inventory={inventory}/>
+            <Inventory inventory={inventory} updateItem={updateItem} setPlayer={setPlayer}/>
           </div>
           <div className={activeTab === 'Mining' ? styles.visible : styles.hidden}>
-            <Mining setActivity={setActivity} time={time} skills={skills['Mining']}/>
+            <Mining activity={activity} setActivity={setActivity} time={time} skills={skills['Mining']}/>
           </div>
         </div>
       </main>

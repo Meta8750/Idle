@@ -1,14 +1,7 @@
 import React, { useState, useEffect } from 'react';
 
-function Player({time, setTime, updateItem, activity, skills, updateSkillExp}) {
-  // Initialisieren des Spielerzustands
-  const [player, setPlayer] = useState({
-    name: 'Player1',
-    health: 100,
-    level: 1,
-    exp: 0,
-    
-  });
+function Player({time, setTime, updateItem, activity, skills, updateSkillExp, player, setPlayer}) {
+
 
   useEffect(() => {
     if (activity){
@@ -21,6 +14,7 @@ function Player({time, setTime, updateItem, activity, skills, updateSkillExp}) {
         updateSkillExp('Mining', activity.exp)
         activity.mastery += 1
         updateItem(activity)
+        
 
     }
   }

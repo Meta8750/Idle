@@ -8,6 +8,7 @@
     list-style-type: none;
     padding: 0px;
     margin: 0px;
+    display: grid;
     
     li {
         text-decoration: none;
@@ -16,6 +17,7 @@
         border-top: solid 1px black;
 
     }
+    
     li:hover {
         background-color: chartreuse;
     }
@@ -24,6 +26,7 @@
         background-color: #262626;
             color: white;
     }
+    
 
     
 }

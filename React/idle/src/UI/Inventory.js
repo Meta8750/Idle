@@ -4,17 +4,23 @@ import styles from '../UIcss/Inventory.module.css'
 function Inventory({inventory, updateItem, setPlayer})  {
 
   const [focusedItem, setFocusedItem] = useState(null);
+  const [sellQuantity, setSellQuantity] = useState(1);
   
   const handleSell = () => {
-    
     if (focusedItem) {
       setPlayer((prevPlayer) => ({
         ...prevPlayer,
-        coins: prevPlayer.coins + (focusedItem.value * focusedItem.quantity),
+        coins: prevPlayer.coins += (focusedItem.value * sellQuantity),
         }))
-        focusedItem.quantity = 0;
-
+        updateItem({name: focusedItem.name, quantity: -focusedItem.quantity});
+        focusedItem.quantity -= sellQuantity;
+        setSellQuantity(focusedItem.quantity)
+        
       }
+  };
+
+  const handleSliderChange = (e) => {
+    setSellQuantity(Number(e.target.value));
   };
   
     return (
@@ -36,6 +42,15 @@ function Inventory({inventory, updateItem, setPlayer})  {
                   <p>{focusedItem.name}</p>
                   <p>{focusedItem.quantity}</p>
                   <button onClick={handleSell}>sell</button>
+                  <input
+                      type="range"
+                      id="sellSlider"
+                      min="0"
+                      max={focusedItem.quantity}
+                      value={sellQuantity}
+                      onChange={handleSliderChange}
+                    />
+                  <p>{sellQuantity}</p>
               </div>
               ) : (
                 <p>No Item selected</p>

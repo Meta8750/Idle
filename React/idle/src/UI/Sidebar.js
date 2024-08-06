@@ -3,7 +3,7 @@ import { useState } from "react";
 import styles from '../UIcss/Sidebar.module.css'
 
 
-function Sidebar({ activeTab, setActiveTab, player}) {
+function Sidebar({ activeTab, setActiveTab, player, skills}) {
     
     const tabs = ["Hub", "Player", "Inventory","Shop","Cutting", "Mining", "Settings", "Logout"];
 
@@ -18,9 +18,8 @@ function Sidebar({ activeTab, setActiveTab, player}) {
                         key={index}
                         className={activeTab === tab ? styles.active : ''}
                         onClick={() => setActiveTab(tab)}
-                        
                     >   
-                        {tab}{tab === 'Shop' ? <p>{player.coins}</p> : <p></p>}
+                        {tab} {skills.level} {tab === 'Shop' ? player.coins  : ''}
                     </li>
                     ))}
                 

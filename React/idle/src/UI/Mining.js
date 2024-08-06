@@ -5,9 +5,9 @@ import { useState } from 'react';
 
 
 
-function Mining({activity, setActivity, time, skills}) {
+function Mining({time, player}) {
     
-    const progressBarWidth = skills ? ( time / skills.CD) * 100 + '%' : '0%';
+    const progressBarWidth = player.getCurrentSkill() ? ( time / player.getCurrentSkill().CD) * 100 + '%' : '0%';
 
         const progressBarStyle = {
           width: progressBarWidth,
@@ -16,8 +16,11 @@ function Mining({activity, setActivity, time, skills}) {
           display: 'none',
         }
 
+    const handleSelection = (selectedItem) => {
+      player.setActivity(selectedItem);
+      
+    }
    
-    
     
     const [ores, setOres] = useState({
     
@@ -38,12 +41,12 @@ function Mining({activity, setActivity, time, skills}) {
         <div className={styles.Mining}>
             
             {Object.keys(ores.type).map((ore, index) => (
-                <div className={styles.div} key={index} onClick={() => setActivity(ores.type[ore])}>
+                <div className={styles.div} key={index} onClick={() =>  handleSelection(ores.type[ore])}>
                     <p>{ore}</p>
                     
                     <p>{ores.type[ore].exp}</p>
                     <p>{ores.type[ore].mastery}</p>
-                    {activity ? (<i style={activity.name === ores.type[ore].name ? progressBarStyle : notActive} className={styles.i}></i>) : (<i></i>)}
+                    {player.getActivity() ? (<i style={player.getActivity().name === ores.type[ore].name ? progressBarStyle : notActive} className={styles.i}></i>) : (<i></i>)}
                 </div>
             
             ))}

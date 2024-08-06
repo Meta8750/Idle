@@ -3,7 +3,9 @@ import { useState } from "react";
 import styles from '../UIcss/Sidebar.module.css'
 
 
-function Sidebar({ activeTab, setActiveTab, player, skills}) {
+function Sidebar({ activeTab, setActiveTab, player, setTime, time}) {
+
+    setTime((prev) => prev = player.progress(time))
     
     const tabs = ["Hub", "Player", "Inventory","Shop","Cutting", "Mining", "Settings", "Logout"];
 
@@ -19,7 +21,7 @@ function Sidebar({ activeTab, setActiveTab, player, skills}) {
                         className={activeTab === tab ? styles.active : ''}
                         onClick={() => setActiveTab(tab)}
                     >   
-                        {tab} {skills.level} {tab === 'Shop' ? player.coins  : ''}
+                        {tab} {player.getSkills(tab) ? player.getSkills(tab).level : ""} {tab === 'Shop' ? player.getCoins()  : ''}
                     </li>
                     ))}
                 

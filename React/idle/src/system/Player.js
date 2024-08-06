@@ -1,46 +1,71 @@
-import React, { useState, useEffect } from 'react';
-
-function Player({time, setTime, updateItem, activity, skills, updateSkillExp, player, setPlayer}) {
-
-
-  useEffect(() => {
-    if (activity){
-      const job = activity.job;
-      const skill = skills[job]
-      
-      
-      if (time >= skill.CD){
-        setTime((prev)=> prev = 0)
-        updateSkillExp('Mining', activity.exp)
-        activity.mastery += 1
-        updateItem(activity)
-        
-
+class Player {
+    constructor() {
+        this.score = 0;
+        this.level = 1;
+        this.coins = 0;
+        this.health = 100;
+        this.skills = {
+            Mining: { level: 1, maxLevel: 100, exp: 0, nextLevel: this.calculateNextLevel(1), CD: 2 },
+            Cutting: { level: 1, maxLevel: 100, exp: 0, nextLevel: this.calculateNextLevel(1), CD: 2 },
+        };
+        this.activity ='';
     }
-  }
+
+    calculateNextLevel(level) {
+        return 0.5 * Math.pow(level, 3.5) + 9.5;
+    }
+
+    updateSkillExp(skillName, exp) {
+        const skill = this.skills[skillName];
+        skill.exp += exp;
+
+        if (skill.exp >= skill.nextLevel) {
+            skill.level += 1;
+            skill.exp = 0;
+            skill.nextLevel = this.calculateNextLevel(skill.level);
+        }
+
+        this.skills[skillName] = skill;
+    }
+
+    progress(time) {
+        if (this.activity) {
+           
+        
+            
+            if (time >= this.skills[this.activity.job].CD) {
+              time = 0
+              //updateSkillExp('Mining', activity.exp)
+              //activity.mastery += 1
+              //updateItem(activity)
+              
+            }
+            }
+        return time
+    }
   
-}, [time, activity, player]);
+    setActivity(activity){     
+        this.activity = activity;
+    }
+    getSkills(skill) {
+        return this.skills[skill]
+    }
+    getCurrentSkill() {
+        
+        return this.activity ? this.skills[this.activity.job] : "";
+    }
+    getActivity() {
+        return this.activity
+       
+    }
+    getScore() {
+        return this.score;
+    }
 
-  return (
-    <div>
-      <h1>{player.name}</h1>
-      <p>Health: {player.health}</p>
-      <p>Level: {player.level}</p>
-      <p>EXP: {player.exp}</p>
-
-      <h2>Skills</h2>
-      {Object.keys(skills).map((skillKey) => {
-        const skill = skills[skillKey]; // Hole das Skill-Objekt
-        return (
-          <div key={skillKey}>
-            <h3>{skillKey}</h3>
-            <p>Level: {skill.level}</p>
-            <p>EXP: {skill.exp}</p>
-            <p>Next Level: {skill.nextLevel}</p>
-          </div>
-        );
-      })}
-    </div>
-  );
+    getCoins() {
+        return this.coins;
+    }
 }
+
+// Klasse exportieren
 export default Player;

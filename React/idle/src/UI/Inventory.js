@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import styles from '../UIcss/Inventory.module.css'
 
-function Inventory({inventory, updateItem, setPlayer})  {
+function Inventory({player})  {
 
   const [focusedItem, setFocusedItem] = useState(null);
   const [sellQuantity, setSellQuantity] = useState(1);
@@ -27,7 +27,7 @@ function Inventory({inventory, updateItem, setPlayer})  {
         <div className={styles.inventory}>
           <div className={styles.storage}>
           
-          {inventory.map((item, index) => (
+          {player.inventory.getInventory().map((item, index) => (
                 <ul onClick={() => setFocusedItem(item)}>
                 <li key={index}>
                   <p>{item.name}</p>

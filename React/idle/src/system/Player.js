@@ -1,5 +1,7 @@
+import Inventory from './system/Inventory.js'
 class Player {
     constructor() {
+        this.inventory = new Inventory();
         this.score = 0;
         this.level = 1;
         this.coins = 0;
@@ -10,6 +12,7 @@ class Player {
         };
         this.activity = '';
         this.activeTab = '';
+        
     }
 
     calculateNextLevel(level) {
@@ -34,8 +37,7 @@ class Player {
             if (time >= this.skills[this.activity.job].CD) {
               time = -0.1
               this.updateSkillExp(this.activity.job, this.activity.exp)
-              //activity.mastery += 1
-              //updateItem(activity)
+              this.inventory.updateItem(activity)
               
             }
             }

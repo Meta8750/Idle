@@ -12,23 +12,13 @@ import Logout from './system/Logout';
 const player = new Player();
 
 function App() {
-
-  
-
- 
-  
-  const [activeTab, setActiveTab] = useState("player");
-
   const [time, setTime] = useState(0);
   const [inventory, setInventory] = useState([]);
 
-
-  
   // Funktion zum Hinzufügen oder Aktualisieren eines Items im Inventar
   const updateItem = (item) => {
         setInventory((prevInventory) => {
         
-      
         const existingItemIndex = prevInventory.findIndex(i => i.name === item.name);
         if (existingItemIndex >= 0) {
             
@@ -60,14 +50,13 @@ function App() {
       
     };
   }, []);
-  
-  
 
+  const activeTab = player.getActiveTab()
   
   return (
     <div className="App">
-      <header> <Header  activeTab={activeTab} player={player}/> </header>
-      <aside> <Sidebar  activeTab={activeTab} setActiveTab={setActiveTab}  player={player} setTime={setTime} time={time}/> </aside>
+      <header> <Header player={player}/> </header>
+      <aside> <Sidebar player={player} setTime={setTime} time={time}/> </aside>
       <main className={styles.main}> 
         <div>
           <div className={activeTab === 'Inventory' ? styles.visible : styles.hidden}>

@@ -3,7 +3,7 @@ import { useState } from "react";
 import styles from '../UIcss/Sidebar.module.css'
 
 
-function Sidebar({ activeTab, setActiveTab, player}) {
+function Sidebar({player}) {
 
   
     
@@ -18,8 +18,8 @@ function Sidebar({ activeTab, setActiveTab, player}) {
                 {tabs.map((tab, index) => (
                     <li
                         key={index}
-                        className={activeTab === tab ? styles.active : ''}
-                        onClick={() => setActiveTab(tab)}
+                        className={player.getActiveTab() === tab ? styles.active : ''}
+                        onClick={() => player.setActiveTab(tab)}
                     >   
                         {tab} {player.getSkills(tab) ? player.getSkills(tab).level : ""} {tab === 'Shop' ? player.getCoins()  : ''}
                     </li>

@@ -8,7 +8,8 @@ class Player {
             Mining: { level: 1, maxLevel: 100, exp: 0, nextLevel: this.calculateNextLevel(1), CD: 4 },
             Cutting: { level: 1, maxLevel: 100, exp: 0, nextLevel: this.calculateNextLevel(1), CD: 2 },
         };
-        this.activity ='';
+        this.activity = '';
+        this.activeTab = '';
     }
 
     calculateNextLevel(level) {
@@ -44,23 +45,23 @@ class Player {
     setActivity(activity){     
         this.activity = activity;
     }
+    setActiveTab(tab){
+        this.activeTab = tab;
+    }
     getSkills(skill) {
         return this.skills[skill]
     }
     getCurrentSkill() {
-        
         return this.activity ? this.skills[this.activity.job] : "";
     }
     getActivity() {
         return this.activity
-       
     }
-    getScore() {
-        return this.score;
-    }
-
     getCoins() {
         return this.coins;
+    }
+    getActiveTab() {
+        return this.activeTab
     }
 }
 

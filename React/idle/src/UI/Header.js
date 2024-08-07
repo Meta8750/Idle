@@ -3,15 +3,15 @@ import styles from '../UIcss/Header.module.css'
 
 function Header({player}) {
     
-    const playerSkill = player.getSkills(player.getCurrentSkill)
-
+    const playerSkill = player.getCurrentTabSkill()
+    
     const progressBarWidth =  playerSkill ? (playerSkill.exp / playerSkill.nextLevel) * 100 + '%' : '0%';
 
     const progressBarStyle = {
       width: progressBarWidth,
 
     };
-
+    
     return (
         <div>
             <div className={styles.header}>

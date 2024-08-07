@@ -65,7 +65,7 @@ function App() {
           <div className={activeTab === 'Mining' ? styles.visible : styles.hidden}>
             <Mining  time={time} player={player}/>
           </div>
-          <div className={activeTab === 'Mining' ? styles.visible : styles.hidden}>
+          <div className={activeTab === 'Logout' ? styles.visible : styles.hidden}>
             <Logout   time={time} player={player}/>
           </div>
         </div>

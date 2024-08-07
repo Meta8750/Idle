@@ -4,7 +4,7 @@
       "aside header header"
       "aside main main";
     grid-template-rows: 0.06fr 1fr;
-    grid-template-columns: 0.8fr 3fr 3fr;
+    grid-template-columns: 0.8fr 6fr;
     height: 100vh;
   }
 

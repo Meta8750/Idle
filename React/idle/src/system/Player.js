@@ -48,11 +48,14 @@ class Player {
     setActiveTab(tab){
         this.activeTab = tab;
     }
-    getSkills(skill) {
+    getSkills(skill) { //return the hole obj
         return this.skills[skill]
     }
-    getCurrentSkill() {
+    getCurrentSkill() { //return the hole obj, but only the current active one based of the acitvity
         return this.activity ? this.skills[this.activity.job] : "";
+    }
+    getCurrentTabSkill() {
+        return this.activeTab ? this.skills[this.activeTab] : "";
     }
     getActivity() {
         return this.activity

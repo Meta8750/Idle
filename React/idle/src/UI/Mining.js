@@ -43,7 +43,6 @@ function Mining({time, player}) {
             {Object.keys(ores.type).map((ore, index) => (
                 <div className={styles.div} key={index} onClick={() =>  handleSelection(ores.type[ore])}>
                     <p>{ore}</p>
-                    
                     <p>{ores.type[ore].exp}</p>
                     <p>{ores.type[ore].mastery}</p>
                     {player.getActivity() ? (<i style={player.getActivity().name === ores.type[ore].name ? progressBarStyle : notActive} className={styles.i}></i>) : (<i></i>)}

@@ -47,12 +47,17 @@ function App() {
 
   useEffect(() => {
     const interval = setInterval(() => {
-      setTime((prev) => prev + 0.01);
+      setTime((prev) => {
+        let newTime = prev + 0.01
+        newTime = player.progress(newTime)
+        return newTime
+      });
       
     }, 10);
 
     return () => {
       clearInterval(interval);
+      
     };
   }, []);
   
@@ -61,7 +66,7 @@ function App() {
   
   return (
     <div className="App">
-      <header> <Header  activeTab={activeTab}/> </header>
+      <header> <Header  activeTab={activeTab} player={player}/> </header>
       <aside> <Sidebar  activeTab={activeTab} setActiveTab={setActiveTab}  player={player} setTime={setTime} time={time}/> </aside>
       <main className={styles.main}> 
         <div>

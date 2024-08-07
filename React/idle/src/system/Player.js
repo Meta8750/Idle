@@ -5,7 +5,7 @@ class Player {
         this.coins = 0;
         this.health = 100;
         this.skills = {
-            Mining: { level: 1, maxLevel: 100, exp: 0, nextLevel: this.calculateNextLevel(1), CD: 2 },
+            Mining: { level: 1, maxLevel: 100, exp: 0, nextLevel: this.calculateNextLevel(1), CD: 4 },
             Cutting: { level: 1, maxLevel: 100, exp: 0, nextLevel: this.calculateNextLevel(1), CD: 2 },
         };
         this.activity ='';
@@ -30,12 +30,9 @@ class Player {
 
     progress(time) {
         if (this.activity) {
-           
-        
-            
             if (time >= this.skills[this.activity.job].CD) {
-              time = 0
-              //updateSkillExp('Mining', activity.exp)
+              time = -0.1
+              this.updateSkillExp(this.activity.job, this.activity.exp)
               //activity.mastery += 1
               //updateItem(activity)
               

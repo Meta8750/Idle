@@ -1,7 +1,7 @@
 import React from "react";
 import styles from '../UIcss/Header.module.css'
 
-function Header({activeTab, skills}) {
+function Header({activeTab, player}) {
     
     const progressBarWidth = skills ? (skills.exp / skills.nextLevel) * 100 + '%' : '0%';
 

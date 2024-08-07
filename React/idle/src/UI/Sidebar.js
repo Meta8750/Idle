@@ -3,9 +3,9 @@ import { useState } from "react";
 import styles from '../UIcss/Sidebar.module.css'
 
 
-function Sidebar({ activeTab, setActiveTab, player, setTime, time}) {
+function Sidebar({ activeTab, setActiveTab, player}) {
 
-    setTime((prev) => prev = player.progress(time))
+  
     
     const tabs = ["Hub", "Player", "Inventory","Shop","Cutting", "Mining", "Settings", "Logout"];
 

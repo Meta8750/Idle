@@ -56,7 +56,7 @@ function MonManager({player}) {
               {focusedMon ? (
                 
                 <div>
-                {focusedMon.getImageElement()}
+                {focusedMon.getImageElement("300px", "300px")}
                 <p>{focusedMon.name}</p>
                 <p>Level: {focusedMon.level}</p>
                 <p>Exp: {focusedMon.exp}/{focusedMon.maxExp}</p>
@@ -76,7 +76,7 @@ function MonManager({player}) {
                   <div onClick={() => setFocus(mon)} className={styles.boxSlot}>
                     {console.log(mon)}
                       <p>{mon.name} {mon.level}</p>
-                      {mon.getImageElement("300px", "300px")}
+                      {mon.getImageElement()}
                   </div>    
               ))
             ) : (<p>none</p>)}

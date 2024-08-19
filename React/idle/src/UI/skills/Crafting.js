@@ -1,5 +1,5 @@
 import React from 'react';
-import styles from 'D:/Code/idle/src/UIcss/skills/Crafting.module.css'
+import styles from '../../UIcss/skills/Crafting.module.css';
 import { useState } from 'react';
 
 

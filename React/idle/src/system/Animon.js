@@ -21,20 +21,13 @@ export default class Animon {
         
 
     }
-    getImageElement(x,y) {
-        if (x){
-            const style = {
-                width: x,
-                height: y,
-                objectFit: "cover",
-            };
-        } else {
-            const style = {
-                width: "100px",
-                height: "100px",
-                objectFit: "cover",
-            };
-        }
+    getImageElement(x, y) {
+        const style = {
+            width: x || "100px",
+            height: y || "100px",
+            objectFit: "cover",
+        };
+    
         return <img src={this.img} alt={this.name} style={style} />;
     }
    

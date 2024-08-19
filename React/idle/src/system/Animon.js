@@ -1,6 +1,6 @@
 import { v4 as uuidv4 } from 'uuid';
 export default class Animon {
-    constructor(name, id, level, rarity, type, role,maxhealth, healthGrowth, baseAD, ADGrowth, baseAP, APGrowth, baseArmor, armorGrowth, baseMR,MRGrowth, baseMS, MSGrowth) {
+    constructor(name, id, level, rarity, type, role,maxhealth, healthGrowth, baseAD, ADGrowth, baseAP, APGrowth, baseArmor, armorGrowth, baseMR,MRGrowth, baseMS, MSGrowth, baseMana, manaGrowth,baseCritRate,baseCritDamage, armorPen, mrPen) {
         this.name = name;
         this.level = level
         this.maxLevel = 0
@@ -14,6 +14,12 @@ export default class Animon {
         this.armorGrowth = armorGrowth
         this.MRGrowth = MRGrowth
         this.MSGrowth = MSGrowth
+        this.manaGrowth = manaGrowth
+        
+        this.armorPen = armorPen
+        this.mrPen = mrPen
+        this.baseCritDamage = baseCritDamage
+        this.baseCritRate = baseCritRate
 
         this.maxhealth = maxhealth + (this.healthGrowth * this.level)
         this.baseAD = baseAD + (this.ADGrowth * this.level)
@@ -21,6 +27,7 @@ export default class Animon {
         this.baseArmor = baseArmor + (this.armorGrowth * this.level)
         this.baseMR = baseMR + (this.MRGrowth * this.level)
         this.baseMS = baseMS + (this.MSGrowth * this.level)
+        this.baseMana = baseMana + (this.manaGrowth * this.level)
         
         this.health = this.maxhealth
         this.exp = 0
@@ -54,7 +61,8 @@ export default class Animon {
             this.baseMS += this.MSGrowth
             this.maxhealth += this.healthGrowth
             this.health = this.maxhealth
-            this.nextLevel = 
+            this.baseMana += this.manaGrowth
+            this.nextLevel = this.calculateNextLevel()
             this.exp = 0
         }
     }

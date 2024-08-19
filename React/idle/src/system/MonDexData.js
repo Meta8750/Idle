@@ -18,6 +18,13 @@ export const monData = [
         MRGrowth: 0.5,
         baseMS: 300,  
         MSGrowth: 5,
+        baseCritRate: 0.05,
+        baseCritDamage: 0.2,
+        baseMana: 100,
+        manaGrowth: 10,
+        armorPen: 0,
+        mrPen: 0,
+
     },
     {
         name: "Wolf",
@@ -38,6 +45,13 @@ export const monData = [
         MRGrowth: 0.6,
         baseMS: 320,
         MSGrowth: 6,
+        baseCritRate: 0.05,
+        baseCritDamage: 0.2,
+        baseMana: 100,
+        manaGrowth: 10,
+        armorPen: 0,
+        mrPen: 0,
+
     },
     
 ];

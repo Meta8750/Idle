@@ -17,7 +17,7 @@ function Battle({ player }) {
   const renderTeam = () => {
     return player.getTeam().map((mon, index) => (
                   
-      <div className={styles.boxSlot}>
+      <div className={styles.mon}>
        
           <p>{mon.name} {mon.level}</p>
           {mon.getImageElement()}
@@ -63,9 +63,12 @@ function Battle({ player }) {
       <div className={styles.arena}>
         {arena ? (
           <div>
-            
-            {renderEnemies()}
-            {renderTeam()}
+            <div className={styles.enemyContainer}>
+              {renderEnemies()}
+            </div>
+            <div className={styles.teamContainer}>
+              {renderTeam()}
+            </div>
           </div>
         ) : (
           <p>No current Battle</p>

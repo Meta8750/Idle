@@ -28,7 +28,13 @@ export default class Mondex{
             monInfo.baseMR,
             monInfo.MRGrowth,
             monInfo.baseMS,
-            monInfo.MSGrowth
+            monInfo.MSGrowth,
+            monInfo.baseCritRate,
+            monInfo.baseCritDamage,
+            monInfo.baseMana,
+            monInfo.manaGrowth,
+            monInfo.armorPen,
+            monInfo.mrPen,
         );
 
         return newMon

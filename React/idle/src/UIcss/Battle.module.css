@@ -1,3 +1,21 @@
 .arena{
-    background-color: grey;
+    background-color: black;
+    color: white;
+}
+
+.enemyContainer{
+    display: flex;
+    
+}
+
+.teamContainer{
+    display: flex;
+}
+
+.mon{
+
+}
+
+.enemy{
+
 }

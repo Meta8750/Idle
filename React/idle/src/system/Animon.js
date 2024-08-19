@@ -31,7 +31,8 @@ export default class Animon {
         this.img = `/animon/${this.id}.gif`
         this.uid = uuidv4()
         
-
+        this.alive = true
+        
     }
     getImageElement(x, y) {
         const style = {
@@ -59,6 +60,13 @@ export default class Animon {
     }
     calculateNextLevel(){
         return Math.pow(1.16, this.level) + 10 * this.level * (this.level / 2) + 4;
+    }
+
+    calculateDmg(dmg){
+        this.health -= dmg
+        if (this.health <= 0){
+            this.alive = false
+        }
     }
     
 }

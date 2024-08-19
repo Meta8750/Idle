@@ -1,7 +1,7 @@
 import Animon from "./Animon";
 import { monData } from "./MonDexData";
 
-export default class Mondex{
+export default class MonDex{
     constructor(){
     }
     generateMon(id){

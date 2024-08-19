@@ -1,10 +1,10 @@
 import Inventory from '../system/Inventory.js'
-import Mondex from '../system/Mondex.js'
+import MonDex from '../system/MonDex.js'
 
 class Player {
     constructor() {
         this.inventory = new Inventory();
-        this.mondex = new Mondex();
+        this.monDex = new MonDex();
         this.score = 0;
         this.level = 1;
         this.coins = 100;
@@ -68,7 +68,7 @@ class Player {
         this.activeTab = tab;
     }
     setMons(id){
-        this.mons.push(this.mondex.generateMon(id));
+        this.mons.push(this.monDex.generateMon(id));
     }
 
     setTeam(mon) {

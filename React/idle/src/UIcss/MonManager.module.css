@@ -1,0 +1,42 @@
+.MonManager{
+    display:grid;
+    grid-template-areas:
+    "team  stats"
+    "box  stats";
+    grid-template-rows: 0.001fr 1fr;
+    grid-template-columns:  1fr 0.3fr;
+    min-width: 100%;
+    min-height: 100%;
+}
+
+.team{
+    grid-area: "team";
+    display:flex;
+    align-items: flex-start;
+    
+}
+
+.box{
+    grid-area: "box";
+    display:grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+    grid-template-rows: 1fr 1fr 1fr 1fr 1fr;
+    background-color: black;
+    padding: 10px;
+}
+
+.stats{
+    grid-area: "stats";
+    display:grid;
+    grid-row: span 2;
+}
+
+.boxSlot {
+    background-color: rgb(63, 62, 62);
+    color: white;
+    align-items: center;
+    text-align: center;
+    align-content: center;
+    margin: 10px;
+    border-radius: 10px;
+}

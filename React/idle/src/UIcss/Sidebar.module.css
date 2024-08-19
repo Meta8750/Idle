@@ -15,11 +15,14 @@
         width: 100%;
         background-color: rgb(0, 0, 0);
         border-top: solid 1px black;
+        padding: 10px 0px 10px 0px;
+        border-top: 1.5px solid gray;
+        border-bottom: 1px solid gray;
 
     }
     
     li:hover {
-        background-color: chartreuse;
+        background-color: rgb(97, 97, 97);
     }
 
     li.active {

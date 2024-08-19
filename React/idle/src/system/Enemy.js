@@ -1,17 +1,13 @@
 import React, { useState } from 'react';
 
-function UserProfile() {
-  // Initialisieren des Zustands mit einem Objekt
-  const [user, setUser] = useState({
-    name: 'John Doe',
-    age: 30,
-    email: 'john.doe@example.com'
-  });
+export default class Enemy{
+  constructor(name, health, attack){
+    this.name = name;
+    this.health = health;
+    this.attack = attack;
+  }
 
-  // Funktion zum Aktualisieren des Namens
-  const updateName = (newName) => {
-    setUser((prevUser) => ({
-      ...prevUser, // Beibehalten der bestehenden Eigenschaften
-      name: newName // Überschreiben des Namens
-    }));
-  };}
+  attackEnemy(enemy){
+    enemy.health -= this.attack;
+  }
+}

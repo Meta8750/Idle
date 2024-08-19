@@ -1,18 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import styles from '../UIcss/Inventory.module.css'
 
-function Inventory({player})  {
+function DisplayInventory({player})  {
 
   const [focusedItem, setFocusedItem] = useState(null);
   const [sellQuantity, setSellQuantity] = useState(1);
   
   const handleSell = () => {
     if (focusedItem) {
-      setPlayer((prevPlayer) => ({
-        ...prevPlayer,
-        coins: prevPlayer.coins += (focusedItem.value * sellQuantity),
-        }))
-        updateItem({name: focusedItem.name, quantity: -focusedItem.quantity});
+        player.setCoins(focusedItem.value * sellQuantity)
+      
+        player.inventory.updateItem({name: focusedItem.name, quantity: -focusedItem.quantity});
         focusedItem.quantity -= sellQuantity;
         setSellQuantity(focusedItem.quantity)
         
@@ -41,6 +39,7 @@ function Inventory({player})  {
                 <div>
                   <p>{focusedItem.name}</p>
                   <p>{focusedItem.quantity}</p>
+                  <p>{focusedItem.value}</p>
                   <button onClick={handleSell}>sell</button>
                   <input
                       type="range"
@@ -60,4 +59,4 @@ function Inventory({player})  {
       );
     }
 
-export default Inventory;
+export default DisplayInventory;

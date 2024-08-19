@@ -14,16 +14,14 @@ function MonManager({player}) {
       height: "100px",
       objectFit: "cover",
   };
-    //const Vagabund = new Animon("Vagabund", 0, 1, "common", "Fire", 100, 10,1,0,0,100);
-     // Splayer.setMons(Vagabund)
+   // (name, id, level, rarity, type, role,maxhealth, ad, ap, armor, mr, ges);
+    
   
    const test = () => {
-    const Vagabund = new Animon("Vagabund", 0, 1, "common", "Fire", 100, 10,1,0,0,100);
+    const Vagabund = new Animon("Vagabund", 0, 1, "common", "Fire","DD", 100, 10,1,0,0,100);
     player.setMons(Vagabund)
-    const Wolf = new Animon("Wolf", 1, 1, "common", "Fire", 100, 10,1,0,0,100);
+    const Wolf = new Animon("Wolf", 1, 1, "common", "Fire","DD",  100, 10,1,0,0,100);
     player.setMons(Wolf)
-    const Vagabund3 = new Animon("Vagabund", 0, 1, "common", "Fire", 100, 10,1,0,0,100);
-    player.setMons(Vagabund3)
     
    
     player.setTeam(player.getMons(0), 0) 
@@ -34,6 +32,10 @@ function MonManager({player}) {
     const setFocus = (mon) => {
         setFocusedMon(mon);
     };
+
+    const setTeam = (mon) => {
+      player.setTeam(mon, 0);
+    }
     
     return (
           <div className={styles.MonManager}>
@@ -64,6 +66,8 @@ function MonManager({player}) {
                 <p>Defense: {focusedMon.defense}</p>
                 <p>Speed: {focusedMon.speed}</p>
                 <p>Type: {focusedMon.type}</p>
+                <p>UID: {focusedMon.uid}</p>
+                <button onClick={() => setTeam(focusedMon)} >get in Team</button>
                 </div>
             
             ) : (<p>none</p>)}

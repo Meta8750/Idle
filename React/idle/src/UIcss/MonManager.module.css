@@ -13,13 +13,19 @@
     grid-area: "team";
     display:flex;
     align-items: flex-start;
+    background-color: black;
+    margin-bottom: 10px;
+
+    div {
+        padding: 0px 15px 0px 15px;
+    }
     
 }
 
 .box{
     grid-area: "box";
     display:grid;
-    grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
     grid-template-rows: 1fr 1fr 1fr 1fr 1fr;
     background-color: black;
     padding: 10px;
@@ -29,6 +35,9 @@
     grid-area: "stats";
     display:grid;
     grid-row: span 2;
+    background-color: black;
+    margin: 0px 10px 0px 10px;
+    color: white;
 }
 
 .boxSlot {

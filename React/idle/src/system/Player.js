@@ -49,6 +49,12 @@ class Player {
             }
         return time
     }
+
+    isUIDUnique(uid){
+        return !this.team.some(mon => mon.uid === uid)
+    }
+
+
     setCoins(pcoins) {
         this.coins += pcoins;
     }
@@ -67,7 +73,10 @@ class Player {
         if (this.team.length >= 3) {
             this.team.shift();  
         }
-        this.team.push(mon);  
+        if (this.isUIDUnique(mon.uid)) {
+            this.team.push(mon);  
+        }
+
     
     }
     

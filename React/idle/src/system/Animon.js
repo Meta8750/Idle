@@ -1,11 +1,12 @@
-
+import { v4 as uuidv4 } from 'uuid';
 export default class Animon {
-    constructor(name, id, level, rarity, type, maxhealth, ad, ap, armor, mr, ges) {
+    constructor(name, id, level, rarity, type, role,maxhealth, ad, ap, armor, mr, ges) {
         this.name = name;
         this.level = level
         this.maxLevel = 0
         this.rarity = rarity
         this.type = type
+        this.role = role
         this.maxhealth = maxhealth
         this.health = this.maxhealth
         this.ad = ad
@@ -18,6 +19,7 @@ export default class Animon {
         this.nextLevel = 100
         this.id = id
         this.img = `/animon/${this.id}.gif`
+        this.uid = uuidv4()
         
 
     }

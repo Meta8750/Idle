@@ -17,6 +17,7 @@ export default class MonDex{
             monInfo.rarity,
             monInfo.type,
             monInfo.role,
+            monInfo.attacks,
             monInfo.maxHealth,
             monInfo.healthGrowth,
             monInfo.baseAD,

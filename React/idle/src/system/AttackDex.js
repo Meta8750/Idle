@@ -7,18 +7,25 @@ export default class AttackDex{
     generateAttack(id){
         const attackInfo = attackData.find(attack => attack.id === id);
         if (!attackInfo) {
-            throw new Error(`Mon with id ${id} not found`);
+            throw new Error(`Attack with id ${id} not found`);
         }
 
         const newAttack = new Attack(
-            attackInfo.name,
-            attackInfo.id,
-            attackInfo.level,
-            attackInfo.rarity,
-            attackInfo.type,
-            attackInfo.role,
-            attackInfo.maxHealth,
-            attackInfo.healthGrowth,
+            newAttack.name,
+            newAttack.id,
+            newAttack.level,
+            newAttack.type,
+            newAttack.baseDMG,
+            newAttack.adScaling,
+            newAttack.apScaling,
+            newAttack.manaCost,
+            newAttack.armorPen,
+            newAttack.mrPen,
+            newAttack.lifeSteal,
+            newAttack.selfHeal,
+            newAttack.allyHeal,
+            newAttack.buffs,
+            newAttack.debuffs,
             
         );
 

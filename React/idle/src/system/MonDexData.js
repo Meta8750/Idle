@@ -1,3 +1,5 @@
+import AttackDex from "./AttackDex";
+
 export const monData = [
     {
         name: "Vagabund",
@@ -24,6 +26,7 @@ export const monData = [
         manaGrowth: 10,
         armorPen: 0,
         mrPen: 0,
+        attacks: [new AttackDex],
 
     },
     {

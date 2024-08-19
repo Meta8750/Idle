@@ -1,6 +1,6 @@
 import { v4 as uuidv4 } from 'uuid';
 export default class Animon {
-    constructor(name, id, level, rarity, type, role,maxhealth, healthGrowth, baseAD, ADGrowth, baseAP, APGrowth, baseArmor, armorGrowth, baseMR,MRGrowth, baseMS, MSGrowth, baseMana, manaGrowth,baseCritRate,baseCritDamage, armorPen, mrPen) {
+    constructor(name, id, level, rarity, type, role, attacks, maxhealth, healthGrowth, baseAD, ADGrowth, baseAP, APGrowth, baseArmor, armorGrowth, baseMR,MRGrowth, baseMS, MSGrowth, baseMana, manaGrowth,baseCritRate,baseCritDamage, armorPen, mrPen) {
         this.name = name;
         this.level = level
         this.maxLevel = 0
@@ -34,7 +34,7 @@ export default class Animon {
         this.nextLevel = this.calculateNextLevel()
         
         this.id = id
-        this.attacks = {}
+        this.attacks = attacks
         this.img = `/animon/${this.id}.gif`
         this.uid = uuidv4()
         

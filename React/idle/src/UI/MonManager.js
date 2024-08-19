@@ -14,14 +14,14 @@ function MonManager({player}) {
       height: "100px",
       objectFit: "cover",
   };
-   // (name, id, level, rarity, type, role,maxhealth, ad, ap, armor, mr, ges);
+   //name,id,level,rarity type,role,maxhealth,healthGrowth,baseAD,ADGrowth,baseAP,APGrowth,baseArmor,armorGrowth,baseMR,MRGrowth,baseMS,MSGrowth
     
   
    const test = () => {
-    const Vagabund = new Animon("Vagabund", 0, 1, "common", "Fire","DD", 100, 10,1,0,0,100);
-    player.setMons(Vagabund)
-    const Wolf = new Animon("Wolf", 1, 1, "common", "Fire","DD",  100, 10,1,0,0,100);
-    player.setMons(Wolf)
+    
+    player.setMons(0)
+    
+    player.setMons(1)
     
    
     player.setTeam(player.getMons(0), 0) 
@@ -45,7 +45,7 @@ function MonManager({player}) {
                 player.getTeam().map((mon, index) => (
                   
                   <div className={styles.boxSlot}>
-                    {console.log(mon)}
+                   
                       <p>{mon.name} {mon.level}</p>
                       {mon.getImageElement()}
                   </div>
@@ -78,7 +78,7 @@ function MonManager({player}) {
             {player.getMons() ? (
                 player.getMons().map((mon, index) => (
                   <div onClick={() => setFocus(mon)} className={styles.boxSlot}>
-                    {console.log(mon)}
+                   
                       <p>{mon.name} {mon.level}</p>
                       {mon.getImageElement()}
                   </div>    
@@ -86,11 +86,6 @@ function MonManager({player}) {
             ) : (<p>none</p>)}
             </div>
             </div>
-            
-            
-        
-  
-       
     )
 }
 

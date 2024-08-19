@@ -1,8 +1,10 @@
 import Inventory from '../system/Inventory.js'
-import Smithing from '../UI/skills/Smithing.js';
+import Mondex from '../system/Mondex.js'
+
 class Player {
     constructor() {
         this.inventory = new Inventory();
+        this.mondex = new Mondex();
         this.score = 0;
         this.level = 1;
         this.coins = 100;
@@ -65,8 +67,8 @@ class Player {
     setActiveTab(tab){
         this.activeTab = tab;
     }
-    setMons(mon){
-        this.mons.push(mon);
+    setMons(id){
+        this.mons.push(this.mondex.generateMon(id));
     }
 
     setTeam(mon) {
@@ -77,7 +79,6 @@ class Player {
             this.team.push(mon);  
         }
 
-    
     }
     
     getSkills(skill) { //return the hole obj

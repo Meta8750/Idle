@@ -3,19 +3,22 @@ import { useState, useEffect } from "react";
 import Arena from '../system/Arena.js'
 import styles from '../UIcss/Battle.module.css'
 
+const battleLogs = []
+
 function Battle({ player }) {
   const [arena, setArena] = useState(null);
   const [currentBatchIndex, setCurrentBatchIndex] = useState(0);
   const [attackOrder, setAttackOrder] = useState([]);
   const [currentAttackerIndex, setCurrentAttackerIndex] = useState(0);
   const [attackTarget, setAttackTarget] = useState("none");
+  
 
   const initializeBattle = () => {
     const grassField = new Arena([[0, 1, 0], [0, 1, 1]]);
     grassField.genEnemys();
     setArena(grassField);
     setCurrentBatchIndex(0);
-
+    battleLogs.push("Battle Started");
     // Initialize attack order
     const team = player.getTeam();
     const currentBatch = grassField.enemys[0];
@@ -33,7 +36,7 @@ function Battle({ player }) {
       return;
     }
     if (attackTarget != "none") {
-      console.log(`${attacker.name} uses ${attack.name}`);
+      
       
       
       // Apply damage, buffs, debuffs, etc.
@@ -44,7 +47,8 @@ function Battle({ player }) {
         })
 
       } else {
-        attackTarget.calculateDmg(attack, mon)
+        battleLogs.push(`${attacker.name} uses ${attack.name} and dealt ${attackTarget.calculateDmg(attack, mon)}`);
+        
       }
 
       
@@ -59,8 +63,10 @@ function Battle({ player }) {
   };
 
   const hpBar = (mon) => {
-    const pWidth = `${(mon.health / mon.maxhealth) * 100}%`; 
-    
+    let pWidth = `${(mon.health / mon.maxhealth) * 100}%`; 
+    if (mon.health <= 0){
+      pWidth = '0%'
+    }
     return {
       width: pWidth,
     };
@@ -69,9 +75,7 @@ function Battle({ player }) {
   const enemyAi = (enemy) => {
     const attack = enemy.attacks[Math.floor(Math.random() * 3)];
     const target = player.getTeam()[Math.floor(Math.random() * 3)];
-    
-    target.calculateDmg(attack, enemy);
-
+    battleLogs.push(`${enemy.name} uses ${attack.name} and dealt ${target.calculateDmg(attack, enemy)}`)
     // Re-calculate the attack order if necessary
     const updatedOrder = [...attackOrder].sort((a, b) => b.baseMS - a.baseMS);
     setAttackOrder(updatedOrder);
@@ -144,7 +148,7 @@ function Battle({ player }) {
         }`}
       >
         <p>{enemy.name}</p>
-        <p>HP: {enemy.health}</p>
+        <div className={styles.hpBar}><div className={styles.hpFill} style={hpBar(enemy)}>{enemy.maxHealth}{enemy.health}</div></div>
         {enemy.getImageElement("200px", "200px")}
       </div>
       
@@ -192,6 +196,16 @@ function Battle({ player }) {
             </div>
             <div className={styles.teamContainer}>
               {renderTeam()}
+            </div>
+            <div>
+              <p>Attack Order: {attackOrder.map(mon => mon.name).join(", ")}</p>
+              <p>Current Attacker: {attackOrder[currentAttackerIndex].name}</p>
+              <p>Attack Target: {attackTarget.name}</p>
+            </div>
+            <div className={styles.battleLogsContainer}>
+            {battleLogs.map((battleLog, index) => (
+                <p key={index}>{battleLog}</p>
+              ))}
             </div>
             </div>
 

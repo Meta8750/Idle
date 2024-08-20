@@ -41,7 +41,7 @@ export const attackData = [
         lifeSteal:0,
         selfHeal:0,
         allyHeal:0,
-        aoe:true,
+        aoe:false,
 
         buffs:{},
         debuffs:{},

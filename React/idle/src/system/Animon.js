@@ -37,6 +37,7 @@ export default class Animon {
         this.attacks = attacks
         this.img = `/animon/${this.id}.gif`
         this.uid = uuidv4()
+        this.dmgDealt = 0
         
         this.alive = true
         
@@ -72,12 +73,13 @@ export default class Animon {
     }
 
     calculateDmg(attack, attacker){
-
+        this.dmgDealt = this.health
 
         this.health -= attack.baseDMG + (attacker.baseAD + attack.adScaling) + (attacker.baseAP + attack.apScaling)
         if (this.health <= 0){
             this.alive = false
         }
+        return this.dmgDealt -= this.health
     }
     
 }

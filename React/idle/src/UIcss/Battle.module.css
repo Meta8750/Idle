@@ -5,11 +5,19 @@
     grid-template-areas:
     "enemy  enemyStats"
     "team  playerStats";
-    grid-template-rows: 0.001fr 1fr;
-    grid-template-columns:  1fr 0.3fr;
+    grid-template-rows: 0.002fr 1fr;
+    grid-template-columns:  1fr 0.4fr;
     min-width: 100%;
     min-height: 100%;
     
+}
+.battleLogsContainer{
+  width: 96.2%;         
+  max-height: 450px;    
+  overflow-y: auto;   
+  border: 1px solid #ccc;  
+  padding: 10px;       
+  background-color: #000000;
 }
 
 .hpBar {
@@ -23,7 +31,6 @@
   .hpFill {
     background-color: green;
     height: 100%;
-    
     transition: width 0.9s ease;
   }
 
@@ -45,6 +52,7 @@
 
 .mon{
     background-color: rgb(0, 0, 0);
+    border: solid 2px rgb(0, 0, 0);
     margin: 5px;
     position: relative;
     z-index: 1;
@@ -52,8 +60,8 @@
 }
 
 .activeMon{
-    background-color: aqua;
-    transition: background-color 1s ease, transform 1s ease;
+    border: solid 2px aqua;
+    transition: border 1s ease, transform 1s ease;
     
 }
 
@@ -67,7 +75,7 @@
 
 .activeEnemy {
     background-color: aqua;
-    transition: background-color 1s ease, transform 1s ease;
+    transition: background-color 1s ease-out, transform 1s ease;
     
 }
 

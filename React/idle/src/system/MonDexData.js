@@ -1,4 +1,9 @@
-import AttackDex from "./AttackDex";
+import AttackDex from "./AttackDex.js";
+
+const attackDex = new AttackDex();
+
+const Fireball = attackDex.generateAttack(0)
+const Ammagedon = attackDex.generateAttack(999)
 
 export const monData = [
     {
@@ -26,7 +31,7 @@ export const monData = [
         manaGrowth: 10,
         armorPen: 0,
         mrPen: 0,
-        attacks: [new AttackDex],
+        attacks: [Fireball, Fireball, Fireball, Fireball],
 
     },
     {
@@ -54,6 +59,36 @@ export const monData = [
         manaGrowth: 10,
         armorPen: 0,
         mrPen: 0,
+        attacks: [Fireball, Fireball, Fireball, Fireball],
+
+    },
+
+    {
+        name: "Hell",
+        id: 5,
+        level: 100,
+        rarity: "common",
+        type: "Fire",
+        role: "DD",
+        maxHealth: 120,
+        healthGrowth: 12,
+        baseAD: 12,
+        ADGrowth: 1.8,
+        baseAP: 6,
+        APGrowth: 0.6,
+        baseArmor: 3,
+        armorGrowth: 1.2,
+        baseMR: 2,
+        MRGrowth: 0.6,
+        baseMS: 320,
+        MSGrowth: 6,
+        baseCritRate: 0.05,
+        baseCritDamage: 0.2,
+        baseMana: 100,
+        manaGrowth: 10,
+        armorPen: 0,
+        mrPen: 0,
+        attacks: [Ammagedon, Ammagedon, Ammagedon, Ammagedon],
 
     },
     

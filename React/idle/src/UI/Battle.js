@@ -6,23 +6,117 @@ import styles from '../UIcss/Battle.module.css'
 function Battle({ player }) {
   const [arena, setArena] = useState(null);
   const [currentBatchIndex, setCurrentBatchIndex] = useState(0);
+  const [attackOrder, setAttackOrder] = useState([]);
+  const [currentAttackerIndex, setCurrentAttackerIndex] = useState(0);
+  const [attackTarget, setAttackTarget] = useState("none");
 
   const initializeBattle = () => {
-    const grassField = new Arena([[0, 1, 0], [0, 1, 0]]);
+    const grassField = new Arena([[0, 1, 0], [0, 1, 1]]);
     grassField.genEnemys();
     setArena(grassField);
-    setCurrentBatchIndex(0); // Start with the first batch of enemies
+    setCurrentBatchIndex(0);
+
+    // Initialize attack order
+    const team = player.getTeam();
+    const currentBatch = grassField.enemys[0];
+    const combinedUnits = [...team, ...currentBatch];
+    const sortedUnits = combinedUnits.sort((a, b) => b.baseMS - a.baseMS);
+    setAttackOrder(sortedUnits);
+    setCurrentAttackerIndex(0);
   };
+
+  const handleAttack = (attack) => {
+    const attacker = attackOrder[currentAttackerIndex];
+
+    if (!attacker.alive) {
+      advanceTurn();
+      return;
+    }
+    if (attackTarget != "none") {
+      console.log(`${attacker.name} uses ${attack.name}`);
+      
+      
+      // Apply damage, buffs, debuffs, etc.
+      if (attack.aoe){
+        arena.enemys[currentBatchIndex].map((enemy,index) =>{
+          enemy.calculateDmg(attack)
+          
+        })
+
+      } else {
+        attackTarget.calculateDmg(attack)
+      }
+
+      
+      const updatedOrder = [...attackOrder].sort((a, b) => b.baseMS - a.baseMS);
+      setAttackOrder(updatedOrder);
+      
+      advanceTurn();
+      setAttackTarget("none")
+
+    }
+    
+  };
+
+  const enemyAi = (enemy) => {
+    const attack = enemy.attacks[Math.floor(Math.random() * 3)];
+    const target = player.getTeam()[Math.floor(Math.random() * 3)];
+    
+    target.calculateDmg(attack);
+
+    // Re-calculate the attack order if necessary
+    const updatedOrder = [...attackOrder].sort((a, b) => b.baseMS - a.baseMS);
+    setAttackOrder(updatedOrder);
+
+    advanceTurn();
+  };
+
+  const handleTarget = (target) => {
+    setAttackTarget(target)
+  }
+
+  const advanceTurn = () => {
+    let nextIndex = (currentAttackerIndex + 1) % attackOrder.length;
+    while (!attackOrder[nextIndex].alive) {
+      nextIndex = (nextIndex + 1) % attackOrder.length;
+    }
+    setCurrentAttackerIndex(nextIndex);
+  };
+
+  useEffect(() => {
+    // If the current attacker is an enemy, trigger the AI to take action
+    const currentAttacker = attackOrder[currentAttackerIndex];
+    if (currentAttacker && arena && arena.enemys.flat().includes(currentAttacker)) {
+      enemyAi(currentAttacker);
+    }
+  }, [currentAttackerIndex]);
 
   const renderTeam = () => {
     return player.getTeam().map((mon, index) => (
-                  
-      <div className={styles.mon}>
-       
-          <p>{mon.name} {mon.level}</p>
-          {mon.getImageElement()}
+      <div
+        key={index}
+        className={`${styles.mon} ${
+          attackOrder[currentAttackerIndex] === mon ? styles.activeMon : ""
+        }`}
+      >
+        <p>{mon.name} {mon.level}</p>
+        <p>HP: {mon.health}</p>
+        {mon.getImageElement()}
+      
+        <ul>
+          {mon.attacks.map((attack, attackIndex) => (
+            <li
+              key={attackIndex}
+              onClick={() => handleAttack(attack)}
+              className={styles.attackOption}
+            >
+              {attack.name}
+            </li>
+          ))}
+        </ul>
       </div>
-  ))};
+    ));
+  };
 
   const renderEnemies = () => {
     if (!arena || !arena.enemys || arena.enemys.length === 0) return null;
@@ -32,7 +126,12 @@ function Battle({ player }) {
     if (!currentBatch) return <p>No more enemies!</p>;
 
     return currentBatch.map((enemy, index) => (
-      <div key={index} className={styles.enemy}>
+      <div onClick={() => handleTarget(enemy)}
+        key={index}
+        className={`${styles.enemy} ${
+          attackOrder[currentAttackerIndex] === enemy ? styles.activeEnemy : ""
+        }`}
+      >
         <p>{enemy.name}</p>
         <p>HP: {enemy.health}</p>
         {enemy.getImageElement()}
@@ -45,15 +144,28 @@ function Battle({ player }) {
 
     const currentBatch = arena.enemys[currentBatchIndex];
     const allDefeated = currentBatch.every(enemy => !enemy.alive);
-
+    
     if (allDefeated && currentBatchIndex < arena.enemys.length - 1) {
+      
       setCurrentBatchIndex(currentBatchIndex + 1);
+      // Resetting the attack order for the new batch of enemies
+      const team = player.getTeam();
+      const newBatch = arena.enemys[currentBatchIndex + 1];
+      const combinedUnits = [...team, ...newBatch];
+      const sortedUnits = combinedUnits.sort((a, b) => b.MS - a.MS);
+      setAttackOrder(sortedUnits);
+      setCurrentAttackerIndex(0);
     }
+
+    if (currentBatchIndex >= arena.enemys.length - 1){
+      console.log("won")
+    }
+
   };
 
   useEffect(() => {
     checkAndAdvanceBatch();
-  }, [arena, currentBatchIndex]);
+  }, [arena, currentAttackerIndex]);
 
   return (
     <div>

@@ -9,23 +9,24 @@ export default class AttackDex{
         if (!attackInfo) {
             throw new Error(`Attack with id ${id} not found`);
         }
-
+        
         const newAttack = new Attack(
-            newAttack.name,
-            newAttack.id,
-            newAttack.level,
-            newAttack.type,
-            newAttack.baseDMG,
-            newAttack.adScaling,
-            newAttack.apScaling,
-            newAttack.manaCost,
-            newAttack.armorPen,
-            newAttack.mrPen,
-            newAttack.lifeSteal,
-            newAttack.selfHeal,
-            newAttack.allyHeal,
-            newAttack.buffs,
-            newAttack.debuffs,
+            attackInfo.name,
+            attackInfo.id,
+            attackInfo.level,
+            attackInfo.type,
+            attackInfo.baseDMG,
+            attackInfo.adScaling,
+            attackInfo.apScaling,
+            attackInfo.manaCost,
+            attackInfo.armorPen,
+            attackInfo.mrPen,
+            attackInfo.lifeSteal,
+            attackInfo.selfHeal,
+            attackInfo.allyHeal,
+            attackInfo.buffs,
+            attackInfo.debuffs,
+            attackInfo.aoe
             
         );
 

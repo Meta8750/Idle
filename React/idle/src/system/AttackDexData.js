@@ -1,10 +1,10 @@
 export const attackData = [
     {
-        name: "Fire Ball",
+        name: "Fireball",
         id: 0,
         level: 1,
         type: "Fire",
-        baseDMG: 100,
+        baseDMG: 40,
         adScaling: 1,
         apScaling: 0.5,
 
@@ -16,6 +16,7 @@ export const attackData = [
         lifeSteal:0,
         selfHeal:0,
         allyHeal:0,
+        aoe: false,
 
         buffs:{},
         debuffs:{},
@@ -23,30 +24,27 @@ export const attackData = [
 
     },
     {
-        name: "Wolf",
-        id: 1,
+        name: "Ammagedon",
+        id: 999,
         level: 1,
-        rarity: "common",
+        rarity: "Legendary",
         type: "Fire",
-        role: "DD",
-        maxHealth: 120,
-        healthGrowth: 12,
-        baseAD: 12,
-        ADGrowth: 1.8,
-        baseAP: 6,
-        APGrowth: 0.6,
-        baseArmor: 3,
-        armorGrowth: 1.2,
-        baseMR: 2,
-        MRGrowth: 0.6,
-        baseMS: 320,
-        MSGrowth: 6,
-        baseCritRate: 0.05,
-        baseCritDamage: 0.2,
-        baseMana: 100,
-        manaGrowth: 10,
-        armorPen: 0,
-        mrPen: 0,
+        baseDMG: 9999999,
+        adScaling: 999,
+        apScaling: 999,
+
+        manaCost: 10,
+
+        armorPen:0,
+        mrPen:0,
+
+        lifeSteal:0,
+        selfHeal:0,
+        allyHeal:0,
+        aoe:true,
+
+        buffs:{},
+        debuffs:{},
 
     },
     

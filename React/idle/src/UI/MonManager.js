@@ -8,27 +8,16 @@ import styles from '../UIcss/MonManager.module.css'
 function MonManager({player}) {
 
     const [focusedMon, setFocusedMon] = useState();
-    
-    const style = {
-      width: "100px",
-      height: "100px",
-      objectFit: "cover",
-  };
-   //name,id,level,rarity type,role,maxhealth,healthGrowth,baseAD,ADGrowth,baseAP,APGrowth,baseArmor,armorGrowth,baseMR,MRGrowth,baseMS,MSGrowth
-    
-  
+
    const test = () => {
-    
     player.setMons(0)
-    
     player.setMons(1)
-    
-   
-    player.setTeam(player.getMons(0), 0) 
+    player.setMons(5)
+    player.setTeam(player.getMons(0), 0)
+    player.setTeam(player.getMons(1), 0) 
+    player.setTeam(player.getMons(2), 0)  
+
    }
-
-
-
     const setFocus = (mon) => {
         setFocusedMon(mon);
     };
@@ -66,6 +55,10 @@ function MonManager({player}) {
                 <p>Defense: {focusedMon.defense}</p>
                 <p>Speed: {focusedMon.speed}</p>
                 <p>Type: {focusedMon.type}</p>
+                <p>Attacks: {focusedMon.attacks[0].name}</p>
+                {focusedMon.attacks.map((attack, index) =>(
+                  <li>{attack.name}</li>
+                ))}
                 <p>UID: {focusedMon.uid}</p>
                 <button onClick={() => setTeam(focusedMon)} >get in Team</button>
                 </div>

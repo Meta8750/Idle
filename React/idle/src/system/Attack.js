@@ -1,6 +1,6 @@
 
 export default class Attack{
-    constructor(name, id, level, type, baseDMG,adScaling, apScaling, manaCost, armorPen, mrPen,lifeSteal,selfHeal,allyHeal,buffs,debuffs){
+    constructor(name, id, level, type, baseDMG,adScaling, apScaling, manaCost, armorPen, mrPen,lifeSteal,selfHeal,allyHeal,buffs,debuffs,aoe){
             this.name = name;
             this.id = id;
             this.level = level;
@@ -16,6 +16,7 @@ export default class Attack{
             this.allyHeal = allyHeal;
             this.buffs = buffs;
             this.debuffs = debuffs;
+            this.aoe = aoe;
 
     }
 }

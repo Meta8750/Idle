@@ -13,9 +13,19 @@
 }
 
 .mon{
+    background-color: rgb(0, 0, 0);
 
 }
 
-.enemy{
+.activeMon{
+    background-color: aqua;
+}
 
+.enemy{
+    background-color: black;
+}
+
+.activeEnemy {
+    background-color: aqua;
+    transition: 1s;
 }

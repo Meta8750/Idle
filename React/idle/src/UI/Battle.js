@@ -25,7 +25,7 @@ function Battle({ player }) {
     setCurrentAttackerIndex(0);
   };
 
-  const handleAttack = (attack) => {
+  const handleAttack = (attack, mon) => {
     const attacker = attackOrder[currentAttackerIndex];
 
     if (!attacker.alive) {
@@ -39,12 +39,12 @@ function Battle({ player }) {
       // Apply damage, buffs, debuffs, etc.
       if (attack.aoe){
         arena.enemys[currentBatchIndex].map((enemy,index) =>{
-          enemy.calculateDmg(attack)
+          enemy.calculateDmg(attack, mon)
           
         })
 
       } else {
-        attackTarget.calculateDmg(attack)
+        attackTarget.calculateDmg(attack, mon)
       }
 
       
@@ -58,11 +58,19 @@ function Battle({ player }) {
     
   };
 
+  const hpBar = (mon) => {
+    const pWidth = `${(mon.health / mon.maxhealth) * 100}%`; 
+    
+    return {
+      width: pWidth,
+    };
+  };
+
   const enemyAi = (enemy) => {
     const attack = enemy.attacks[Math.floor(Math.random() * 3)];
     const target = player.getTeam()[Math.floor(Math.random() * 3)];
     
-    target.calculateDmg(attack);
+    target.calculateDmg(attack, enemy);
 
     // Re-calculate the attack order if necessary
     const updatedOrder = [...attackOrder].sort((a, b) => b.baseMS - a.baseMS);
@@ -88,6 +96,7 @@ function Battle({ player }) {
     const currentAttacker = attackOrder[currentAttackerIndex];
     if (currentAttacker && arena && arena.enemys.flat().includes(currentAttacker)) {
       enemyAi(currentAttacker);
+      
     }
   }, [currentAttackerIndex]);
 
@@ -98,23 +107,24 @@ function Battle({ player }) {
         className={`${styles.mon} ${
           attackOrder[currentAttackerIndex] === mon ? styles.activeMon : ""
         }`}
-      >
+      > 
         <p>{mon.name} {mon.level}</p>
-        <p>HP: {mon.health}</p>
-        {mon.getImageElement()}
+        <div className={styles.hpBar}><div className={styles.hpFill} style={hpBar(mon)}>{mon.maxHealth}{mon.health}</div></div>
+        {mon.getImageElement("200px", "200px")}
       
         <ul>
           {mon.attacks.map((attack, attackIndex) => (
             <li
               key={attackIndex}
-              onClick={() => handleAttack(attack)}
+              onClick={() => handleAttack(attack, mon)}
               className={styles.attackOption}
             >
               {attack.name}
             </li>
           ))}
         </ul>
-      </div>
+        </div>
+      
     ));
   };
 
@@ -126,6 +136,7 @@ function Battle({ player }) {
     if (!currentBatch) return <p>No more enemies!</p>;
 
     return currentBatch.map((enemy, index) => (
+      
       <div onClick={() => handleTarget(enemy)}
         key={index}
         className={`${styles.enemy} ${
@@ -134,8 +145,9 @@ function Battle({ player }) {
       >
         <p>{enemy.name}</p>
         <p>HP: {enemy.health}</p>
-        {enemy.getImageElement()}
+        {enemy.getImageElement("200px", "200px")}
       </div>
+      
     ));
   };
 
@@ -172,20 +184,24 @@ function Battle({ player }) {
       <p>
         <button onClick={initializeBattle}>Start Battle</button>
       </p>
-      <div className={styles.arena}>
+     
         {arena ? (
-          <div>
+             <div className={styles.arena}>
             <div className={styles.enemyContainer}>
               {renderEnemies()}
             </div>
             <div className={styles.teamContainer}>
               {renderTeam()}
             </div>
-          </div>
+            </div>
+
+          
+            
+
         ) : (
           <p>No current Battle</p>
         )}
-      </div>
+      
     </div>
   );
 }

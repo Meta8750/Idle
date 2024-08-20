@@ -1,31 +1,83 @@
 .arena{
     background-color: black;
     color: white;
+    display:grid;
+    grid-template-areas:
+    "enemy  enemyStats"
+    "team  playerStats";
+    grid-template-rows: 0.001fr 1fr;
+    grid-template-columns:  1fr 0.3fr;
+    min-width: 100%;
+    min-height: 100%;
+    
 }
+
+.hpBar {
+    background-color: grey;
+    border: 1px solid black;
+    height: 20px;
+    width: 100%; /* Full width as a container */
+    position: relative;
+  }
+  
+  .hpFill {
+    background-color: green;
+    height: 100%;
+    
+    transition: width 0.9s ease;
+  }
 
 .enemyContainer{
     display: flex;
+    grid-area: "enemy"
     
 }
 
 .teamContainer{
     display: flex;
+    grid-area: team;
+    
+}
+
+.monContainer{
+    position: relative;
 }
 
 .mon{
     background-color: rgb(0, 0, 0);
+    margin: 5px;
+    position: relative;
+    z-index: 1;
 
 }
 
 .activeMon{
     background-color: aqua;
+    transition: background-color 1s ease, transform 1s ease;
+    
 }
+
+
+
 
 .enemy{
     background-color: black;
+    transition:  1s ease;
 }
 
 .activeEnemy {
     background-color: aqua;
-    transition: 1s;
+    transition: background-color 1s ease, transform 1s ease;
+    
 }
+
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg); /* Startet bei 0 Grad */
+  }
+  to {
+    transform: rotate(360deg); /* Dreht sich vollständig um 360 Grad */
+  }
+}
+    

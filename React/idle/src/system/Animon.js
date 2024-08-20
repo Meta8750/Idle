@@ -71,10 +71,10 @@ export default class Animon {
         return Math.pow(1.16, this.level) + 10 * this.level * (this.level / 2) + 4;
     }
 
-    calculateDmg(attack){
+    calculateDmg(attack, attacker){
 
 
-        this.health -= attack.baseDMG
+        this.health -= attack.baseDMG + (attacker.baseAD + attack.adScaling) + (attacker.baseAP + attack.apScaling)
         if (this.health <= 0){
             this.alive = false
         }

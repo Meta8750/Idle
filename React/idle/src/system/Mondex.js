@@ -9,7 +9,9 @@ export default class MonDex{
         if (!monInfo) {
             throw new Error(`Mon with id ${id} not found`);
         }
-
+        //name, id, level, rarity, type, role, attacks, maxhealth, healthGrowth, baseAD, ADGrowth, baseAP, APGrowth, 
+        //baseArmor, armorGrowth, baseMR,MRGrowth, baseMS, MSGrowth, maxMana, manaGrowth,baseCritRate,baseCritDamage, 
+        //armorPen, mrPen
         const newMon = new Animon(
             monInfo.name,
             monInfo.id,
@@ -30,10 +32,10 @@ export default class MonDex{
             monInfo.MRGrowth,
             monInfo.baseMS,
             monInfo.MSGrowth,
+            monInfo.maxMana,
+            monInfo.manaGrowth,
             monInfo.baseCritRate,
             monInfo.baseCritDamage,
-            monInfo.baseMana,
-            monInfo.manaGrowth,
             monInfo.armorPen,
             monInfo.mrPen,
         );

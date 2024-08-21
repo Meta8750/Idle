@@ -12,16 +12,14 @@ function Battle({ player }) {
   const [currentAttackerIndex, setCurrentAttackerIndex] = useState(0);
   const [attackTarget, setAttackTarget] = useState("none");
   
-
-  const initializeBattle = () => {
-    const grassField = new Arena([[0, 1, 0], [0, 1, 1]]);
-    grassField.genEnemys();
-    setArena(grassField);
+  const initializeBattle = (batch) => {
+    const battleArena = new Arena(batch);
+    battleArena.genEnemys();
+    setArena(battleArena);
     setCurrentBatchIndex(0);
     battleLogs.push("Battle Started");
-    // Initialize attack order
     const team = player.getTeam();
-    const currentBatch = grassField.enemys[0];
+    const currentBatch = battleArena.enemys[0];
     const combinedUnits = [...team, ...currentBatch];
     const sortedUnits = combinedUnits.sort((a, b) => b.baseMS - a.baseMS);
     setAttackOrder(sortedUnits);
@@ -30,36 +28,25 @@ function Battle({ player }) {
 
   const handleAttack = (attack, mon) => {
     const attacker = attackOrder[currentAttackerIndex];
-
     if (!attacker.alive) {
       advanceTurn();
       return;
     }
     if (attackTarget != "none") {
-      
-      
-      
       // Apply damage, buffs, debuffs, etc.
       if (attack.aoe){
-        arena.enemys[currentBatchIndex].map((enemy,index) =>{
+          arena.enemys[currentBatchIndex].map((enemy,index) =>{
           enemy.calculateDmg(attack, mon)
-          
         })
-
       } else {
         battleLogs.push(`${attacker.name} uses ${attack.name} and dealt ${attackTarget.calculateDmg(attack, mon)}`);
-        
       }
-
-      
       const updatedOrder = [...attackOrder].sort((a, b) => b.baseMS - a.baseMS);
-      setAttackOrder(updatedOrder);
       
+      setAttackOrder(updatedOrder);
       advanceTurn();
       setAttackTarget("none")
-
     }
-    
   };
 
   const hpBar = (mon) => {
@@ -72,6 +59,11 @@ function Battle({ player }) {
     };
   };
 
+  const manaBar = (mon) =>{
+    let pWidth = `${(mon.mana / mon.maxmana) * 100}%`;
+    if (mon.mana <= 0){ pWidth = '0%' } return { width: pWidth, };
+  }
+
   const enemyAi = (enemy) => {
     const attack = enemy.attacks[Math.floor(Math.random() * 3)];
     const target = player.getTeam()[Math.floor(Math.random() * 3)];
@@ -79,7 +71,6 @@ function Battle({ player }) {
     // Re-calculate the attack order if necessary
     const updatedOrder = [...attackOrder].sort((a, b) => b.baseMS - a.baseMS);
     setAttackOrder(updatedOrder);
-
     advanceTurn();
   };
 
@@ -96,17 +87,18 @@ function Battle({ player }) {
   };
 
   useEffect(() => {
-    // If the current attacker is an enemy, trigger the AI to take action
     const currentAttacker = attackOrder[currentAttackerIndex];
     if (currentAttacker && arena && arena.enemys.flat().includes(currentAttacker)) {
-      enemyAi(currentAttacker);
+      setTimeout(() => {
+        enemyAi(currentAttacker);
+      }, 1000);
       
     }
   }, [currentAttackerIndex]);
 
   const renderTeam = () => {
     return player.getTeam().map((mon, index) => (
-      <div
+      <div onClick={() => handleTarget(mon)}
         key={index}
         className={`${styles.mon} ${
           attackOrder[currentAttackerIndex] === mon ? styles.activeMon : ""
@@ -157,38 +149,40 @@ function Battle({ player }) {
 
   const checkAndAdvanceBatch = () => {
     if (!arena || !arena.enemys) return;
-
+    
     const currentBatch = arena.enemys[currentBatchIndex];
     const allDefeated = currentBatch.every(enemy => !enemy.alive);
     
-    if (allDefeated && currentBatchIndex < arena.enemys.length - 1) {
-      
-      setCurrentBatchIndex(currentBatchIndex + 1);
-      // Resetting the attack order for the new batch of enemies
-      const team = player.getTeam();
-      const newBatch = arena.enemys[currentBatchIndex + 1];
-      const combinedUnits = [...team, ...newBatch];
-      const sortedUnits = combinedUnits.sort((a, b) => b.MS - a.MS);
-      setAttackOrder(sortedUnits);
-      setCurrentAttackerIndex(0);
+    if (allDefeated) {
+      if (currentBatchIndex < arena.enemys.length - 1) {
+        // Advance to the next batch
+        setCurrentBatchIndex(prevIndex => {
+          const newIndex = prevIndex + 1;
+          const team = player.getTeam();
+          const newBatch = arena.enemys[newIndex];
+          const combinedUnits = [...team, ...newBatch];
+          const sortedUnits = combinedUnits.sort((a, b) => b.MS - a.MS);
+          setAttackOrder(sortedUnits);
+          setCurrentAttackerIndex(0);
+          return newIndex;
+        });
+      } else {
+        // All batches completed
+        setArena(null);
+      }
     }
-
-    if (currentBatchIndex >= arena.enemys.length - 1){
-      console.log("won")
-    }
-
   };
-
+  
   useEffect(() => {
     checkAndAdvanceBatch();
-  }, [arena, currentAttackerIndex]);
+  }, [arena, currentBatchIndex, attackOrder]);
 
   return (
     <div>
       <p>
-        <button onClick={initializeBattle}>Start Battle</button>
+        <button onClick={() =>initializeBattle([[0, 1, 0], [0, 1, 1]])}>Start Battle</button>
+        <button onClick={() =>initializeBattle([[1, 1, 1], [0, 1, 1], [1,5,1]])}>Start Battle</button>
       </p>
-     
         {arena ? (
              <div className={styles.arena}>
             <div className={styles.enemyContainer}>
@@ -198,20 +192,20 @@ function Battle({ player }) {
               {renderTeam()}
             </div>
             <div>
-              <p>Attack Order: {attackOrder.map(mon => mon.name).join(", ")}</p>
+              <p>Attack Order: {attackOrder.map((mon,index) => (
+                <span className={`${styles.mon} ${
+                  attackOrder[currentAttackerIndex] === mon ? styles.activeMon : ""
+                }`}>{mon.name}</span>
+              ))}</p>
               <p>Current Attacker: {attackOrder[currentAttackerIndex].name}</p>
               <p>Attack Target: {attackTarget.name}</p>
             </div>
             <div className={styles.battleLogsContainer}>
-            {battleLogs.map((battleLog, index) => (
+                {battleLogs.map((battleLog, index) => (
                 <p key={index}>{battleLog}</p>
               ))}
             </div>
             </div>
-
-          
-            
-
         ) : (
           <p>No current Battle</p>
         )}

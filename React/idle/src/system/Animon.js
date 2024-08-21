@@ -1,6 +1,7 @@
 import { v4 as uuidv4 } from 'uuid';
+
 export default class Animon {
-    constructor(name, id, level, rarity, type, role, attacks, maxhealth, healthGrowth, baseAD, ADGrowth, baseAP, APGrowth, baseArmor, armorGrowth, baseMR,MRGrowth, baseMS, MSGrowth, baseMana, manaGrowth,baseCritRate,baseCritDamage, armorPen, mrPen) {
+    constructor(name, id, level, rarity, type, role, attacks, maxhealth, healthGrowth, baseAD, ADGrowth, baseAP, APGrowth, baseArmor, armorGrowth, baseMR,MRGrowth, baseMS, MSGrowth, maxMana, manaGrowth,baseCritRate,baseCritDamage, armorPen, mrPen) {
         this.name = name;
         this.level = level
         this.maxLevel = 0
@@ -21,14 +22,15 @@ export default class Animon {
         this.baseCritDamage = baseCritDamage
         this.baseCritRate = baseCritRate
 
+        this.maxMana = maxMana + (this.manaGrowth * this.level)
         this.maxhealth = maxhealth + (this.healthGrowth * this.level)
         this.baseAD = baseAD + (this.ADGrowth * this.level)
         this.baseAP = baseAP + (this.APGrowth * this.level)
         this.baseArmor = baseArmor + (this.armorGrowth * this.level)
         this.baseMR = baseMR + (this.MRGrowth * this.level)
         this.baseMS = baseMS + (this.MSGrowth * this.level)
-        this.baseMana = baseMana + (this.manaGrowth * this.level)
-        
+
+        this.mana = this.maxMana
         this.health = this.maxhealth
         this.exp = 0
         this.nextLevel = this.calculateNextLevel()
@@ -38,6 +40,7 @@ export default class Animon {
         this.img = `/animon/${this.id}.gif`
         this.uid = uuidv4()
         this.dmgDealt = 0
+        this.dmg = 0
         
         this.alive = true
         
@@ -74,8 +77,12 @@ export default class Animon {
 
     calculateDmg(attack, attacker){
         this.dmgDealt = this.health
+        this.dmg = attack.baseDMG + (attacker.baseAD + attack.adScaling) + (attacker.baseAP + attack.apScaling) 
+        if (Math.random() <= attacker.baseCritRate) {
+            this.dmg *= attacker.baseCritDamage
+        }
 
-        this.health -= attack.baseDMG + (attacker.baseAD + attack.adScaling) + (attacker.baseAP + attack.apScaling)
+        this.health -= this.dmg
         if (this.health <= 0){
             this.alive = false
         }

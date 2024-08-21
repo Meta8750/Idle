@@ -12,7 +12,7 @@
     
 }
 .battleLogsContainer{
-  width: 96.2%;         
+  width: 96.1%;         
   max-height: 450px;    
   overflow-y: auto;   
   border: 1px solid #ccc;  
@@ -66,16 +66,14 @@
 }
 
 
-
-
 .enemy{
     background-color: black;
     transition:  1s ease;
 }
 
 .activeEnemy {
-    background-color: aqua;
-    transition: background-color 1s ease-out, transform 1s ease;
+  border: solid 2px aqua;
+  transition: border 1s ease, transform 1s ease;
     
 }
 

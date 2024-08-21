@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import Arena from '../system/Arena.js'
 import styles from '../UIcss/Battle.module.css'
 import Monstats from './MonStats.js'
+import PostScreen from "./PostScreen.js";
 
 const battleLogs = []
 
@@ -12,19 +13,24 @@ function Battle({ player }) {
   const [attackOrder, setAttackOrder] = useState([]);
   const [currentAttackerIndex, setCurrentAttackerIndex] = useState(0);
   const [attackTarget, setAttackTarget] = useState("none");
+  const [result, setResult] = useState(null);
+  const [lastFight,  setLastFight] = useState(null)
   
-  const initializeBattle = (batch) => {
-    const battleArena = new Arena(batch);
+  const initializeBattle = (batch, exp) => {
+    const battleArena = new Arena(batch,exp);
     battleArena.genEnemys();
     setArena(battleArena);
     setCurrentBatchIndex(0);
+    
+    setResult("Battle")
+    setCurrentAttackerIndex(0);
     battleLogs.push("Battle Started");
     const team = player.getTeam();
     const currentBatch = battleArena.enemys[0];
     const combinedUnits = [...team, ...currentBatch];
     const sortedUnits = combinedUnits.sort((a, b) => b.baseMS - a.baseMS);
     setAttackOrder(sortedUnits);
-    setCurrentAttackerIndex(0);
+    
   };
 
   const handleAttack = (attack, mon) => {
@@ -168,7 +174,9 @@ function Battle({ player }) {
         });
       } else {
         // All batches completed
+        setLastFight(arena);
         setArena(null);
+        setResult("won")
       }
     }
   };
@@ -180,8 +188,8 @@ function Battle({ player }) {
   return (
     <div>
       <p>
-        <button onClick={() =>initializeBattle([[0, 1, 0], [0, 1, 1]])}>Start Battle</button>
-        <button onClick={() =>initializeBattle([[1, 1, 1], [0, 1, 1], [1,5,1]])}>Start Battle</button>
+        <button onClick={() =>initializeBattle([[0, 1, 0]],100)}>Start Battle</button>
+        <button onClick={() =>initializeBattle([[1, 1, 1], [0, 1, 1], [1,5,1]],1000)}>Start Battle</button>
       </p>
         {arena ? (
              <div className={styles.arena}>
@@ -207,11 +215,13 @@ function Battle({ player }) {
             </div>
             
               <Monstats mon={attackTarget}/>
+           
+             
             </div>
         ) : (
           <p>No current Battle</p>
         )}
-      
+       <div className={result === "won" ? styles.visible : styles.hidden}> <PostScreen team={player.getTeam()} arena={lastFight} result={result}/>1</div>
     </div>
   );
 }

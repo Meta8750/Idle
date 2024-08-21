@@ -14,7 +14,11 @@ function MonStats({mon}){
                 <li>{mon.maxMana}/{mon.mana}</li>
                 <li>{mon.baseMS}</li>
                 <div>{mon.attacks.map((attack, index) => {
-                    return <li>{attack.name} deals {attack.baseDMG} + <span className={styles.ad}>ad{(attack.adScaling * 100)}% </span>+ <span className={styles.ap}>ap{(attack.apScaling * 100)}%</span></li>
+                    return <li>
+                    {attack.name} deals <span className={attack.type === "AP" ? styles.ap : styles.ad}>{Math.floor(attack.baseDMG + (mon.baseAD * attack.adScaling) + (mon.baseAP * attack.apScaling))}
+                    </span> = <span className={styles.ad}> {attack.baseDMG} + {(attack.adScaling * 100)}% 
+                    </span> + <span className={styles.ap}> {attack.baseDMG} + {(attack.apScaling * 100)}%
+                    </span></li>
                 })}</div>
                
     

@@ -59,6 +59,7 @@ export default class Animon {
 
     levelProgess(){
         if (this.exp >= this.nextLevel){
+            this.level++
             this.baseAD += this.ADGrowth
             this.baseAP += this.APGrowth
             this.baseArmor += this.armorGrowth

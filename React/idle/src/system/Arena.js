@@ -1,11 +1,12 @@
 import MonDex from '../system/MonDex.js'
 
 export default class Arena {
-    constructor(enemyList) {
+    constructor(enemyList, expDrop) {
         this.monDex = new MonDex();
         this.enemyList = enemyList || [[0,0,0],[0,1,0]]
         this.enemys = []
         this.enemyStageList = []
+        this.expDrop = expDrop
     }
 
     genEnemys(){

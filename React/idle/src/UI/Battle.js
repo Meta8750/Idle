@@ -2,6 +2,7 @@ import React from "react";
 import { useState, useEffect } from "react";
 import Arena from '../system/Arena.js'
 import styles from '../UIcss/Battle.module.css'
+import Monstats from './MonStats.js'
 
 const battleLogs = []
 
@@ -111,7 +112,6 @@ function Battle({ player }) {
         <ul>
           {mon.attacks.map((attack, attackIndex) => (
             <li
-              key={attackIndex}
               onClick={() => handleAttack(attack, mon)}
               className={styles.attackOption}
             >
@@ -205,6 +205,8 @@ function Battle({ player }) {
                 <p key={index}>{battleLog}</p>
               ))}
             </div>
+            
+              <Monstats mon={attackTarget}/>
             </div>
         ) : (
           <p>No current Battle</p>

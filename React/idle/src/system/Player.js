@@ -10,7 +10,7 @@ class Player {
         this.coins = 100;
         this.health = 100;
         this.skills = {
-            Mining: { level: 1, maxLevel: 100, exp: 0, nextLevel: this.calculateNextLevel(1), CD: 4 },
+            Mining: { level: 1, maxLevel: 100, exp: 0, nextLevel: this.calculateNextLevel(1), CD: 2 },
             Cutting: { level: 1, maxLevel: 100, exp: 0, nextLevel: this.calculateNextLevel(1), CD: 2 },
             Crafting: { level: 1, maxLevel: 100, exp: 0, nextLevel: this.calculateNextLevel(1), CD: 2 },
             Smithing: { level: 1, maxLevel: 100, exp: 0, nextLevel: this.calculateNextLevel(1), CD: 2 },
@@ -43,14 +43,15 @@ class Player {
     progress(time) {
         if (this.activity) {
             const totalCD = this.skills[this.activity.job].CD + this.activity.additionalCD;
-    
+           
             // Überprüfen, ob die Zeit den Cooldown überschreitet
             if (time >= totalCD) {
                 time = 0; // Setze die Zeit zurück
                 this.updateSkillExp(this.activity.job, this.activity.exp);
                 this.inventory.updateItem(this.activity);
+               
                 return true
-
+               
             }
         }
         

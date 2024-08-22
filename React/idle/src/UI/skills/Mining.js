@@ -24,6 +24,13 @@ function Mining({time, player}) {
       
     }
 
+    const masteryBar = (item) => {
+      let pWidth = `${(item.masteryExp / item.NextLevel) * 100}%`;
+    if (item.masteryExp <= 0){ pWidth = '0%' } return { width: pWidth, };
+    }
+    
+  
+
     const [ores, setOres] = useState({
     
     job: "mining",
@@ -58,14 +65,14 @@ function Mining({time, player}) {
             {Object.keys(ores.type).map((ore, index) => (
                 <div className={styles.div} key={index} onClick={() =>  handleSelection(ores.type[ore])}>
                     <p>{ore}</p>
-                   
+
                     <p>{ores.type[ore].mastery}</p>
                     
                     <p>{ores.type[ore].masteryExp}</p>
                     
                     {player.getActivity() ? (<i style={player.getActivity().name === ores.type[ore].name ? progressBarStyle : notActive} className={styles.i}></i>) : (<i></i>)}
+                
                 </div>
-            
             ))}
         </div>
     )

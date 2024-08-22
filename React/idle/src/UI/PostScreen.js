@@ -1,7 +1,19 @@
 import React from "react";
+import { useEffect } from "react";
 // import styles from '../UIcss/postScreen.module.css'
 
-function PostScreen({team, arena, result}){
+function PostScreen({team, arena, result, setResult}){
+    useEffect(() => {
+        if (result === "won") {
+            team.forEach(mon => {
+                mon.exp += arena.expDrop
+                mon.levelProgess()
+            });
+        }
+    }, [result]);
+    const handleResult = () => {
+        setResult(null)
+    }
         
         
         if (result === "won") {
@@ -10,11 +22,7 @@ function PostScreen({team, arena, result}){
                     
                     <h1>Victory</h1>
                     
-                    {team.map((mon, index) => {
-                        mon.exp += arena.expDrop
-                        mon.levelProgess()
-                        
-                    })}
+                    <button onClick={ () => handleResult()}>Next</button>
                    
         
         

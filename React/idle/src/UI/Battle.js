@@ -221,7 +221,7 @@ function Battle({ player }) {
         ) : (
           <p>No current Battle</p>
         )}
-       <div className={result === "won" ? styles.visible : styles.hidden}> <PostScreen team={player.getTeam()} arena={lastFight} result={result}/>1</div>
+       <div className={result === "won" ? styles.visible : styles.hidden}> <PostScreen team={player.getTeam()} arena={lastFight} result={result} setResult={setResult}/>1</div>
     </div>
   );
 }

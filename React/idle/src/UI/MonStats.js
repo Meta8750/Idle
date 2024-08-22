@@ -9,7 +9,6 @@ function MonStats({mon}){
             <div>
                 <h1>{mon.name}</h1>
                 {mon.getImageElement()}
-            
                 <li>{mon.maxhealth}/{mon.health}</li>
                 <li>{mon.maxMana}/{mon.mana}</li>
                 <li>{mon.baseMS}</li>

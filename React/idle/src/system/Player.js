@@ -30,7 +30,7 @@ class Player {
     updateSkillExp(skillName, exp) {
         const skill = this.skills[skillName];
         skill.exp += exp;
-
+        
         if (skill.exp >= skill.nextLevel) {
             skill.level += 1;
             skill.exp = 0;
@@ -42,15 +42,22 @@ class Player {
 
     progress(time) {
         if (this.activity) {
-            if (time >= this.skills[this.activity.job].CD +this.activity.additionalCD) {
-              time = -0.1
-              this.updateSkillExp(this.activity.job, this.activity.exp)
-              this.inventory.updateItem(this.activity)
-              
+            const totalCD = this.skills[this.activity.job].CD + this.activity.additionalCD;
+    
+            // Überprüfen, ob die Zeit den Cooldown überschreitet
+            if (time >= totalCD) {
+                time = 0; // Setze die Zeit zurück
+                this.updateSkillExp(this.activity.job, this.activity.exp);
+                this.inventory.updateItem(this.activity);
+                return true
+
             }
-            }
-        return time
+        }
+        
+        return false;
     }
+
+    
 
     isUIDUnique(uid){
         return !this.team.some(mon => mon.uid === uid)

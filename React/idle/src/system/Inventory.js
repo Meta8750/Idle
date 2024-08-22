@@ -6,7 +6,6 @@ export default class Inventory {
     // Methode zum Hinzufügen oder Aktualisieren eines Items im Inventar
     updateItem(item) {
         const existingItemIndex = this.inventory.findIndex(i => i.name === item.name);
-
         if (existingItemIndex >= 0) {
             // Existierendes Item aktualisieren
             this.inventory[existingItemIndex] = {

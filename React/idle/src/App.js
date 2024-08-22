@@ -19,8 +19,8 @@ import Player from './system/Player.js';
 import Logout from './system/Logout';
 import Casino from './system/Casino.js';
 
-// import Animon from './system/Animon.js';
 
+let flag = false
 const player = new Player();
 const casino = new Casino();
 function App() {
@@ -30,7 +30,7 @@ function App() {
     const interval = setInterval(() => {
       setTime((prev) => {
         let newTime = prev + 0.01
-        newTime = player.progress(newTime)
+        if (flag){newTime = 0}
         return newTime
       });
       
@@ -41,9 +41,10 @@ function App() {
       
     };
   }, []);
-
-  const activeTab = player.getActiveTab()
   
+  const activeTab = player.getActiveTab()
+  flag = player.progress(time)
+
   return (
     <div className="App">
       <header> <Header player={player}/> </header>

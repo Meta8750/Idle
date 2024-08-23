@@ -26,19 +26,19 @@ const casino = new Casino();
 function App() {
   const [time, setTime] = useState(0);
   
+ 
+
   useEffect(() => {
-    const interval = setInterval(() => {
+    const tick = () => {
       setTime((prev) => {
-        let newTime = prev + 0.01
+        let newTime = prev + 0.0167;  
         if (flag){newTime = 0}
         return newTime
       });
-      
-    }, 10);
-
+      requestAnimationFrame(tick);
+    };
+    tick();  
     return () => {
-      clearInterval(interval);
-      
     };
   }, []);
   

@@ -10,25 +10,25 @@ function Mining({time, player}) {
     const [ores, setOres] = useState({
       job: "mining",
       type: {
-        stone :     new Material("stone", 1, 1, 1, 0, 0,10,"Mining"),
-        copper:     new Material("copper", 1, 1, 1, 0, 0,10,"Mining"),
-        tin:        new Material("tin", 1, 1, 1, 0, 0,10,"Mining"), 
-        cole:       new Material("cole", 1, 1, 1, 0, 0,10,"Mining"),
+        stone :     new Material("Stone", 1, 1, 1, 0, 0,10,"Mining"),
+        copper:     new Material("Copper", 1, 1, 1, 0, 0,10,"Mining"),
+        tin:        new Material("Tin", 1, 1, 1, 0, 0,10,"Mining"), 
+        cole:       new Material("Cole", 1, 1, 1, 0, 0,10,"Mining"),
   
-        iron:       new Material("iron", 1, 1, 1, 0, 0,10,"Mining"),
-        gold:       new Material("gold", 1, 1, 1, 0, 0,10,"Mining"),  
-        emerald:    new Material("emerald", 1, 1, 1, 0, 0,10,"Mining"),
-        crystal:    new Material("crystal", 1, 1, 1, 0, 0,10,"Mining"),
+        iron:       new Material("Iron", 1, 1, 1, 0, 0,10,"Mining"),
+        gold:       new Material("Gold", 1, 1, 1, 0, 0,10,"Mining"),  
+        emerald:    new Material("Emerald", 1, 1, 1, 0, 0,10,"Mining"),
+        crystal:    new Material("Crystal", 1, 1, 1, 0, 0,10,"Mining"),
   
-        Beryll:     new Material("Beryll", 1, 1, 1, 0, 0,10,"Mining"),
-        Azurit:     new Material("Azurit", 1, 1, 1, 0, 0,10,"Mining"), 
-        Pyrit:      new Material("Pyrit", 1, 1, 1, 0, 0,10,"Mining"),
-        Uranini:    new Material("Uranini", 1, 1, 1, 0, 0,10,"Mining"),
+        beryll:     new Material("Beryll", 1, 1, 1, 0, 0,10,"Mining"),
+        azurit:     new Material("Azurit", 1, 1, 1, 0, 0,10,"Mining"), 
+        pyrit:      new Material("Pyrit", 1, 1, 1, 0, 0,10,"Mining"),
+        uranini:    new Material("Uranini", 1, 1, 1, 0, 0,10,"Mining"),
         
-        celestial:  new Material("celestial", 1, 1, 1, 0, 0,10,"Mining"),
-        astral:     new Material("astral", 1, 1, 1, 0, 0,10,"Mining"),
-        dragonite:  new Material("dragonite", 1, 1, 1, 0, 0,10,"Mining"),
-        darkmatter: new Material("darkmatter", 1, 1, 1, 1, 0,10,"Mining"),
+        celestial:  new Material("Celestial", 1, 1, 1, 0, 0,10,"Mining"),
+        astral:     new Material("Astral", 1, 1, 1, 0, 0,10,"Mining"),
+        dragonite:  new Material("Dragonite", 1, 1, 1, 0, 0,10,"Mining"),
+        darkmatter: new Material("Darkmatter", 1, 1, 1, 1, 0,10,"Mining"),
       
       }
     });
@@ -57,8 +57,8 @@ function Mining({time, player}) {
             {Object.keys(ores.type).map((ore, index) => (
                 <div className={styles.div} key={index}  onClick={() =>  handleSelection(ores.type[ore])}>
                     <p>{ore}</p>
-             nigger
-                    {ore.getImage()}
+              
+                    {ores.type[ore].getImageElement("60px", "60px")}
                     <div className={styles.timeBar}>
                     {player.getActivity() ? (<i style={player.getActivity().name === ores.type[ore].name ? progressBarStyle : notActive} className={styles.timeBarI}></i>) : (<i></i>)}
                     </div>

@@ -15,7 +15,8 @@ export default class Material{
         this.masteryValue = masteryValue
         this.masteryBarWidth = "0%"
         
-        this.img = `/ore/${this.name}.gif`
+        this.img = `/ore/${this.name}.png`;
+        
 
     }
     calculateNextLevel(){

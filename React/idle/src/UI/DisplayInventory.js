@@ -27,8 +27,9 @@ function DisplayInventory({player})  {
           
           {player.inventory.getInventory().map((item, index) => (
                 <ul onClick={() => setFocusedItem(item)}>
-                <li key={index}>
+                  <li key={index}>
                   <p>{item.name}</p>
+                  <img class="" src={item.img}></img>
                   <h1>{item.quantity}</h1>
                 </li>
                 </ul>
@@ -40,6 +41,7 @@ function DisplayInventory({player})  {
                   <p>{focusedItem.name}</p>
                   <p>{focusedItem.quantity}</p>
                   <p>{focusedItem.value}</p>
+                  <p>{focusedItem.getImageElement("60px", "60px")}</p>
                   <button onClick={handleSell}>sell</button>
                   <input
                       type="range"

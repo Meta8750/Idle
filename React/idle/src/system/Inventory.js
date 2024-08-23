@@ -14,7 +14,7 @@ export default class Inventory {
             };
         } else {
             // Neues Item hinzufügen
-            this.inventory.push({ name: item.name, quantity: item.quantity, value: item.value });
+            this.inventory.push(item);
         }
     }
     getInventory(){

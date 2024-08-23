@@ -14,6 +14,8 @@ export default class Material{
         this.masteryNextLevel = this.calculateNextLevel()
         this.masteryValue = masteryValue
         this.masteryBarWidth = "0%"
+        
+        this.img = `/ore/${this.name}.gif`
 
     }
     calculateNextLevel(){
@@ -32,5 +34,15 @@ export default class Material{
 
         this.masteryBarWidth = this.masteryExp / this.masteryNextLevel * 100 + "%" 
 
+    }
+
+    getImageElement(x, y) {
+        const style = {
+            width: x || "100px",
+            height: y || "100px",
+            objectFit: "cover",
+        };
+    
+        return <img src={this.img} alt={this.name} style={style} />;
     }
 }

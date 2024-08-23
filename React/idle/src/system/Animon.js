@@ -50,15 +50,7 @@ export default class Animon {
         
         
     }
-    getImageElement(x, y) {
-        const style = {
-            width: x || "100px",
-            height: y || "100px",
-            objectFit: "cover",
-        };
     
-        return <img src={this.img} alt={this.name} style={style} />;
-    }
     
 
     levelProgess(){

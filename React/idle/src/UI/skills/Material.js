@@ -13,6 +13,7 @@ export default class Material{
         this.masteryExp = 0
         this.masteryNextLevel = this.calculateNextLevel()
         this.masteryValue = masteryValue
+        this.masteryBarWidth = "0%"
 
     }
     calculateNextLevel(){
@@ -28,6 +29,8 @@ export default class Material{
             if (this.mastery == 99){ this.additionalCD = 0  }
         }
         if(this.mastery >= 99){ this.quantity *= 2 }
+
+        this.masteryBarWidth = this.masteryExp / this.masteryNextLevel * 100 + "%" 
 
     }
 }

@@ -49,7 +49,8 @@ class Player {
                 time = 0; // Setze die Zeit zurück
                 this.updateSkillExp(this.activity.job, this.activity.exp);
                 this.inventory.updateItem(this.activity);
-               
+                this.activity.prozess()
+                
                 return true
                
             }

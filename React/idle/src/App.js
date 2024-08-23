@@ -44,6 +44,7 @@ function App() {
   
   const activeTab = player.getActiveTab()
   flag = player.progress(time)
+  
 
   return (
     <div className="App">

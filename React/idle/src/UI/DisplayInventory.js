@@ -29,7 +29,7 @@ function DisplayInventory({player})  {
                 <ul onClick={() => setFocusedItem(item)}>
                   <li key={index}>
                   <p>{item.name}</p>
-                  <img class="" src={item.img}></img>
+                  <img class="px-35" alt ={item.name}src={item.img}></img>
                   <h1>{item.quantity}</h1>
                 </li>
                 </ul>
@@ -41,7 +41,7 @@ function DisplayInventory({player})  {
                   <p>{focusedItem.name}</p>
                   <p>{focusedItem.quantity}</p>
                   <p>{focusedItem.value}</p>
-                  <p>{focusedItem.getImageElement("60px", "60px")}</p>
+                  <img class="px-35" alt ={focusedItem.name}src={focusedItem.img}></img>
                   <button onClick={handleSell}>sell</button>
                   <input
                       type="range"

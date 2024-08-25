@@ -58,7 +58,7 @@ function Mining({time, player}) {
                 <div className={styles.div} key={index}  onClick={() =>  handleSelection(ores.type[ore])}>
                     <p>{ore}</p>
               
-                    {ores.type[ore].getImageElement("60px", "60px")}
+                    {ores.type[ore].getImageElement("55px", "55px")}
                     <div className={styles.timeBar}>
                     {player.getActivity() ? (<i style={player.getActivity().name === ores.type[ore].name ? progressBarStyle : notActive} className={styles.timeBarI}></i>) : (<i></i>)}
                     </div>

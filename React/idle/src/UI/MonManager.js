@@ -29,7 +29,7 @@ function MonManager({player}) {
     return (
           <div className={styles.MonManager}>
           <div className={styles.team}>
-            <button class="px-15" onClick={() => test()}></button>
+            <button class="" onClick={() => test()}></button>
               {player.getTeam() ? (
                 player.getTeam().map((mon, index) => (
                   

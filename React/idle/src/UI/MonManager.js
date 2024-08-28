@@ -29,7 +29,7 @@ function MonManager({player}) {
     return (
           <div className={styles.MonManager}>
           <div className={styles.team}>
-            <button onClick={() => test()}></button>
+            <button class="px-15" onClick={() => test()}></button>
               {player.getTeam() ? (
                 player.getTeam().map((mon, index) => (
                   
@@ -60,7 +60,8 @@ function MonManager({player}) {
                   <li>{attack.name}</li>
                 ))}
                 <p>UID: {focusedMon.uid}</p>
-                <button onClick={() => setTeam(focusedMon)} >get in Team</button>
+                <button class="px-10"onClick={() => setTeam(focusedMon)} >get in Team</button>
+                
                 </div>
             
             ) : (<p>none</p>)}

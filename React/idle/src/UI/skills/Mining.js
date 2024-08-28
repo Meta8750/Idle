@@ -62,7 +62,7 @@ function Mining({time, player}) {
                     <div className={styles.timeBar}>
                     {player.getActivity() ? (<i style={player.getActivity().name === ores.type[ore].name ? progressBarStyle : notActive} className={styles.timeBarI}></i>) : (<i></i>)}
                     </div>
-                    <p>{ores.type[ore].mastery}</p>
+                    <p class=".bg-gray-500">{ores.type[ore].mastery}</p>
                     <p>{ores.type[ore].masteryExp}</p>
                     <div className={styles.masteryBar}><i className={styles.masteryBarI} style={{ width: ores.type[ore].masteryBarWidth }}></i></div>
                     

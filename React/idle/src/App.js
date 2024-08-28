@@ -14,6 +14,7 @@ import Crafting from './UI/skills/Crafting.js';
 import DisplayInventory from './UI/DisplayInventory.js';
 import MonManager from './UI/MonManager.js';
 import Battle from './UI/Battle.js';
+import Shop from './UI/Shop.js';
 
 import Player from './system/Player.js';
 import Logout from './system/Logout';
@@ -54,6 +55,9 @@ function App() {
         <div>
           <div className={activeTab === 'Inventory' ? styles.visible : styles.hidden}>
             <DisplayInventory  player={player} />
+          </div>
+          <div className={activeTab === 'Shop' ? styles.visible : styles.hidden}>
+            <Shop  player={player} />
           </div>
           <div className={activeTab === 'Battle' ? styles.visible : styles.hidden}>
             <Battle  time={time} player={player}/>

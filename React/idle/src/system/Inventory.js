@@ -17,6 +17,12 @@ export default class Inventory {
             this.inventory.push(item);
         }
     }
+     // Methode, um ein bestimmtes Item zu finden
+     findItem(itemName) {
+        return this.inventory.find(i => i.name === itemName);
+    }
+
+   
     getInventory(){
         return this.inventory;
     }

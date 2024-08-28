@@ -56,13 +56,13 @@ function Mining({time, player}) {
             
             {Object.keys(ores.type).map((ore, index) => (
                 <div className={styles.div} key={index}  onClick={() =>  handleSelection(ores.type[ore])}>
-                    <p>{ore}</p>
+                    <p class="">{ore}</p>
               
                     {ores.type[ore].getImageElement("55px", "55px")}
                     <div className={styles.timeBar}>
                     {player.getActivity() ? (<i style={player.getActivity().name === ores.type[ore].name ? progressBarStyle : notActive} className={styles.timeBarI}></i>) : (<i></i>)}
                     </div>
-                    <p class="">{ores.type[ore].mastery}</p>
+                    <p class="px-5">{ores.type[ore].mastery}</p>
                     <p>{ores.type[ore].masteryExp}</p>
                     <div className={styles.masteryBar}><i className={styles.masteryBarI} style={{ width: ores.type[ore].masteryBarWidth }}></i></div>
                     

@@ -16,12 +16,12 @@ function Shop({player}) {
    
     });
   
-
+// {items.stone.triggerEvent(player,1)} 
 
     return (  
         <div>
             <h1>Shop</h1>
-            {items.stone.triggerEvent(player,1)}
+           
         </div>
     );
 }

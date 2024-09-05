@@ -13,8 +13,8 @@ function Header({player}) {
     };
     
     return (
-        <div>
-            <div className={styles.header}>
+        <div className={styles.header}>
+            <div >
                 <p className={styles.p}>{player.getActiveTab()}</p>
             </div>
             <div className={styles.ProgressBar}>

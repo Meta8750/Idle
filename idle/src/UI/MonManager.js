@@ -1,6 +1,6 @@
 import React from "react";
 import { useState } from "react";
-import Animon from "../system/Animon.js";
+import Animon from "../system/Animon.ts";
 
 import styles from '../UIcss/MonManager.module.css'
 
@@ -36,7 +36,7 @@ function MonManager({player}) {
                   <div className={styles.boxSlot}>
                    
                       <p>{mon.name} {mon.level}</p>
-                      {mon.getImageElement()}
+                      <img class="w-52 h-52" alt ={mon.name}src={mon.img}></img>
                   </div>
                 
               ))
@@ -47,6 +47,7 @@ function MonManager({player}) {
               {focusedMon ? (
                 
                 <div>
+                <img></img>
                 {focusedMon.getImageElement("300px", "300px")}
                 <p>{focusedMon.name}</p>
                 <p>Level: {focusedMon.level}</p>
@@ -74,7 +75,9 @@ function MonManager({player}) {
                   <div onClick={() => setFocus(mon)} className={styles.boxSlot}>
                    
                       <p>{mon.name} {mon.level}</p>
-                      {mon.getImageElement()}
+                      
+                      <img class="w-32 h-32" alt ={mon.name}src={mon.img}></img>
+                     
                   </div>    
               ))
             ) : (<p>none</p>)}

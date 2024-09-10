@@ -16,10 +16,9 @@ import MonManager from './UI/MonManager.js';
 import Battle from './UI/Battle.js';
 import Shop from './UI/Shop.js';
 
-import Player from './system/Player.js';
-import Logout from './system/Logout';
-import Casino from './system/Casino.js';
-
+import Player from './system/Player.ts';
+import Logout from './system/Logout.js';
+import Casino from './system/Casino.ts';
 
 let flag = false
 const player = new Player();

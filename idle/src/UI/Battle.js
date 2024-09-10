@@ -1,6 +1,6 @@
 import React from "react";
 import { useState, useEffect } from "react";
-import Arena from '../system/Arena.js'
+import Arena from '../system/Arena.ts'
 import styles from '../UIcss/Battle.module.css'
 import Monstats from './MonStats.js'
 import PostScreen from "./PostScreen.js";
@@ -113,7 +113,7 @@ function Battle({ player }) {
       > 
         <p>{mon.name} {mon.level}</p>
         <div className={styles.hpBar}><div className={styles.hpFill} style={hpBar(mon)}>{mon.maxHealth}{mon.health}</div></div>
-        {mon.getImageElement("200px", "200px")}
+        <img class="w-52 h-52" alt ={mon.name}src={mon.img}></img>
       
         <ul>
           {mon.attacks.map((attack, attackIndex) => (
@@ -147,7 +147,7 @@ function Battle({ player }) {
       >
         <p>{enemy.name}</p>
         <div className={styles.hpBar}><div className={styles.hpFill} style={hpBar(enemy)}>{enemy.maxHealth}{enemy.health}</div></div>
-        {enemy.getImageElement("200px", "200px")}
+        <img class="w-52 h-52" alt ={enemy.name}src={enemy.img}></img>
       </div>
       
     ));

@@ -1,23 +1,29 @@
 export default class ShopItem {
-    constructor(name, gold, events = {}) {
+    name: string;
+    gold: number;
+    cost: number[];
+    events: any;
+    event: any; 
+
+
+    constructor(name: string, gold: number, event: number) {
         this.name = name;
         this.gold = gold;
         this.cost = [];
-        this.events = events; // Ein Objekt, das Ereignisse speichert
+        this.event = event; // Ein Objekt, das Ereignisse speichert
     }
 
     // Methode zum Auslösen eines Ereignisses
-    triggerEvent(player, id) {
+    triggerEvent(player, id: number) {
         const eventData = [
             {
                 id: 1,
                 buff: player.setCoins(100)
             }
         ]
-        this.event = eventData.find(event => event.id === id);
+        eventData.find(event => event.id === id);
     }
 
-    // Beispielmethode zum Festlegen der Kosten
     setCost(costArray) {
         this.cost = costArray;
     }

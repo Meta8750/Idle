@@ -138,13 +138,13 @@ class Player {
     getActiveTab() {
         return this.activeTab
     }
-    getMons(slot) {
+    getMons(slot: number) {
         if (slot >= 0){
             return this.mons[slot];
         }
         return this.mons;
     }
-    getTeam(slot) {
+    getTeam(slot: number) {
         if (slot >= 0){
             return this.team[slot];
         } 

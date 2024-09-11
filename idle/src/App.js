@@ -2,8 +2,8 @@ import './App.css';
 import { useState, useEffect } from 'react';
 
 import styles from './UIcss/Main.module.css';
-import Sidebar from '../src/UI/Sidebar.js';
-import Header from '../src/UI/Header';
+import Sidebar from './UI/Sidebar.js';
+import Header from './UI/Header.js';
 
 import Mining from './UI/skills/Mining.js';
 import Gambling from './UI/skills/Gambling.js';

@@ -5,3 +5,7 @@
   .visible {
     display: block;
   }
+
+  main {
+    padding: 0;
+  }

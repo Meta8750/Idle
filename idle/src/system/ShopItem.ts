@@ -4,17 +4,20 @@ export default class ShopItem {
     cost: number[];
     events: any;
     event: any; 
+    id: number;
 
 
-    constructor(name: string, gold: number, event: number) {
+    constructor(name: string, gold: number, event: number, id: number) {
         this.name = name;
         this.gold = gold;
         this.cost = [];
         this.event = event; // Ein Objekt, das Ereignisse speichert
+        this.id = id;
     }
 
     // Methode zum Auslösen eines Ereignisses
     triggerEvent(player, id: number) {
+        
         const eventData = [
             {
                 id: 1,

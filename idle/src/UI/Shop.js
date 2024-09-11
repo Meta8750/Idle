@@ -3,13 +3,13 @@ import ShopItem from '../system/ShopItem.ts';
 
 
 function Shop({player}) {
-    const handleProcess = (item, player) => {
-        item.triggerEvent(item, player)
+    const handleProcess = (player, item) => {
+        item.triggerEvent(player, item)
       }
 
       const [items, setItems] = useState([
-        new ShopItem("Stone", 1, 1),
-        new ShopItem("Sword", 1, 1)
+        new ShopItem("Stone", 1, 1, 0),
+        new ShopItem("Sword", 1, 1, 1)
     ]);
 
   
@@ -21,8 +21,8 @@ function Shop({player}) {
             <div>{items.map((item, index) => (
                     <div key={index}>
                         <p>{item.name}</p>
-                        <button onClick={() => handleProcess(item, player)}>
-                            Kaufen
+                        <button onClick={() => handleProcess(player, item)}>
+                            Buy
                         </button>
                     </div>
                 ))}

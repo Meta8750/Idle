@@ -1,7 +1,7 @@
 import React from 'react';
 import styles from '../../UIcss/skills/Mining.module.css';
 import { useState, useEffect } from 'react';
-import Material from './Material';
+import Material from './Material.ts';
 function Mining({time, player}) {
     const progressBarWidth = player.getCurrentSkill() ? ( time / (player.getCurrentSkill().CD + player.getActivity().additionalCD)) * 100 + '%' : '0%';
     const [ores, setOres] = useState({
@@ -57,10 +57,12 @@ function Mining({time, player}) {
                       <p class="">{ore}</p>
                       <img className="w-14 m-auto" src={ores.type[ore].img}></img>
                       <div className={styles.timeBar}>
-                      {player.getActivity() ? (<i style={player.getActivity().name === ores.type[ore].name ? progressBarStyle : notActive} className={styles.timeBarI}></i>) : (<i></i>)}
-                      </div>
-                      <p class="px-5">{ores.type[ore].mastery}</p>
-                      <p>{ores.type[ore].masteryExp}</p>
+                      {player.getActivity() ? (<i style={player.getActivity().name === ores.type[ore].name ? progressBarStyle : notActive} className={styles.timeBarI}></i>) : (<i></i>)}</div>
+                      
+                      <p class="px-5">M: {ores.type[ore].mastery}</p>
+                      <p>MExp: {ores.type[ore].masteryExp}</p>
+
+                      <p>Min. level: S{ores.type[ore].minLevel}</p>
                       <div className={styles.masteryBar}><i className={styles.masteryBarI} style={{ width: ores.type[ore].masteryBarWidth }}></i></div>
                       
                   </div>

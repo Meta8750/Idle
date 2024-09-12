@@ -28,9 +28,9 @@ function DisplayInventory({player})  {
           {player.inventory.getInventory().map((item, index) => (
                 <ul onClick={() => setFocusedItem(item)}>
                   <li key={index}>
-                  <p>{item.name}</p>
-                  <img class="px-35" alt ={item.name}src={item.img}></img>
-                  <h1>{item.quantity}</h1>
+                  <p class="px-0 m-0 f text-sm" >{item.name}</p>
+                  <img class="px-1 w-9 mr-auto ml-auto" alt ={item.name}src={item.img}></img>
+                  <h1 class="">{item.quantity}</h1>
                 </li>
                 </ul>
               ))}

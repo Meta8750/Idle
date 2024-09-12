@@ -8,8 +8,8 @@ function Shop({player}) {
       }
 
       const [items, setItems] = useState([
-        new ShopItem("Stone", 1, 1, 0),
-        new ShopItem("Sword", 1, 1, 1)
+        new ShopItem("Stone", 1, 1, 0, [["stone", 1]]),
+        new ShopItem("Sword", 1, 1, 1, [["stone", 1]]),
     ]);
 
   

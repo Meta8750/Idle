@@ -14,7 +14,7 @@ export default class Material{
     masteryBarWidth: string;
     img: string;
 
-    constructor(name, quantity, exp,  value , minLevel, additionalCD,masteryValue, job){
+    constructor(name: string, quantity: number, exp: number, value: number, minLevel: number, additionalCD: number, masteryValue: number, job: string) {
         this.name = name;
         this.quantity = quantity;
         this.exp = exp;
@@ -32,11 +32,11 @@ export default class Material{
         this.img = `/ore/${this.name}.png`;
 
     }
-    calculateNextLevel(){
+    calculateNextLevel(): number{
         return Math.pow(1.11, this.mastery) + 10 * this.mastery * (this.mastery / 2) + 4;
     };
 
-    prozess(){
+    prozess() : void{
         this.masteryExp += this.masteryValue
         if  (this.masteryExp >= this.masteryNextLevel){
             this.mastery++

@@ -1,5 +1,19 @@
 
 export default class Material{
+    name:string;
+    quantity: number;
+    exp: number;
+    value: number;
+    minLevel: number;
+    additionalCD: number;
+    job: string;
+    mastery: number;
+    masteryExp: number;
+    masteryNextLevel: number;
+    masteryValue: number;
+    masteryBarWidth: string;
+    img: string;
+
     constructor(name, quantity, exp,  value , minLevel, additionalCD,masteryValue, job){
         this.name = name;
         this.quantity = quantity;
@@ -16,7 +30,6 @@ export default class Material{
         this.masteryBarWidth = "0%"
         
         this.img = `/ore/${this.name}.png`;
-        
 
     }
     calculateNextLevel(){
@@ -37,13 +50,4 @@ export default class Material{
 
     }
 
-    getImageElement(x, y) {
-        const style = {
-            width: x || "100px",
-            height: y || "100px",
-            objectFit: "cover",
-        };
-    
-        return <img src={this.img} alt={this.name} style={style} />;
-    }
 }

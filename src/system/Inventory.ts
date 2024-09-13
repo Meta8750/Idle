@@ -16,7 +16,7 @@ interface Item {
 
 export default class Inventory {
 
-    inventory: Item[];  // Array for Items
+    inventory: Item[];  
    
 
     constructor() {
@@ -27,21 +27,34 @@ export default class Inventory {
     updateItem(item: Item): void {
         const existingItemIndex = this.inventory.findIndex(i => i.name === item.name);
         if (existingItemIndex >= 0) {
-            // Existierendes Item aktualisieren
+            // update excist item
             this.inventory[existingItemIndex] = {
                 ...this.inventory[existingItemIndex],
                 quantity: this.inventory[existingItemIndex].quantity + item.quantity
             };
         } else {
-            // Neues Item hinzufügen
+            // add new Item
             this.inventory.push(item);
         }
     }
-     // Methode, um ein bestimmtes Item zu finden
+     // Finde specific Items
      findItem(itemName: string) {
-        console.log(itemName )
         return this.inventory.find(i => i.name === itemName);
 
+    }
+
+    removeItem(item: Item, ammount: number){
+        // reduce the Item quantity based on the ammount
+        const existingItemIndex = this.inventory.findIndex(i => i.name === item.name)
+        this.inventory[existingItemIndex] = {
+            ...this.inventory[existingItemIndex],
+            quantity: this.inventory[existingItemIndex].quantity - ammount
+        };
+        // if quantity is 0 delet it from the Inventory
+        if (this.inventory[existingItemIndex].quantity <= 0) {
+            this.inventory = this.inventory.filter(i => i.name !== item.name)
+            
+        }   
     }
 
    

@@ -33,12 +33,15 @@ class Player {
     
 
     constructor() {
+        
         this.inventory = new Inventory();
         this.monDex = new MonDex();
         this.score = 0;
         this.level = 1;
         this.coins = 100;
         this.health = 100;
+        // exp muliplicatoren
+        // global stats buffs
         this.skills = {
             Mining: { level: 1, maxLevel: 100, exp: 0, nextLevel: this.calculateNextLevel(1), CD: 2 },
             Cutting: { level: 1, maxLevel: 100, exp: 0, nextLevel: this.calculateNextLevel(1), CD: 2 },

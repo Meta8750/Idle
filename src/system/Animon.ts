@@ -1,8 +1,5 @@
 import { v4 as uuidv4 } from 'uuid';
 
-interface mon {
-    
-}
 
 export default class Animon {
     name: string;
@@ -12,7 +9,7 @@ export default class Animon {
     type: string;
     role: string;
     attacks: any[];
-    maxhealth: number;
+    maxHealth: number;
     healthGrowth: number;
     baseAD: number;
     ADGrowth: number;
@@ -68,7 +65,7 @@ export default class Animon {
         this.currentHealthDmg = monData.currentHealthDmg
 
         this.maxMana = monData.maxMana + (this.manaGrowth * this.level)
-        this.maxhealth = monData.maxhealth + (this.healthGrowth * this.level)
+        this.maxHealth = monData.maxHealth + (this.healthGrowth * this.level)
         this.baseAD = monData.baseAD + (this.ADGrowth * this.level)
         this.baseAP = monData.baseAP + (this.APGrowth * this.level)
         this.baseArmor = monData.baseArmor + (this.armorGrowth * this.level)
@@ -76,7 +73,7 @@ export default class Animon {
         this.baseMS = monData.baseMS + (this.MSGrowth * this.level)
 
         this.mana = this.maxMana
-        this.health = this.maxhealth
+        this.health = this.maxHealth
         this.exp = 0
         this.nextLevel = this.calculateNextLevel()
         
@@ -88,7 +85,7 @@ export default class Animon {
         this.dmg = 0
         
         this.alive = true
-        
+        console.log(monData)
         
     }
     getImageElement(x: string, y: string) {
@@ -111,8 +108,8 @@ export default class Animon {
             this.baseArmor += this.armorGrowth
             this.baseMR += this.MRGrowth
             this.baseMS += this.MSGrowth
-            this.maxhealth += this.healthGrowth
-            this.health = this.maxhealth
+            this.maxHealth += this.healthGrowth
+            this.health = this.maxHealth
             this.maxMana += this.manaGrowth
             this.nextLevel = this.calculateNextLevel()
             this.exp = 0

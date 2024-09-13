@@ -28,6 +28,8 @@ type monData = {
     manaGrowth: number;
     armorPen: number;
     mrPen: number;
+    maxHealthDmg: number;
+    currentHealthDmg:number;
     expDrop: number,
     goldDrop: number,
     lootTable: any[],
@@ -59,6 +61,8 @@ export const monData = [
         manaGrowth: 10,
         armorPen: 0,
         mrPen: 0,
+        maxHealthDmg: 0,
+        currentHealthDmg: 0,
         attacks: [Fireball, Fireball, Fireball, Fireball],
 
     },
@@ -87,6 +91,8 @@ export const monData = [
         manaGrowth: 10,
         armorPen: 0,
         mrPen: 0,
+        maxHealthDmg: 0,
+        currentHealthDmg: 0,
         attacks: [Fireball, Fireball, Fireball, Fireball],
 
     },
@@ -116,6 +122,8 @@ export const monData = [
         manaGrowth: 10,
         armorPen: 0,
         mrPen: 0,
+        maxHealthDmg: 0,
+        currentHealthDmg: 0,
         attacks: [Fireball, Ammagedon, Ammagedon, Ammagedon],
 
     },

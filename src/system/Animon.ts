@@ -1,5 +1,9 @@
 import { v4 as uuidv4 } from 'uuid';
 
+interface mon {
+    
+}
+
 export default class Animon {
     name: string;
     level: number;
@@ -36,47 +40,48 @@ export default class Animon {
     dmg: number;
     alive: boolean;
     uid: string;
+    maxHealthDmg: number;
+    currentHealthDmg: number;
     
-    constructor(name, id, level, rarity, type, role, 
-        attacks, maxhealth, healthGrowth, baseAD, ADGrowth, baseAP, 
-        APGrowth, baseArmor, armorGrowth, baseMR,MRGrowth, baseMS, 
-        MSGrowth, maxMana, manaGrowth,baseCritRate,baseCritDamage, armorPen, mrPen) {
+    constructor(monData: any) {
             
-        this.name = name;
-        this.level = level
+        this.name = monData.name;
+        this.level = monData.level
         this.maxLevel = 0
-        this.rarity = rarity
-        this.type = type
-        this.role = role
+        this.rarity = monData.rarity
+        this.type = monData.type
+        this.role = monData.role
         
-        this.healthGrowth = healthGrowth
-        this.ADGrowth = ADGrowth
-        this.APGrowth = APGrowth
-        this.armorGrowth = armorGrowth
-        this.MRGrowth = MRGrowth
-        this.MSGrowth = MSGrowth
-        this.manaGrowth = manaGrowth
+        this.healthGrowth = monData.healthGrowth
+        this.ADGrowth = monData.ADGrowth
+        this.APGrowth = monData.APGrowth
+        this.armorGrowth = monData.armorGrowth
+        this.MRGrowth = monData.MRGrowth
+        this.MSGrowth = monData.MSGrowth
+        this.manaGrowth = monData.manaGrowth
         
-        this.armorPen = armorPen
-        this.mrPen = mrPen
-        this.baseCritDamage = baseCritDamage
-        this.baseCritRate = baseCritRate
+        this.armorPen = monData.armorPen
+        this.mrPen = monData.mrPen
+        this.baseCritDamage = monData.baseCritDamage
+        this.baseCritRate = monData.baseCritRate
+        this.maxHealthDmg = monData.maxHealthDmg
+        this.currentHealthDmg = monData.currentHealthDmg
 
-        this.maxMana = maxMana + (this.manaGrowth * this.level)
-        this.maxhealth = maxhealth + (this.healthGrowth * this.level)
-        this.baseAD = baseAD + (this.ADGrowth * this.level)
-        this.baseAP = baseAP + (this.APGrowth * this.level)
-        this.baseArmor = baseArmor + (this.armorGrowth * this.level)
-        this.baseMR = baseMR + (this.MRGrowth * this.level)
-        this.baseMS = baseMS + (this.MSGrowth * this.level)
+        this.maxMana = monData.maxMana + (this.manaGrowth * this.level)
+        this.maxhealth = monData.maxhealth + (this.healthGrowth * this.level)
+        this.baseAD = monData.baseAD + (this.ADGrowth * this.level)
+        this.baseAP = monData.baseAP + (this.APGrowth * this.level)
+        this.baseArmor = monData.baseArmor + (this.armorGrowth * this.level)
+        this.baseMR = monData.baseMR + (this.MRGrowth * this.level)
+        this.baseMS = monData.baseMS + (this.MSGrowth * this.level)
 
         this.mana = this.maxMana
         this.health = this.maxhealth
         this.exp = 0
         this.nextLevel = this.calculateNextLevel()
         
-        this.id = id
-        this.attacks = attacks
+        this.id = monData.id
+        this.attacks = monData.attacks
         this.img = `/animon/${this.id}.gif`
         this.uid = uuidv4()
         this.dmgDealt = 0

@@ -13,22 +13,22 @@ export default class ShopItem {
         this.event = event; // Ein Objekt, das Ereignisse speichert
         this.id = id;
     }
-    // Methode zum Auslösen eines Ereignisses
+   
     triggerEvent(player, id: number) {
-        const eventData = [
-            {
-                id: 1,
-                buff: player.setCoins(100)
-            }
-        ]
         
-        let item = player.inventory.findItem(this.cost[0][0])
-        
-        if (item != undefined) {
+        // cost[i][0] = name | cost[i][1] = actual cost
         for (let i = 0; i < this.cost.length; i++) {
-            
+            let item = player.inventory.findItem(this.cost[i][0]) 
+            if (item != undefined) {
             if (item.quantity >= this.cost[i][1]){
-                eventData.find(event => event.id === id);
+                // code here after everything is suitable to buy the Item or what ever
+                switch(id){
+                    case 1: player.setCoins(100)
+                }
+                
+                
+                
+                player.inventory.removeItem(item, this.cost[i][1]);
         }}}
 
         

@@ -57,7 +57,7 @@ function Battle({ player }) {
   };
 
   const hpBar = (mon) => {
-    let pWidth = `${(mon.health / mon.maxhealth) * 100}%`; 
+    let pWidth = `${(mon.health / mon.maxHealth) * 100}%`; 
     if (mon.health <= 0){
       pWidth = '0%'
     }
@@ -112,7 +112,7 @@ function Battle({ player }) {
         }`}
       > 
         <p>{mon.name} {mon.level}</p>
-        <div className={styles.hpBar}><div className={styles.hpFill} style={hpBar(mon)}>{mon.maxHealth}{mon.health}</div></div>
+        <div className={styles.hpBar}><div className={styles.hpFill} style={hpBar(mon)}>{mon.maxHealth}\{mon.health}</div></div>
         <img class="w-52 h-52" alt ={mon.name}src={mon.img}></img>
       
         <ul>
@@ -146,7 +146,7 @@ function Battle({ player }) {
         }`}
       >
         <p>{enemy.name}</p>
-        <div className={styles.hpBar}><div className={styles.hpFill} style={hpBar(enemy)}>{enemy.maxHealth}{enemy.health}</div></div>
+        <div className={styles.hpBar}><div className={styles.hpFill} style={hpBar(enemy)}>{enemy.maxHealth}\{enemy.health}</div></div>
         <img class="w-52 h-52" alt ={enemy.name}src={enemy.img}></img>
       </div>
       

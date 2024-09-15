@@ -15,13 +15,12 @@ function MonStats({mon}){
                 <li class="text-blue-600">AP: {mon.baseAP}</li>
                 <li>MS: {mon.baseMS}</li>
                 <div>{mon.attacks.map((attack, index) => {
-                    return <li>
-                    {attack.name} deals <span className={attack.type === "AP" ? styles.ap : styles.ad}>{Math.floor(attack.baseDMG + (mon.baseAD * attack.adScaling) + (mon.baseAP * attack.apScaling))}
-                    </span> = <span className={styles.ad}> {attack.baseDMG} + {mon.baseAD * attack.adScaling} ({(attack.adScaling * 100)}%) 
-                    </span> + <span className={styles.ap}> {attack.baseDMG} + {mon.baseAP * attack.apScaling} ({(attack.apScaling * 100)}%)
-                    </span></li>
+                    return <li> {attack.description(mon, attack)} </li>
+                           
+                    
                 })}</div>
-               
+              
+                
     
     
             </div>

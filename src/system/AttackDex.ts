@@ -1,4 +1,4 @@
-import { attackData } from "./AttackDexData.ts";
+import { attackData } from "./AttackDexData.tsx";
 class Attack{
     constructor(attackData: any){
             Object.assign(this, attackData)

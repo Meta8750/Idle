@@ -1,5 +1,18 @@
 import { v4 as uuidv4 } from 'uuid';
 
+interface TempStats {
+    tempAD: number;
+    tempAP: number;
+    tempArmor: number;
+    tempMR: number;
+    tempMS: number;
+    tempCritRate: number;
+    tempCritDamage: number;
+    tempArmorPen: number;
+    tempMana: number;
+    tempHealth: number;
+    tempDmgAmp: number;
+}
 
 export default class Animon {
     name: string;
@@ -39,6 +52,7 @@ export default class Animon {
     uid: string;
     maxHealthDmg: number;
     currentHealthDmg: number;
+    temp: TempStats;
     
     constructor(monData: any) {
             
@@ -86,7 +100,20 @@ export default class Animon {
         
         this.alive = true
         console.log(monData)
-        
+
+        this.temp = {
+            tempAD: 0,
+            tempAP: 0,
+            tempArmor: 0,
+            tempMR: 0,
+            tempMS: 0,
+            tempCritRate: 0,
+            tempCritDamage: 0,
+            tempArmorPen: 0,
+            tempMana: 0,
+            tempHealth: 0,
+            tempDmgAmp: 0
+        };
     }
     getImageElement(x: string, y: string) {
         const style = {
@@ -94,12 +121,7 @@ export default class Animon {
             height: y || "100px",
             objectFit: "cover",
         };
-    
-      
     }
-    
-    
-
     levelProgess() :void{
         if (this.exp >= this.nextLevel){
             this.level++
@@ -131,6 +153,22 @@ export default class Animon {
             this.alive = false
         }
         return this.dmgDealt -= this.health
+    }
+
+    resetTempStats() {
+        this.temp = {
+            tempAD: 0,
+            tempAP: 0,
+            tempArmor: 0,
+            tempMR: 0,
+            tempMS: 0,
+            tempCritRate: 0,
+            tempCritDamage: 0,
+            tempArmorPen: 0,
+            tempMana: 0,
+            tempHealth: 0,
+            tempDmgAmp: 0
+        };
     }
     
 }

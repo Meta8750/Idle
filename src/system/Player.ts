@@ -31,7 +31,6 @@ class Player {
     mons: any[];
     team: any[];
     
-
     constructor() {
         
         this.inventory = new Inventory();

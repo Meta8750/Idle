@@ -20,6 +20,31 @@ type AttackData = {
     debuffs?: {}
     passive?: (animon : any) => void
     description: (animon: any, attack: AttackData) => JSX.Element;
+    
+
+}
+
+
+
+
+
+const displayDmg = (animon: any, attack: any) => {
+    return (
+       
+            <div>
+            <span className={attack.type === "AP" ? "text-blue-600" : "text-orange-500"}>
+                {Math.floor(attack.baseDMG + animon.baseAD * attack.adScaling + animon.baseAP * attack.apScaling)}
+            </span>{" "}
+            ={" "}
+            <span className="text-orange-500">
+                {attack.baseDMG} + {animon.baseAD * attack.adScaling} ({attack.adScaling * 100}%)
+            </span>{" "}
+            +{" "}
+            <span className={"text-blue-600"}>
+                {attack.baseDMG} + {animon.baseAP * attack.apScaling} ({attack.apScaling * 100}%)
+            </span>
+            </div>
+    );
 
 }
 
@@ -52,18 +77,7 @@ export const attackData: AttackData[] = [
             const { baseAD, baseAP } = animon;
             return (
                 <li>
-                    {attack.name} deals n{" "}
-                    <span className={attack.type === "AP" ? "text-blue-600" : "text-orange-500"}>
-                        {Math.floor(attack.baseDMG + baseAD * attack.adScaling + baseAP * attack.apScaling)}
-                    </span>{" "}
-                    ={" "}
-                    <span className="text-orange-500">
-                        {attack.baseDMG} + {baseAD * attack.adScaling} ({attack.adScaling * 100}%)
-                    </span>{" "}
-                    +{" "}
-                    <span className={"text-blue-600"}>
-                        {attack.baseDMG} + {baseAP * attack.apScaling} ({attack.apScaling * 100}%)
-                    </span>
+                    {attack.name} deals{" "} single target magic {displayDmg(animon, attack)} damage
                 </li>
             );
         }

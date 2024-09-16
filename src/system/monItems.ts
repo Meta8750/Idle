@@ -1,12 +1,13 @@
-export default class monItem {
-    
-    name: string;
-    equiped: boolean;
-    
+
+const monItemdex = [
+    {
+        id: 1,
+        name: "stone ring",
+        slot: 1,
+        rarity: "cummon",
 
 
-
-    constructor(){ 
-        this.equiped = false
     }
-}
+
+]
+

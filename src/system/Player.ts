@@ -17,7 +17,6 @@ type Skills = {
     Gambling: Skill,
 }
 
-
 class Player {
     inventory: Inventory;
     monDex: MonDex;
@@ -90,13 +89,10 @@ class Player {
         
         return false;
     }
-
     
-
     isUIDUnique(uid: number){
         return !this.team.some(mon => mon.uid === uid)
     }
-
 
     setCoins(pcoins: number) {
         this.coins += pcoins;

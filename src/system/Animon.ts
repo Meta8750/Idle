@@ -53,6 +53,7 @@ export default class Animon {
     maxHealthDmg: number;
     currentHealthDmg: number;
     temp: TempStats;
+    itemSlot: any[];
     
     constructor(monData: any) {
             
@@ -90,6 +91,7 @@ export default class Animon {
         this.health = this.maxHealth
         this.exp = 0
         this.nextLevel = this.calculateNextLevel()
+        this.itemSlot = [];
         
         this.id = monData.id
         this.attacks = monData.attacks
@@ -147,11 +149,12 @@ export default class Animon {
         if (Math.random() <= attacker.baseCritRate) {
             this.dmg *= attacker.baseCritDamage
         }
-
         this.health -= this.dmg
         if (this.health <= 0){
             this.alive = false
         }
+
+        
         return this.dmgDealt -= this.health
     }
 

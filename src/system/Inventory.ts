@@ -56,7 +56,6 @@ export default class Inventory {
             
         }   
     }
-
    
     getInventory(){
         return this.inventory;

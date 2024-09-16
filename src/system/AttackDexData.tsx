@@ -21,12 +21,7 @@ type AttackData = {
     passive?: (animon : any) => void
     description: (animon: any, attack: AttackData) => JSX.Element;
     
-
 }
-
-
-
-
 
 const displayDmg = (animon: any, attack: any) => {
     return (
@@ -69,8 +64,7 @@ export const attackData: AttackData[] = [
         aoe: false,
 
         passive: (animon) => {
-            console.log(animon)
-            console.log("Fireball passive effect");
+            
         },
         
         description: (animon, attack) => {
@@ -83,7 +77,6 @@ export const attackData: AttackData[] = [
         }
     },
 
-    
     {
         name: "Ammagedon",
         id: 999,

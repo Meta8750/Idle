@@ -21,7 +21,6 @@ function Battle({ player }) {
     battleArena.genEnemys();
     setArena(battleArena);
     setCurrentBatchIndex(0);
-    
     setResult("Battle")
     setCurrentAttackerIndex(0);
     battleLogs.push("Battle Started");
@@ -49,7 +48,7 @@ function Battle({ player }) {
         battleLogs.push(`${attacker.name} uses ${attack.name} and dealt ${attackTarget.calculateDmg(attack, mon)}`);
       }
       const updatedOrder = [...attackOrder].sort((a, b) => b.baseMS - a.baseMS);
-      
+      attack.passive(attacker)
       setAttackOrder(updatedOrder);
       advanceTurn();
       setAttackTarget("none")

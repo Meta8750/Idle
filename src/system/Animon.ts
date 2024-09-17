@@ -132,7 +132,6 @@ export default class Animon {
             this.alive = false
         }
 
-        
         return this.dmgDealt -= this.health //
     }
 

@@ -11,13 +11,14 @@ export default class Arena {
 
     constructor(enemyList: number[], expDrop: number) {
         this.dex = new dex();
-        this.enemyList = enemyList || [[0,0,0],[0,1,0]]
+        this.enemyList = enemyList || [[10000,10000,10000],[10000,10001,10000]]
         this.enemys = []
         this.enemyStageList = []
         this.expDrop = expDrop
     }
 
     genEnemys(){
+        
         this.enemyMons = this.enemyList.map(row => {
             row.map(id  => {  
                     this.enemyStageList.push(this.dex.generate(id))

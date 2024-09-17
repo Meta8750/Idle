@@ -10,10 +10,7 @@ class assign{
     }
 }
 export default class dex{
-    info: any;
-    
     generate(id: number){
-        console.log(id)
         let monInfo = monData.find(mon => mon.id === id);
         let attackInfo =  attackData.find(attack => attack.id === id);
         let monItemInfo = monItemDex.find(item => item.id === id);
@@ -37,15 +34,15 @@ export default class dex{
         return newAssign
     }
     
-        
     genAttacks(monInfo:any){
-        let attackList = monInfo.attacks
-        monInfo.attacks = []
-        
-        attackList.forEach(attackID => {
-            monInfo.attacks.push(this.generate(attackID))
-            
-        });
+        if (typeof monInfo.attacks[0] == 'number'){
+            let attackList = monInfo.attacks
+            monInfo.attacks = []
+            attackList.forEach(attackID => {
+                console.log(attackID)
+                monInfo.attacks.push(this.generate(attackID))
+            });
+        }
         return monInfo
 
     }

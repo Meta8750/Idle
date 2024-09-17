@@ -1,6 +1,5 @@
 import React from 'react';
 
-
 type AttackData = {
     name: string,
     id: number,
@@ -46,7 +45,7 @@ const displayDmg = (animon: any, attack: any) => {
 export const attackData: AttackData[] = [
     {
         name: "Fireball",
-        id: 0,
+        id: 20000,
         level: 1,
         type: "AP",
         baseDMG: 40,
@@ -79,7 +78,7 @@ export const attackData: AttackData[] = [
 
     {
         name: "Ammagedon",
-        id: 999,
+        id: 20999,
         level: 1,
         type: "AD",
         baseDMG: 9999999,

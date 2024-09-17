@@ -1,5 +1,5 @@
 import Inventory from './Inventory.ts'
-import MonDex from './MonDex.ts'
+import dex from './dex/generator.ts'
 
 type Skill = {
     level: number,
@@ -19,7 +19,7 @@ type Skills = {
 
 class Player {
     inventory: Inventory;
-    monDex: MonDex;
+    dex: dex;
     score: number;
     level: number;
     coins: number;
@@ -33,7 +33,7 @@ class Player {
     constructor() {
         
         this.inventory = new Inventory();
-        this.monDex = new MonDex();
+        this.dex = new dex();
         this.score = 0;
         this.level = 1;
         this.coins = 100;
@@ -105,7 +105,7 @@ class Player {
         this.activeTab = tab;
     }
     setMons(id: number){
-        this.mons.push(this.monDex.generateMon(id));
+        this.mons.push(this.dex.generate(id));
     }
 
     setTeam(mon: any) {

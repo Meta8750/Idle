@@ -1,8 +1,4 @@
-import AttackDex from "./AttackDex.ts";
-
-const attackDex = new AttackDex();
-const Fireball = attackDex.generateAttack(0)
-const Ammagedon = attackDex.generateAttack(999)
+import dex from './generator.ts'
 
 type monData = {
     name: string;
@@ -38,7 +34,7 @@ type monData = {
 export const monData = [
     {
         name: "Vagabund",
-        id: 0,
+        id: 10000,
         level: 1,
         rarity: "common",
         type: "Fire",
@@ -63,12 +59,12 @@ export const monData = [
         mrPen: 0,
         maxHealthDmg: 0,
         currentHealthDmg: 0,
-        attacks: [Fireball, Fireball, Fireball, Fireball],
+        attacks: [20000, 20000, 20000, 20000],
 
     },
     {
         name: "Wolf",
-        id: 1,
+        id: 10001,
         level: 1,
         rarity: "common",
         type: "Fire",
@@ -93,13 +89,13 @@ export const monData = [
         mrPen: 0,
         maxHealthDmg: 0,
         currentHealthDmg: 0,
-        attacks: [Fireball, Fireball, Fireball, Fireball],
+        attacks: [20000, 20000, 20000, 20000],
 
     },
 
     {
         name: "Hell",
-        id: 5,
+        id: 10005,
         level: 100,
         rarity: "common",
         type: "Fire",
@@ -124,7 +120,7 @@ export const monData = [
         mrPen: 0,
         maxHealthDmg: 0,
         currentHealthDmg: 0,
-        attacks: [Fireball, Ammagedon, Ammagedon, Ammagedon],
+        attacks: [20000, 20999, 20999, 20999],
 
     },
     

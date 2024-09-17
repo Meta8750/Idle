@@ -1,7 +1,6 @@
-
-const monItemdex = [
+export const monItemDex = [
     {
-        id: 1,
+        id: 30000,
         name: "stone ring",
         slot: 1,
         rarity: "cummon",

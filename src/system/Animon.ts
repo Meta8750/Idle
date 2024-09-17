@@ -56,29 +56,8 @@ export default class Animon {
     itemSlot: any[];
     
     constructor(monData: any) {
-            
-        this.name = monData.name;
-        this.level = monData.level
+        Object.assign(this, monData)
         this.maxLevel = 0
-        this.rarity = monData.rarity
-        this.type = monData.type
-        this.role = monData.role
-        
-        this.healthGrowth = monData.healthGrowth
-        this.ADGrowth = monData.ADGrowth
-        this.APGrowth = monData.APGrowth
-        this.armorGrowth = monData.armorGrowth
-        this.MRGrowth = monData.MRGrowth
-        this.MSGrowth = monData.MSGrowth
-        this.manaGrowth = monData.manaGrowth
-        
-        this.armorPen = monData.armorPen
-        this.mrPen = monData.mrPen
-        this.baseCritDamage = monData.baseCritDamage
-        this.baseCritRate = monData.baseCritRate
-        this.maxHealthDmg = monData.maxHealthDmg
-        this.currentHealthDmg = monData.currentHealthDmg
-
         this.maxMana = monData.maxMana + (this.manaGrowth * this.level)
         this.maxHealth = monData.maxHealth + (this.healthGrowth * this.level)
         this.baseAD = monData.baseAD + (this.ADGrowth * this.level)
@@ -94,14 +73,12 @@ export default class Animon {
         this.itemSlot = [];
         
         this.id = monData.id
-        this.attacks = monData.attacks
         this.img = `/animon/${this.id}.gif`
         this.uid = uuidv4()
         this.dmgDealt = 0
         this.dmg = 0
         
         this.alive = true
-        console.log(monData)
 
         this.temp = {
             tempAD: 0,
@@ -144,6 +121,7 @@ export default class Animon {
     }
 
     calculateDmg(attack: any, attacker: any){
+
         this.dmgDealt = this.health
         this.dmg = attack.baseDMG + (attacker.baseAD + attack.adScaling) + (attacker.baseAP + attack.apScaling) 
         if (Math.random() <= attacker.baseCritRate) {
@@ -155,7 +133,7 @@ export default class Animon {
         }
 
         
-        return this.dmgDealt -= this.health
+        return this.dmgDealt -= this.health //
     }
 
     resetTempStats() {

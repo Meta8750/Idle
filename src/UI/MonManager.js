@@ -10,9 +10,9 @@ function MonManager({player}) {
     const [focusedMon, setFocusedMon] = useState();
 
    const test = () => {
-    player.setMons(0)
-    player.setMons(1)
-    player.setMons(5)
+    player.setMons(10000)
+    player.setMons(10001)
+    player.setMons(10005)
     player.setTeam(player.getMons(0), 0)  
     player.setTeam(player.getMons(1), 0) 
     player.setTeam(player.getMons(2), 0)  

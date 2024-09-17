@@ -16,13 +16,7 @@ function MonStats({mon}){
                 <li>MS: {mon.baseMS}</li>
                 <div>{mon.attacks.map((attack, index) => {
                     return <li> {attack.description(mon, attack)} </li>
-                           
-                    
                 })}</div>
-              
-                
-    
-    
             </div>
         );
 

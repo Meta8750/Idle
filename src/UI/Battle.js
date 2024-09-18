@@ -42,10 +42,10 @@ function Battle({ player }) {
       // Apply damage, buffs, debuffs, etc.
       if (attack.aoe){
           arena.enemys[currentBatchIndex].map((enemy,index) =>{
-          enemy.calculateDmg(attack, mon)
+          mon.calculateDmg(attack, mon, enemy)
         })
       } else {
-        battleLogs.push(`${attacker.name} uses ${attack.name} and dealt ${attackTarget.calculateDmg(attack, mon)}`);
+        battleLogs.push(`${attacker.name} uses ${attack.name} and dealt ${mon.calculateDmg(attack, mon, enemy)}`);
       }
       const updatedOrder = [...attackOrder].sort((a, b) => b.baseMS - a.baseMS);
       attack.passive(attacker)

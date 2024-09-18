@@ -1,17 +1,18 @@
 import { v4 as uuidv4 } from 'uuid';
 
 interface TempStats {
-    tempAD: number;
-    tempAP: number;
-    tempArmor: number;
-    tempMR: number;
-    tempMS: number;
-    tempCritRate: number;
-    tempCritDamage: number;
-    tempArmorPen: number;
-    tempMana: number;
-    tempHealth: number;
-    tempDmgAmp: number;
+    AD: number;
+    AP: number;
+    armor: number;
+    MR: number;
+    MS: number;
+    critRate: number;
+    critDamage: number;
+    armorPen: number;
+    mrPen: number;
+    mana: number;
+    health: number;
+    dmgAmp: number;
 }
 
 export default class Animon {
@@ -38,7 +39,7 @@ export default class Animon {
     manaGrowth: number;
     baseCritRate: number;
     baseCritDamage: number;
-    armorPen: number;
+    ArmorPen: number;
     mrPen: number;
     mana: number;
     health: number;
@@ -57,6 +58,7 @@ export default class Animon {
     
     constructor(monData: any) {
         Object.assign(this, monData)
+
         this.maxLevel = 0
         this.maxMana = monData.maxMana + (this.manaGrowth * this.level)
         this.maxHealth = monData.maxHealth + (this.healthGrowth * this.level)
@@ -81,17 +83,18 @@ export default class Animon {
         this.alive = true
 
         this.temp = {
-            tempAD: 0,
-            tempAP: 0,
-            tempArmor: 0,
-            tempMR: 0,
-            tempMS: 0,
-            tempCritRate: 0,
-            tempCritDamage: 0,
-            tempArmorPen: 0,
-            tempMana: 0,
-            tempHealth: 0,
-            tempDmgAmp: 0
+            AD: 0,
+            AP: 0,
+            armor: 0,
+            MR: 0,
+            MS: 0,
+            critRate: 0,
+            critDamage: 0,
+            armorPen: 0,
+            mrPen: 0,
+            mana: 0,
+            health: 0,
+            dmgAmp: 0
         };
     }
     getImageElement(x: string, y: string) {
@@ -119,35 +122,50 @@ export default class Animon {
     calculateNextLevel(){
         return Math.pow(1.16, this.level) + 10 * this.level * (this.level / 2) + 4;
     }
+    
+    // attacker = this.mon and defender = enemy
+    calculateDmg(attack: any, attacker: any, defender: any){
 
-    calculateDmg(attack: any, attacker: any){
+        let temp  = this.temp
 
-        this.dmgDealt = this.health
-        this.dmg = attack.baseDMG + (attacker.baseAD + attack.adScaling) + (attacker.baseAP + attack.apScaling) 
-        if (Math.random() <= attacker.baseCritRate) {
-            this.dmg *= attacker.baseCritDamage
+        this.dmg = attack.baseDMG + ((attacker.baseAD + temp.AD) * attack.adScaling) 
+        this.dmg + ((attacker.baseAP + temp.AP) * attack.apScaling)
+        
+        if (attack.type == "AD"){
+            this.dmg = this.dmg  * ((this.ArmorPen + temp.armorPen) - (defender.armor + defender.temp.armor))
         }
-        this.health -= this.dmg
-        if (this.health <= 0){
-            this.alive = false
+        if (attack.type == "AP"){
+            this.dmg = this.dmg * ((this.mrPen + temp.mrPen ) - (defender.MR + defender.temp.MR))
+        }   
+
+        if (Math.random() <= attacker.baseCritRate + temp.critRate) {
+            this.dmg *= (attacker.baseCritDamage + temp.critDamage)
         }
 
-        return this.dmgDealt -= this.health //
+        this.dmg = this.dmg *= temp.dmgAmp
+
+        defender.health -= this.dmg
+        
+        if (this.health <= 0){ this.alive = false } //check if animon is dead
+        if (defender.health <= 0){ defender.alive = true } //check if defender is alive
+            
+        return this.dmgDealt -= this.health 
     }
 
     resetTempStats() {
         this.temp = {
-            tempAD: 0,
-            tempAP: 0,
-            tempArmor: 0,
-            tempMR: 0,
-            tempMS: 0,
-            tempCritRate: 0,
-            tempCritDamage: 0,
-            tempArmorPen: 0,
-            tempMana: 0,
-            tempHealth: 0,
-            tempDmgAmp: 0
+            AD: 0,
+            AP: 0,
+            armor: 0,
+            MR: 0,
+            MS: 0,
+            critRate: 0,
+            critDamage: 0,
+            armorPen: 0,
+            mrPen: 0,
+            mana: 0,
+            health: 0,
+            dmgAmp: 0
         };
     }
     

@@ -45,7 +45,7 @@ function Battle({ player }) {
           mon.calculateDmg(attack, mon, enemy)
         })
       } else {
-        battleLogs.push(`${attacker.name} uses ${attack.name} and dealt ${mon.calculateDmg(attack, mon, enemy)}`);
+        battleLogs.push(`${attacker.name} uses ${attack.name} and dealt ${mon.calculateDmg(attack, mon, attackTarget)}`);
       }
       const updatedOrder = [...attackOrder].sort((a, b) => b.baseMS - a.baseMS);
       attack.passive(attacker)
@@ -137,7 +137,6 @@ function Battle({ player }) {
     if (!currentBatch) return <p>No more enemies!</p>;
 
     return currentBatch.map((enemy, index) => (
-      
       <div onClick={() => handleTarget(enemy)}
         key={index}
         className={`${styles.enemy} ${

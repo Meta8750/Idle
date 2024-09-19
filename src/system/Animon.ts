@@ -3,12 +3,12 @@ import { v4 as uuidv4 } from 'uuid';
 interface TempStats {
     AD: number;
     AP: number;
-    armor: number;
+    armour: number;
     MR: number;
     MS: number;
     critRate: number;
     critDamage: number;
-    armorPen: number;
+    armourPen: number;
     mrPen: number;
     mana: number;
     health: number;
@@ -29,8 +29,8 @@ export default class Animon {
     ADGrowth: number;
     baseAP: number;
     APGrowth: number;
-    baseArmor: number;
-    armorGrowth: number;
+    baseArmour: number;
+    armourGrowth: number;
     baseMR: number;
     MRGrowth: number;
     baseMS: number;
@@ -39,7 +39,7 @@ export default class Animon {
     manaGrowth: number;
     baseCritRate: number;
     baseCritDamage: number;
-    ArmorPen: number;
+    ArmourPen: number;
     mrPen: number;
     mana: number;
     health: number;
@@ -54,6 +54,8 @@ export default class Animon {
     maxHealthDmg: number;
     currentHealthDmg: number;
     temp: TempStats;
+    ADReduction:number;
+    APReduction:number;
     itemSlot: any[];
     
     constructor(monData: any) {
@@ -64,7 +66,7 @@ export default class Animon {
         this.maxHealth = monData.maxHealth + (this.healthGrowth * this.level)
         this.baseAD = monData.baseAD + (this.ADGrowth * this.level)
         this.baseAP = monData.baseAP + (this.APGrowth * this.level)
-        this.baseArmor = monData.baseArmor + (this.armorGrowth * this.level)
+        this.baseArmour = monData.baseArmour + (this.armourGrowth * this.level)
         this.baseMR = monData.baseMR + (this.MRGrowth * this.level)
         this.baseMS = monData.baseMS + (this.MSGrowth * this.level)
 
@@ -81,16 +83,18 @@ export default class Animon {
         this.dmg = 0
         
         this.alive = true
+        this.ADReduction = this.calculateDmgReduction(this.baseArmour)
+        this.APReduction = this.calculateDmgReduction(this.baseMR)
 
         this.temp = {
             AD: 0,
             AP: 0,
-            armor: 0,
+            armour: 0,
             MR: 0,
             MS: 0,
             critRate: 0,
             critDamage: 0,
-            armorPen: 0,
+            armourPen: 0,
             mrPen: 0,
             mana: 0,
             health: 0,
@@ -109,13 +113,15 @@ export default class Animon {
             this.level++
             this.baseAD += this.ADGrowth
             this.baseAP += this.APGrowth
-            this.baseArmor += this.armorGrowth
+            this.baseArmour += this.armourGrowth
             this.baseMR += this.MRGrowth
             this.baseMS += this.MSGrowth
             this.maxHealth += this.healthGrowth
             this.health = this.maxHealth
             this.maxMana += this.manaGrowth
             this.nextLevel = this.calculateNextLevel()
+            this.ADReduction = this.calculateDmgReduction(this.baseArmour)
+            this.APReduction = this.calculateDmgReduction(this.baseMR)
             this.exp = 0
         }
     }
@@ -129,22 +135,23 @@ export default class Animon {
         let temp  = this.temp
 
         this.dmg = attack.baseDMG + ((attacker.baseAD + temp.AD) * attack.adScaling) 
-        this.dmg + ((attacker.baseAP + temp.AP) * attack.apScaling)
-        
+        this.dmg += ((attacker.baseAP + temp.AP) * attack.apScaling)
         if (attack.type == "AD"){
-            this.dmg = this.dmg  * ((this.ArmorPen + temp.armorPen) - (defender.armor + defender.temp.armor))
+            let reduceDmg = this.calculateDmgReduction((this.ArmourPen + temp.armourPen) * (defender.baseArmour + defender.temp.armour))
+            this.dmg = this.dmg - ( reduceDmg * this.dmg )
         }
         if (attack.type == "AP"){
-            this.dmg = this.dmg * ((this.mrPen + temp.mrPen ) - (defender.MR + defender.temp.MR))
-        }   
+            let reduceDmg = this.calculateDmgReduction((this.mrPen + temp.mrPen ) * (defender.baseMR + defender.temp.MR))
 
+            this.dmg = this.dmg - ( reduceDmg * this.dmg )
+        }   
+        console.log(this.dmg)
         if (Math.random() <= attacker.baseCritRate + temp.critRate) {
             this.dmg *= (attacker.baseCritDamage + temp.critDamage)
         }
-
-        this.dmg = this.dmg *= temp.dmgAmp
-
-        defender.health -= this.dmg
+        this.dmg = this.dmg + (this.dmg * temp.dmgAmp)
+        console.log(this.dmg)
+        defender.setHealth(-this.dmg) 
         
         if (this.health <= 0){ this.alive = false } //check if animon is dead
         if (defender.health <= 0){ defender.alive = true } //check if defender is alive
@@ -152,21 +159,30 @@ export default class Animon {
         return this.dmgDealt -= this.health 
     }
 
+    calculateDmgReduction(defense: number): number{
+        return 100 * (defense / (defense + 100))
+    }
+
     resetTempStats() {
         this.temp = {
             AD: 0,
             AP: 0,
-            armor: 0,
+            armour: 0,
             MR: 0,
             MS: 0,
             critRate: 0,
             critDamage: 0,
-            armorPen: 0,
+            armourPen: 0,
             mrPen: 0,
             mana: 0,
             health: 0,
             dmgAmp: 0
         };
+    }
+
+    setHealth(num:number):number{
+        return this.health += num
+
     }
     
 }

@@ -145,13 +145,13 @@ export default class Animon {
 
             this.dmg = this.dmg - ( reduceDmg * this.dmg )
         }   
-        console.log(this.dmg)
+        
         if (Math.random() <= attacker.baseCritRate + temp.critRate) {
             this.dmg *= (attacker.baseCritDamage + temp.critDamage)
         }
         this.dmg = this.dmg + (this.dmg * temp.dmgAmp)
-        console.log(this.dmg)
-        defender.setHealth(-this.dmg) 
+        
+        defender.health -= this.dmg
         
         if (this.health <= 0){ this.alive = false } //check if animon is dead
         if (defender.health <= 0){ defender.alive = true } //check if defender is alive
@@ -180,9 +180,6 @@ export default class Animon {
         };
     }
 
-    setHealth(num:number):number{
-        return this.health += num
-
-    }
+   
     
 }

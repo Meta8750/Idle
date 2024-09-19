@@ -73,7 +73,7 @@ function Battle({ player }) {
   const enemyAi = (enemy) => {
     const attack = enemy.attacks[Math.floor(Math.random() * 3)];
     const target = player.getTeam()[Math.floor(Math.random() * 3)];
-    battleLogs.push(`${enemy.name} uses ${attack.name} and dealt ${target.calculateDmg(attack, enemy)}`)
+    battleLogs.push(`${enemy.name} uses ${attack.name} and dealt ${target.calculateDmg(attack, enemy, target)}`)
     // Re-calculate the attack order if necessary
     const updatedOrder = [...attackOrder].sort((a, b) => b.baseMS - a.baseMS);
     setAttackOrder(updatedOrder);

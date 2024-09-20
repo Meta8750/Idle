@@ -1,6 +1,7 @@
 import { attackData } from "./AttackDexData.tsx";
 import { monData } from "./MonDexData.ts";
 import { monItemDex } from "./ItemDexData.ts";
+import { dropTable } from "./dropTableDex.ts";
 import Animon from "../Animon.ts";
 
 //use assign if no class behind
@@ -14,6 +15,7 @@ export default class dex{
         let monInfo = monData.find(mon => mon.id === id);
         let attackInfo =  attackData.find(attack => attack.id === id);
         let monItemInfo = monItemDex.find(item => item.id === id);
+        let dropTableInfo = dropTable.find(drop => drop.id === id)
         let newAssign: any
 
         if (monInfo){
@@ -25,6 +27,9 @@ export default class dex{
         }
         if (monItemInfo){
             newAssign = new assign({...monItemInfo})
+        }
+        if (dropTableInfo){
+            newAssign = new assign({...dropTableInfo})
         }
    
         if (!newAssign) {

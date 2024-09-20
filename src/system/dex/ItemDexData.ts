@@ -11,12 +11,13 @@ export const monItemDex = [
         name: "stone ring",
         slot: 1,
         rarity: "cummon",
+        stars: 1,
+        value: 100,
+        quantity: 100,
         temp: {
             AD: 10000
         },
         equipped: false,
-        
-
 
     }
 

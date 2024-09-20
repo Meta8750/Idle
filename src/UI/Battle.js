@@ -10,6 +10,11 @@ const battleLogs = []
 let fight = new Fight()
 
 function Battle({ player }) {
+
+  const initializeBattle = (batch, exp) => {
+    fight.startFight(player, batch, exp)
+    
+  }
  
   const hpBar = (mon) => {
     let pWidth = `${(mon.health / mon.maxHealth) * 100}%`; 
@@ -26,11 +31,6 @@ function Battle({ player }) {
     if (mon.mana <= 0){ pWidth = '0%' } return { width: pWidth, };
   }
 
-
-
-
- 
-
   const renderTeam = () => {
     return player.getTeam().map((mon, index) => (
       <div onClick={() => fight.handleTarget(mon)}
@@ -43,7 +43,7 @@ function Battle({ player }) {
         <div className={styles.hpBar}><div className={styles.hpFill} style={hpBar(mon)}>{mon.maxHealth}\{mon.health}</div></div>
         <img class="w-52 h-52" alt ={mon.name}src={mon.img}></img>
       
-        <ul>
+        <ul class={fight.currentAttacker === mon ? "" : "hidden"}>
           {mon.attacks.map((attack, attackIndex) => (
             <li
               onClick={() => fight.handleAttack(attack, mon)}
@@ -79,12 +79,6 @@ function Battle({ player }) {
       
     ));
   };
-
-  const initializeBattle = (batch, exp) => {
-    fight.startFight(player, batch, exp)
-    
-  }
-  
 
   return (
     <div>

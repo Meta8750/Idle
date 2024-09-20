@@ -68,11 +68,9 @@ export const attackData: AttackData[] = [
         
         description: (animon, attack) => {
             const { baseAD, baseAP } = animon;
-            return (
-                <li>
-                    {attack.name} deals{" "} single target magic {displayDmg(animon, attack)} damage
-                </li>
-            );
+            return <li>{attack.name} deals{" "} single target magic damage {displayDmg(animon, attack)}</li> 
+                    
+            
         }
     },
 

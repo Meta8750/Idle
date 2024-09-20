@@ -14,8 +14,11 @@ function MonStats({mon}){
                 <li class="text-orange-500">AD: {mon.baseAD}</li>
                 <li class="text-blue-600">AP: {mon.baseAP}</li>
                 <li>MS: {mon.baseMS}</li>
+                {console.log(mon)}
+                <li>Armour: {mon.baseArmour}</li>
+                <li>MR: {mon.baseMR}</li>
                 <div>{mon.attacks.map((attack, index) => {
-                    return <li> {attack.description(mon, attack)} </li>
+                    return attack.description(mon, attack)
                 })}</div>
             </div>
         );

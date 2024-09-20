@@ -12,8 +12,8 @@ type monData = {
     ADGrowth: number;
     baseAP: number;
     APGrowth: number;
-    baseArmor: number;
-    armorGrowth: number;
+    baseArmour: number;
+    armourGrowth: number;
     baseMR: number;
     MRGrowth: number;
     baseMS: number;
@@ -22,7 +22,7 @@ type monData = {
     baseCritDamage: number;
     maxMana: number;
     manaGrowth: number;
-    armorPen: number;
+    armourPen: number;
     mrPen: number;
     maxHealthDmg: number;
     currentHealthDmg:number;
@@ -45,8 +45,8 @@ export const monData = [
         ADGrowth: 1.5,
         baseAP: 5,
         APGrowth: 0.5,
-        baseArmor: 2,
-        armorGrowth: 1,
+        baseArmour: 2,
+        armourGrowth: 1,
         baseMR: 1,
         MRGrowth: 0.5,
         baseMS: 300,  
@@ -55,7 +55,7 @@ export const monData = [
         baseCritDamage: 0.2,
         maxMana: 100,
         manaGrowth: 10,
-        armorPen: 0,
+        armourPen: 0,
         mrPen: 0,
         maxHealthDmg: 0,
         currentHealthDmg: 0,
@@ -75,8 +75,8 @@ export const monData = [
         ADGrowth: 1.8,
         baseAP: 6,
         APGrowth: 0.6,
-        baseArmor: 3,
-        armorGrowth: 1.2,
+        baseArmour: 3,
+        armourGrowth: 1.2,
         baseMR: 2,
         MRGrowth: 0.6,
         baseMS: 320,
@@ -85,7 +85,7 @@ export const monData = [
         baseCritDamage: 0.2,
         maxMana: 101,
         manaGrowth: 10,
-        armorPen: 0,
+        armourPen: 0,
         mrPen: 0,
         maxHealthDmg: 0,
         currentHealthDmg: 0,
@@ -106,8 +106,8 @@ export const monData = [
         ADGrowth: 1.8,
         baseAP: 6,
         APGrowth: 0.6,
-        baseArmor: 3,
-        armorGrowth: 1.2,
+        baseArmour: 3,
+        armourGrowth: 1.2,
         baseMR: 2,
         MRGrowth: 0.6,
         baseMS: 320,
@@ -116,7 +116,7 @@ export const monData = [
         baseCritDamage: 2,
         maxMana: 100,
         manaGrowth: 10,
-        armorPen: 0,
+        armourPen: 0,
         mrPen: 0,
         maxHealthDmg: 0,
         currentHealthDmg: 0,

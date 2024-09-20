@@ -16,6 +16,7 @@ export default class Fight{
     attacker: any;
     attackTarget: any;
     lastFight: any;
+    currentAttacker: any;
 
     constructor(){
         this.result = "Battle"
@@ -35,8 +36,9 @@ export default class Fight{
             this.battleLogs = [];
             this.battleLogs.push("Battle Started");
             this.attacker = null;
-            this.attackTarget = this.attackOrder[this.currentAttackerIndex];
+            this.attackTarget = this.attackOrder[this.currentAttackerIndex]; //just to fill
             this.lastFight = null;
+            this.currentAttacker = this.attackOrder[this.currentAttackerIndex];
     }
 
     handleAttack(attack: any, mon: any){
@@ -61,10 +63,10 @@ export default class Fight{
         }
     }
 
-    enemyAi = (enemy) => {
-        const attack = enemy.attacks[Math.floor(Math.random() * 3)];
+    enemyAi = () => {
+        const attack = this.currentAttacker.attacks[Math.floor(Math.random() * 3)];
         const target = this.team[Math.floor(Math.random() * 3)];
-        this.battleLogs.push(`${enemy.name} uses ${attack.name} and dealt ${target.calculateDmg(attack, enemy, target)}`)
+        this.battleLogs.push(`${this.currentAttacker.name} uses ${attack.name} and dealt ${target.calculateDmg(attack, this.currentAttacker, target)}`)
         this.attackOrder = [...this.attackOrder].sort((a, b) => b.baseMS - a.baseMS);
         this.advanceTurn();
       };
@@ -81,22 +83,19 @@ export default class Fight{
           nextIndex = (nextIndex + 1) % this.attackOrder.length;
         }
         this.currentAttackerIndex = nextIndex
-        const currentAttacker = this.attackOrder[this.currentAttackerIndex];
-        // this.checkAndAdvanceBatch()
-        if (currentAttacker && this.arena && this.arena.enemys.flat().includes(currentAttacker)) {
-            this.enemyAi(currentAttacker);
+        this.currentAttacker = this.attackOrder[this.currentAttackerIndex];
+        
+        if (this.currentAttacker && this.arena && this.arena.enemys.flat().includes(this.currentAttacker)) {
+            this.enemyAi();
   
       };}
 
       checkAndAdvanceBatch = () => {
         if (!this.arena || !this.arena.enemys) return;
-        
         const allDefeated = this.currentBatch.every(enemy => !enemy.alive);
-        console.log(this.currentBatch)
         if (allDefeated) {
           if (this.currentBatchIndex < this.arena.enemys.length - 1) {
-            // Advance to the next batch
-                
+            // if all dead next batch
               const newIndex = this.currentBatchIndex + 1;
               this.currentBatch =  this.arena.enemys[newIndex];
               this.combinedUnits = [...this.team, ...this.currentBatch];

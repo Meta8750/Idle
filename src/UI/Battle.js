@@ -1,6 +1,5 @@
 import React from "react";
 import { useState, useEffect } from "react";
-import Arena from '../system/Arena.ts'
 import styles from '../UIcss/Battle.module.css'
 import Monstats from './MonStats.js'
 import PostScreen from "./PostScreen.js";

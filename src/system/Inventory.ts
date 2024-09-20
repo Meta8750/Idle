@@ -1,17 +1,18 @@
 interface Item {
     name:string;
     quantity: number;
-    exp: number;
-    value: number;
-    minLevel: number;
-    additionalCD: number;
-    job: string;
-    mastery: number;
-    masteryExp: number;
-    masteryNextLevel: number;
-    masteryValue: number;
-    masteryBarWidth: string;
+    exp?: number;
+    value?: number;
+    minLevel?: number;
+    additionalCD?: number;
+    job?: string;
+    mastery?: number;
+    masteryExp?: number;
+    masteryNextLevel?: number;
+    masteryValue?: number;
+    masteryBarWidth?: string;
     img: string;
+    
 }
 
 export default class Inventory {
@@ -59,5 +60,8 @@ export default class Inventory {
    
     getInventory(){
         return this.inventory;
+    }
+    getEquippedItems() {
+        return this.inventory.filter(item => item.value === 'equipped');
     }
 }

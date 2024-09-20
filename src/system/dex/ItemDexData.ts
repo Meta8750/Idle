@@ -12,8 +12,10 @@ export const monItemDex = [
         slot: 1,
         rarity: "cummon",
         temp: {
-            
-        }
+            AD: 10000
+        },
+        equipped: false,
+        
 
 
     }

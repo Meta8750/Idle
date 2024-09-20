@@ -17,7 +17,7 @@ type AttackData = {
     aoe: boolean,
     buffs?: {},
     debuffs?: {}
-    passive?: (animon : any) => void
+    passive: (animon : any) => void
     description: (animon: any, attack: AttackData) => JSX.Element;
     
 }
@@ -92,6 +92,12 @@ export const attackData: AttackData[] = [
         selfHeal:0,
         allyHeal:0,
         aoe:true,
+        passive: (mon) => {
+            const prev = mon.maxHealth
+            mon.maxHealth *= 2
+            mon.temp.health *= 2
+            mon.temp.maxHealth += mon.maxHealth - prev
+        },
         description: (animon, attack) => {
             const { baseAD, baseAP } = animon;
             return (

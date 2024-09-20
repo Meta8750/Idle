@@ -17,13 +17,14 @@ export default class Fight{
     attackTarget: any;
     lastFight: any;
     currentAttacker: any;
+    autoBattle: boolean;
 
     constructor(){
         this.result = "Battle"
     }
 
-    startFight(player: any, batch: number[],exp: number){
-            this.arena = new Arena(batch,exp);
+    startFight(player: any, batch: number[],drop: number){
+            this.arena = new Arena(batch,drop);
             this.arena.genEnemys();
             this.currentBatchIndex = 0;
             this.currentAttackerIndex = 0;
@@ -39,24 +40,25 @@ export default class Fight{
             this.attackTarget = this.attackOrder[this.currentAttackerIndex]; //just to fill
             this.lastFight = null;
             this.currentAttacker = this.attackOrder[this.currentAttackerIndex];
+            this.autoBattle = false;
     }
 
     handleAttack(attack: any, mon: any){
-        this.attacker = this.attackOrder[this.currentAttackerIndex];
-        if (!this.attacker.alive) {
+        //check if attack is even alive
+        if (!this.currentAttacker.alive) {
             this.advanceTurn();
             return;
           }
           if (this.attackTarget != "none") {
             // Apply damage, buffs, debuffs, etc.
             if (attack.aoe){
-                this.arena.enemys[this.currentBatchIndex].map((enemy,index) =>{
+                this.arena.enemys[this.currentBatchIndex].map((enemy) =>{
                 mon.calculateDmg(attack, mon, enemy)
               })
             } else {
-                this.battleLogs.push(`${this.attacker.name} uses ${attack.name} and dealt ${mon.calculateDmg(attack, mon, this.attackTarget)}`);
+                this.battleLogs.push(`${this.currentAttacker.name} uses ${this.currentAttacker.name} and dealt ${mon.calculateDmg(attack, mon, this.attackTarget)}`);
             }
-            attack.passive(this.attacker)
+            attack.passive(this.currentAttacker)
             this.advanceTurn();
             this.attackTarget = "none"
             this.checkAndAdvanceBatch()
@@ -96,20 +98,22 @@ export default class Fight{
         if (allDefeated) {
           if (this.currentBatchIndex < this.arena.enemys.length - 1) {
             // if all dead next batch
-              const newIndex = this.currentBatchIndex + 1;
-              this.currentBatch =  this.arena.enemys[newIndex];
+            this.currentBatchIndex++;
+              this.currentBatch =  this.arena.enemys[this.currentBatchIndex];
               this.combinedUnits = [...this.team, ...this.currentBatch];
               this.sortedUnits = this.combinedUnits.sort((a, b) => b.MS - a.MS);
               this.attackOrder = this.sortedUnits;
               this.currentAttackerIndex = 0;
-              return newIndex;
+              this.currentAttacker = this.attackOrder[this.currentAttackerIndex];
             } else {
            
-            // All batches completed
+            // all batched cleared, battle is over
             this.lastFight = this.arena;
             this.arena = null;
             this.result = "won"
-          }
+            this.team.map((mon) =>{
+                mon.resetTempStats()
+          })}
         }}
 
         handleTarget = (target) => {
@@ -123,14 +127,15 @@ class Arena {
     enemyStageList: any[]
     expDrop: number
     enemyMons: any
+    drop: any;
     
 
-    constructor(enemyList: number[], expDrop: number) {
+    constructor(enemyList: number[], id: number) {
         this.dex = new dex();
         this.enemyList = enemyList || [[10000,10000,10000],[10000,10001,10000]]
         this.enemys = []
         this.enemyStageList = []
-        this.expDrop = expDrop
+        this.drop = dropTable.find(item => item.id === id)
     }
 
     genEnemys(){
@@ -146,3 +151,20 @@ class Arena {
 
     }
 }
+
+const dropTable = [
+   {
+    id:1,
+    common: {
+        getDrop(){
+            return 100
+        }
+    },
+    rare: {
+        exp:150
+    },
+    legendary:{
+        exp:200
+    }
+   },
+]

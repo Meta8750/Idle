@@ -12,6 +12,7 @@ interface TempStats {
     mrPen: number;
     mana: number;
     health: number;
+    maxHealth: number;
     dmgAmp: number;
 }
 
@@ -39,7 +40,7 @@ export default class Animon {
     manaGrowth: number;
     baseCritRate: number;
     baseCritDamage: number;
-    ArmourPen: number;
+    armourPen: number;
     mrPen: number;
     mana: number;
     health: number;
@@ -98,6 +99,7 @@ export default class Animon {
             mrPen: 0,
             mana: 0,
             health: 0,
+            maxHealth: 0,
             dmgAmp: 0
         };
     }
@@ -135,20 +137,22 @@ export default class Animon {
         let temp  = this.temp
 
         this.dmg = attack.baseDMG + ((attacker.baseAD + temp.AD) * attack.adScaling) 
+        
         this.dmg += ((attacker.baseAP + temp.AP) * attack.apScaling)
+       
         if (attack.type == "AD"){
-            let reduceDmg = this.calculateDmgReduction((this.ArmourPen + temp.armourPen) * (defender.baseArmour + defender.temp.armour))
+            let reduceDmg = this.calculateDmgReduction((this.armourPen + temp.armourPen) * (defender.baseArmour + defender.temp.armour))
             this.dmg = this.dmg - ( reduceDmg * this.dmg )
+           
         }
+        
         if (attack.type == "AP"){
             let reduceDmg = this.calculateDmgReduction((this.mrPen + temp.mrPen ) * (defender.baseMR + defender.temp.MR))
 
             this.dmg = this.dmg - ( reduceDmg * this.dmg )
         }   
         
-        if (Math.random() <= attacker.baseCritRate + temp.critRate) {
-            this.dmg *= (attacker.baseCritDamage + temp.critDamage)
-        }
+        if (Math.random() <= attacker.baseCritRate + temp.critRate) {   this.dmg *= (attacker.baseCritDamage + temp.critDamage) }
         this.dmg = this.dmg + (this.dmg * temp.dmgAmp)
         
         defender.health -= this.dmg
@@ -163,7 +167,10 @@ export default class Animon {
         return 100 * (defense / (defense + 100))
     }
 
+
     resetTempStats() {
+        this.maxHealth -= this.temp.maxHealth
+        this.baseMS -= this.temp.MS
         this.temp = {
             AD: 0,
             AP: 0,
@@ -176,8 +183,11 @@ export default class Animon {
             mrPen: 0,
             mana: 0,
             health: 0,
+            maxHealth: 0,
             dmgAmp: 0
         };
+        
+        
     }
 
    

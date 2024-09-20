@@ -12,7 +12,8 @@ interface Item {
     masteryValue?: number;
     masteryBarWidth?: string;
     img: string;
-    
+    equipped?: boolean;
+
 }
 
 export default class Inventory {
@@ -62,6 +63,6 @@ export default class Inventory {
         return this.inventory;
     }
     getEquippedItems() {
-        return this.inventory.filter(item => item.value === 'equipped');
+        return this.inventory.filter(item => item.equipped);
     }
 }

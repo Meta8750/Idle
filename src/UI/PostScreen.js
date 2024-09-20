@@ -4,12 +4,7 @@ import { useEffect } from "react";
 
 function PostScreen({team, arena, result, setResult}){
     useEffect(() => {
-        if (result === "won") {
-            team.forEach(mon => {
-                mon.exp += arena.expDrop
-                mon.levelProgess()
-            });
-        }
+      
     }, [result]);
     const handleResult = () => {
         setResult(null)

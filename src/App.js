@@ -15,6 +15,7 @@ import DisplayInventory from './UI/DisplayInventory.js';
 import MonManager from './UI/MonManager.js';
 import Battle from './UI/Battle.js';
 import Shop from './UI/Shop.js';
+import ItemManager from './UI/ItemManager.js'
 
 import Player from './system/Player.ts';
 import Logout from './system/Logout.js';
@@ -63,6 +64,9 @@ function App() {
           </div>
           <div  className={activeTab === 'MonManager' ? styles.visible : styles.hidden}>
             <MonManager player={player}/>
+          </div>
+          <div  className={activeTab === 'ItemManager' ? styles.visible : styles.hidden}>
+            <ItemManager player={player}/>
           </div>
           <div className={activeTab === 'Mining' ? styles.visible : styles.hidden}>
             <Mining  time={time} player={player}/>

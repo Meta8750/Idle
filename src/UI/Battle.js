@@ -4,57 +4,13 @@ import Arena from '../system/Arena.ts'
 import styles from '../UIcss/Battle.module.css'
 import Monstats from './MonStats.js'
 import PostScreen from "./PostScreen.js";
+import Fight from "../system/Fight.ts";
 
 const battleLogs = []
+let fight = new Fight()
 
 function Battle({ player }) {
-  const [arena, setArena] = useState(null);
-  const [currentBatchIndex, setCurrentBatchIndex] = useState(0);
-  const [attackOrder, setAttackOrder] = useState([]);
-  const [currentAttackerIndex, setCurrentAttackerIndex] = useState(0);
-  const [attackTarget, setAttackTarget] = useState("none");
-  const [result, setResult] = useState(null);
-  const [lastFight,  setLastFight] = useState(null)
-  
-  const initializeBattle = (batch, exp) => {
-    const battleArena = new Arena(batch,exp);
-    battleArena.genEnemys();
-    setArena(battleArena);
-    setCurrentBatchIndex(0);
-    setResult("Battle")
-    setCurrentAttackerIndex(0);
-    battleLogs.push("Battle Started");
-    const team = player.getTeam();
-    const currentBatch = battleArena.enemys[0];
-    const combinedUnits = [...team, ...currentBatch];
-    const sortedUnits = combinedUnits.sort((a, b) => b.baseMS - a.baseMS);
-    setAttackOrder(sortedUnits);
-    
-  };
-
-  const handleAttack = (attack, mon) => {
-    const attacker = attackOrder[currentAttackerIndex];
-    if (!attacker.alive) {
-      advanceTurn();
-      return;
-    }
-    if (attackTarget != "none") {
-      // Apply damage, buffs, debuffs, etc.
-      if (attack.aoe){
-          arena.enemys[currentBatchIndex].map((enemy,index) =>{
-          mon.calculateDmg(attack, mon, enemy)
-        })
-      } else {
-        battleLogs.push(`${attacker.name} uses ${attack.name} and dealt ${mon.calculateDmg(attack, mon, attackTarget)}`);
-      }
-      const updatedOrder = [...attackOrder].sort((a, b) => b.baseMS - a.baseMS);
-      attack.passive(attacker)
-      setAttackOrder(updatedOrder);
-      advanceTurn();
-      setAttackTarget("none")
-    }
-  };
-
+ 
   const hpBar = (mon) => {
     let pWidth = `${(mon.health / mon.maxHealth) * 100}%`; 
     if (mon.health <= 0){
@@ -70,44 +26,17 @@ function Battle({ player }) {
     if (mon.mana <= 0){ pWidth = '0%' } return { width: pWidth, };
   }
 
-  const enemyAi = (enemy) => {
-    const attack = enemy.attacks[Math.floor(Math.random() * 3)];
-    const target = player.getTeam()[Math.floor(Math.random() * 3)];
-    battleLogs.push(`${enemy.name} uses ${attack.name} and dealt ${target.calculateDmg(attack, enemy, target)}`)
-    // Re-calculate the attack order if necessary
-    const updatedOrder = [...attackOrder].sort((a, b) => b.baseMS - a.baseMS);
-    setAttackOrder(updatedOrder);
-    advanceTurn();
-  };
 
-  const handleTarget = (target) => {
-    setAttackTarget(target)
-  }
 
-  const advanceTurn = () => {
-    let nextIndex = (currentAttackerIndex + 1) % attackOrder.length;
-    while (!attackOrder[nextIndex].alive) {
-      nextIndex = (nextIndex + 1) % attackOrder.length;
-    }
-    setCurrentAttackerIndex(nextIndex);
-  };
 
-  useEffect(() => {
-    const currentAttacker = attackOrder[currentAttackerIndex];
-    if (currentAttacker && arena && arena.enemys.flat().includes(currentAttacker)) {
-      setTimeout(() => {
-        enemyAi(currentAttacker);
-      }, 1000);
-      
-    }
-  }, [currentAttackerIndex]);
+ 
 
   const renderTeam = () => {
     return player.getTeam().map((mon, index) => (
-      <div onClick={() => handleTarget(mon)}
+      <div onClick={() => fight.handleTarget(mon)}
         key={index}
         className={`${styles.mon} ${
-          attackOrder[currentAttackerIndex] === mon ? styles.activeMon : ""
+          fight.attackOrder[fight.currentAttackerIndex] === mon ? styles.activeMon : ""
         }`}
       > 
         <p>{mon.name} {mon.level}</p>
@@ -117,7 +46,7 @@ function Battle({ player }) {
         <ul>
           {mon.attacks.map((attack, attackIndex) => (
             <li
-              onClick={() => handleAttack(attack, mon)}
+              onClick={() => fight.handleAttack(attack, mon)}
               className={styles.attackOption}
             >
               {attack.name}
@@ -130,17 +59,17 @@ function Battle({ player }) {
   };
 
   const renderEnemies = () => {
-    if (!arena || !arena.enemys || arena.enemys.length === 0) return null;
+    if (!fight.arena || !fight.arena.enemys || fight.arena.enemys.length === 0) return null;
 
-    const currentBatch = arena.enemys[currentBatchIndex];
+    const currentBatch = fight.arena.enemys[fight.currentBatchIndex];
 
     if (!currentBatch) return <p>No more enemies!</p>;
 
     return currentBatch.map((enemy, index) => (
-      <div onClick={() => handleTarget(enemy)}
+      <div onClick={() => fight.handleTarget(enemy)}
         key={index}
         className={`${styles.enemy} ${
-          attackOrder[currentAttackerIndex] === enemy ? styles.activeEnemy : ""
+          fight.attackOrder[fight.currentAttackerIndex] === enemy ? styles.activeEnemy : ""
         }`}
       >
         <p>{enemy.name}</p>
@@ -151,37 +80,11 @@ function Battle({ player }) {
     ));
   };
 
-  const checkAndAdvanceBatch = () => {
-    if (!arena || !arena.enemys) return;
+  const initializeBattle = (batch, exp) => {
+    fight.startFight(player, batch, exp)
     
-    const currentBatch = arena.enemys[currentBatchIndex];
-    const allDefeated = currentBatch.every(enemy => !enemy.alive);
-    
-    if (allDefeated) {
-      if (currentBatchIndex < arena.enemys.length - 1) {
-        // Advance to the next batch
-        setCurrentBatchIndex(prevIndex => {
-          const newIndex = prevIndex + 1;
-          const team = player.getTeam();
-          const newBatch = arena.enemys[newIndex];
-          const combinedUnits = [...team, ...newBatch];
-          const sortedUnits = combinedUnits.sort((a, b) => b.MS - a.MS);
-          setAttackOrder(sortedUnits);
-          setCurrentAttackerIndex(0);
-          return newIndex;
-        });
-      } else {
-        // All batches completed
-        setLastFight(arena);
-        setArena(null);
-        setResult("won")
-      }
-    }
-  };
+  }
   
-  useEffect(() => {
-    checkAndAdvanceBatch();
-  }, [arena, currentBatchIndex, attackOrder]);
 
   return (
     <div>
@@ -189,7 +92,7 @@ function Battle({ player }) {
         <button onClick={() =>initializeBattle([[10000, 10001, 10000]],100)}>Start Battle</button>
         <button onClick={() =>initializeBattle([[10001, 10001, 10001], [10000, 10001, 10001], [10001,10005,10001]],1000)}>Start Battle</button>
       </p>
-        {arena ? (
+        {fight.arena ? (
              <div className={styles.arena}>
             <div className={styles.enemyContainer}>
               {renderEnemies()}
@@ -198,13 +101,13 @@ function Battle({ player }) {
               {renderTeam()}
             </div>
             <div>
-              <p>Attack Order: {attackOrder.map((mon,index) => (
+              <p>Attack Order: {fight.attackOrder.map((mon,index) => (
                 <span className={`${styles.mon} ${
-                  attackOrder[currentAttackerIndex] === mon ? styles.activeMon : ""
+                  fight.attackOrder[fight.currentAttackerIndex] === mon ? styles.activeMon : ""
                 }`}>{mon.name}</span>
               ))}</p>
-              <p>Current Attacker: {attackOrder[currentAttackerIndex].name}</p>
-              <p>Attack Target: {attackTarget.name}</p>
+              <p>Current Attacker: {fight.attackOrder[fight.currentAttackerIndex].name}</p>
+              <p>Attack Target: {fight.attackTarget.name}</p>
             </div>
             <div className={styles.battleLogsContainer}>
                 {battleLogs.map((battleLog, index) => (
@@ -212,14 +115,15 @@ function Battle({ player }) {
               ))}
             </div>
             
-              <Monstats mon={attackTarget}/>
+              <Monstats mon={fight.attackTarget}/>
            
              
             </div>
         ) : (
           <p>No current Battle</p>
         )}
-       <div className={result === "won" ? styles.visible : styles.hidden}> <PostScreen team={player.getTeam()} arena={lastFight} result={result} setResult={setResult}/>1</div>
+      
+       <div className={fight.result === "won" ? styles.visible : styles.hidden}> <PostScreen team={player.getTeam()} arena={fight.lastFight} result={fight.result}/>1</div>
     </div>
   );
 }

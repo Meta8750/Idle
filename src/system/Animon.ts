@@ -154,7 +154,7 @@ export default class Animon {
         defender.health -= this.dmg
         
         if (this.health <= 0){ this.alive = false } //check if animon is dead
-        if (defender.health <= 0){ defender.alive = true } //check if defender is alive
+        if (defender.health <= 0){ defender.alive = false } //check if defender is alive
             
         return this.dmgDealt -= this.health 
     }

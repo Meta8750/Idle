@@ -15,24 +15,28 @@ export default class Fight{
     battleLogs: string[];
     attacker: any;
     attackTarget: any;
+    lastFight: any;
 
-    constructor(player, batch,exp){
-        const battleArena = new Arena(batch,exp);
-        battleArena.genEnemys();
-        this.arena = battleArena;
+    constructor(){
         this.result = "Battle"
-        this.currentBatchIndex = 0;
-        this.currentAttackerIndex = 0;
-        this.attackOrder = [];
-        this.team = player.getTeam();  
-        this.currentBatch = battleArena.enemys[0];
-        this.combinedUnits = [...this.team, ...this.currentBatch];
-        this.attackOrder  = this.combinedUnits.sort((a, b) => b.baseMS - a.baseMS);
-        this.target
-        this.battleLogs = [];
-        this.battleLogs.push("Battle Started");
-        this.attacker
-        this.attackTarget
+    }
+
+    startFight(player, batch,exp){
+            this.arena = new Arena(batch,exp);
+            this.arena.genEnemys();
+            this.currentBatchIndex = 0;
+            this.currentAttackerIndex = 0;
+            this.attackOrder = [];
+            this.team = player.getTeam();  
+            this.currentBatch = this.arena.enemys[0];
+            this.combinedUnits = [...this.team, ...this.currentBatch];
+            this.attackOrder  = this.combinedUnits.sort((a, b) => b.baseMS - a.baseMS);
+            this.target = null;
+            this.battleLogs = [];
+            this.battleLogs.push("Battle Started");
+            this.attacker = null;
+            this.attackTarget = this.attackOrder[this.currentAttackerIndex];
+            this.lastFight = null;
     }
 
     handleAttack(attack, mon){
@@ -48,24 +52,73 @@ export default class Fight{
                 mon.calculateDmg(attack, mon, enemy)
               })
             } else {
-                this.battleLogs.push(`${attacker.name} uses ${attack.name} and dealt ${mon.calculateDmg(attack, mon, attackTarget)}`);
+                this.battleLogs.push(`${this.attacker.name} uses ${attack.name} and dealt ${mon.calculateDmg(attack, mon, this.attackTarget)}`);
             }
-            const updatedOrder = [...this.attackOrder].sort((a, b) => b.baseMS - a.baseMS);
             attack.passive(this.attacker)
-            this.attackOrder = updatedOrder;
             this.advanceTurn();
             this.attackTarget = "none"
+            this.checkAndAdvanceBatch()
         }
     }
 
+    enemyAi = (enemy) => {
+        const attack = enemy.attacks[Math.floor(Math.random() * 3)];
+        const target = this.team[Math.floor(Math.random() * 3)];
+        this.battleLogs.push(`${enemy.name} uses ${attack.name} and dealt ${target.calculateDmg(attack, enemy, target)}`)
+        this.attackOrder = [...this.attackOrder].sort((a, b) => b.baseMS - a.baseMS);
+        this.advanceTurn();
+      };
+
+    //function to choose next attacker
     advanceTurn = () => {
+       
+        this.attackOrder = [...this.attackOrder].sort((a, b) => b.baseMS - a.baseMS);
+        //choose next attack
         let nextIndex = (this.currentAttackerIndex + 1) % this.attackOrder.length;
+        //check if alive
         while (!this.attackOrder[nextIndex].alive) {
+            //if not next
           nextIndex = (nextIndex + 1) % this.attackOrder.length;
         }
         this.currentAttackerIndex = nextIndex
+        const currentAttacker = this.attackOrder[this.currentAttackerIndex];
+        // this.checkAndAdvanceBatch()
+        if (currentAttacker && this.arena && this.arena.enemys.flat().includes(currentAttacker)) {
+            this.enemyAi(currentAttacker);
+  
+      };}
+
+      checkAndAdvanceBatch = () => {
+        if (!this.arena || !this.arena.enemys) return;
+        
+        const allDefeated = this.currentBatch.every(enemy => !enemy.alive);
+        console.log(this.currentBatch)
+        if (allDefeated) {
+          if (this.currentBatchIndex < this.arena.enemys.length - 1) {
+            // Advance to the next batch
+                
+              const newIndex = this.currentBatchIndex + 1;
+              this.currentBatch =  this.arena.enemys[newIndex];
+              this.combinedUnits = [...this.team, ...this.currentBatch];
+              this.sortedUnits = this.combinedUnits.sort((a, b) => b.MS - a.MS);
+              this.attackOrder = this.sortedUnits;
+              this.currentAttackerIndex = 0;
+              return newIndex;
+            } else {
+           
+            // All batches completed
+            this.lastFight = this.arena;
+            this.arena = null;
+            this.result = "won"
+          }
+        }}
+
+        handleTarget = (target) => {
+            this.attackTarget = target
+        }
       };
-}
+      
+
 
 
 

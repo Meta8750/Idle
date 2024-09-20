@@ -6,7 +6,7 @@ export default class Fight{
     result:string;
     currentBatchIndex:number
     currentAttackerIndex:number;
-    attackOrder: number[];
+    attackOrder: any;
     team:any;
     currentBatch:any;
     combinedUnits:any;
@@ -21,7 +21,7 @@ export default class Fight{
         this.result = "Battle"
     }
 
-    startFight(player, batch,exp){
+    startFight(player: any, batch: number[],exp: number){
             this.arena = new Arena(batch,exp);
             this.arena.genEnemys();
             this.currentBatchIndex = 0;
@@ -39,7 +39,7 @@ export default class Fight{
             this.lastFight = null;
     }
 
-    handleAttack(attack, mon){
+    handleAttack(attack: any, mon: any){
         this.attacker = this.attackOrder[this.currentAttackerIndex];
         if (!this.attacker.alive) {
             this.advanceTurn();
@@ -117,14 +117,6 @@ export default class Fight{
             this.attackTarget = target
         }
       };
-      
-
-
-
-
-
-
-
 class Arena {
     dex: dex
     enemyList: any[]

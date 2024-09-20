@@ -1,6 +1,7 @@
 import dex from './dex/generator.ts'
 import React from 'react';
 
+const Dex = new dex()
 export default class Fight{
     arena:any;
     result:string;
@@ -17,6 +18,7 @@ export default class Fight{
     attackTarget: any;
     lastFight: any;
     currentAttacker: any;
+    player:any;
     autoBattle: boolean;
 
     constructor(){
@@ -30,6 +32,7 @@ export default class Fight{
             this.currentAttackerIndex = 0;
             this.attackOrder = [];
             this.team = player.getTeam();  
+            this.player = player
             this.currentBatch = this.arena.enemys[0];
             this.combinedUnits = [...this.team, ...this.currentBatch];
             this.attackOrder  = this.combinedUnits.sort((a, b) => b.baseMS - a.baseMS);
@@ -107,18 +110,43 @@ export default class Fight{
               this.currentAttacker = this.attackOrder[this.currentAttackerIndex];
             } else {
            
-            // all batched cleared, battle is over
+            this.team.map((mon) =>{
+                const drop = this.getDropRarity() 
+                this.player.inventory.updateItem(Dex.generate(drop.dropID))
+                
+                mon.resetTempStats()
+                mon.exp += drop.getDrop()
+                mon.levelProgess()
+                
+            })
+           
             this.lastFight = this.arena;
             this.arena = null;
             this.result = "won"
-            this.team.map((mon) =>{
-                mon.resetTempStats()
-          })}
+            
+          }
         }}
 
         handleTarget = (target) => {
             this.attackTarget = target
         }
+
+        getDropRarity(){
+            const rng = Math.random()
+            console.log(rng)
+            if (rng >= 0.3){
+                return  this.arena.drop.common
+            }
+            if (rng <= 0.3 && rng >= 0.1){
+                return  this.arena.drop.rare
+            }
+            if (rng <= 0.01){
+                return this.arena.drop.legendary
+            }
+           
+
+        }
+
       };
 class Arena {
     dex: dex
@@ -135,7 +163,7 @@ class Arena {
         this.enemyList = enemyList || [[10000,10000,10000],[10000,10001,10000]]
         this.enemys = []
         this.enemyStageList = []
-        this.drop = dropTable.find(item => item.id === id)
+        this.drop =  this.dex.generate(id)
     }
 
     genEnemys(){
@@ -152,19 +180,3 @@ class Arena {
     }
 }
 
-const dropTable = [
-   {
-    id:1,
-    common: {
-        getDrop(){
-            return 100
-        }
-    },
-    rare: {
-        exp:150
-    },
-    legendary:{
-        exp:200
-    }
-   },
-]

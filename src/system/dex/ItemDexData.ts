@@ -15,7 +15,8 @@ export const monItemDex = [
         value: 100,
         quantity: 100,
         temp: {
-            AD: 10000
+            AD: 10000,
+            AP: 10000
         },
         equipped: false,
 

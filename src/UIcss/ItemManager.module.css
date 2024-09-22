@@ -1,0 +1,40 @@
+.mainContainer {
+    display:grid;
+    grid-template-areas:
+    "team  stats"
+    "items  stats";
+    grid-template-rows: 0.001fr 1fr;
+    grid-template-columns:  1fr 0.3fr;
+    min-width: 100%;
+    min-height: 100%;
+}
+
+.team{
+    grid-area: team;
+    background-color: #000000;
+    padding: 20px;
+    display: flex;
+    border: solid 1px aqua;
+}
+
+.stats{
+    grid-area: stats;
+    
+    padding: 20px;
+    border: solid 1px aqua;
+}
+
+.box{
+    display:grid;
+    grid-area: items;
+
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
+    grid-template-rows: 1fr 1fr 1fr 1fr 1fr;
+}
+.items {
+    border: solid 1px aqua;
+}
+
+.stats{
+    grid-area:  "stats";
+}

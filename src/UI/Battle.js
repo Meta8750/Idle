@@ -83,7 +83,7 @@ function Battle({ player }) {
     <div>
       <p>
         <button onClick={() =>initializeBattle([[10000, 10001, 10000]],40000)}>Start Battle</button>
-        <button onClick={() =>initializeBattle([[10001, 10001, 10001], [10000, 10001, 10001], [10001,10005,10001]],1000)}>Start Battle</button>
+        <button onClick={() =>initializeBattle([[10001, 10001, 10001], [10000, 10001, 10001], [10001,10005,10001]],40000)}>Start Battle</button>
       </p>
         {fight.arena ? (
              <div className={styles.arena}>

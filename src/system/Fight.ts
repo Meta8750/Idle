@@ -112,10 +112,11 @@ export default class Fight{
            
             this.team.map((mon) =>{
                 const drop = this.getDropRarity() 
-                this.player.inventory.updateItem(Dex.generate(drop.dropID))
-                
+                if (typeof drop.dropID != undefined){
+                    this.player.inventory.updateItem(Dex.generate(drop.dropID))
+                }
                 mon.resetTempStats()
-                mon.exp += drop.getDrop()
+                mon.exp += drop.exp
                 mon.levelProgess()
                 
             })
@@ -164,6 +165,7 @@ class Arena {
         this.enemys = []
         this.enemyStageList = []
         this.drop =  this.dex.generate(id)
+        
     }
 
     genEnemys(){
@@ -171,6 +173,7 @@ class Arena {
         this.enemyMons = this.enemyList.map(row => {
             row.map(id  => {  
                     this.enemyStageList.push(this.dex.generate(id))
+                    
             })
             this.enemys.push(this.enemyStageList)
             this.enemyStageList = []

@@ -12,7 +12,8 @@ class assign{
 }
 export default class dex{
     generate(id: number){
-        let monInfo = monData.find(mon => mon.id === id);
+        try {
+            let monInfo = monData.find(mon => mon.id === id);
         let attackInfo =  attackData.find(attack => attack.id === id);
         let monItemInfo = monItemDex.find(item => item.id === id);
         let dropTableInfo = dropTable.find(drop => drop.id === id)
@@ -32,11 +33,12 @@ export default class dex{
             newAssign = new assign({...dropTableInfo})
         }
    
-        if (!newAssign) {
-            throw new Error(`ID ${id} not found`);
-        }
-        
         return newAssign
+        }
+        catch (error) {
+            console.error(error.message);
+            return null;
+        }
     }
     
     genAttacks(monInfo:any){

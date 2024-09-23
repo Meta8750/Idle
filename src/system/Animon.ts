@@ -87,6 +87,14 @@ export default class Animon {
         this.ADReduction = this.calculateDmgReduction(this.baseArmour)
         this.APReduction = this.calculateDmgReduction(this.baseMR)
 
+        this.equipment = {
+            chain: null,
+            ring: null,
+            necklace: null,
+            head: null,
+            book: null,
+        }
+
         this.temp = {
             AD: 0,
             AP: 0,
@@ -189,7 +197,27 @@ export default class Animon {
         
         
     }
+        equipItem(item): void {
+            const { slotType } = item;
 
-   
+            if (this.equipment[slotType]) {
+                console.log(`Slot ${slotType} is already occupied. Replacing item...`);
+                this.removeItem(slotType); // Entferne das aktuelle Item im Slot
+            }
+
+            this.equipment[slotType] = item;
+            item.equipped = true;
+            console.log(`${item.name} equipped in slot ${slotType}.`);
+        }
+
+        removeItem(slotType): void {
+            const currentItem = this.equipment[slotType];
+            if (currentItem) {
+                currentItem.equipped = false;
+                this.equipment[slotType] = null;
+                console.log(`${currentItem.name} removed from slot ${slotType}.`);
+            }
+        }
     
+
 }

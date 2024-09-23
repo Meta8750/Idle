@@ -13,6 +13,7 @@ interface Item {
     masteryBarWidth?: string;
     img: string;
     equipped?: boolean;
+    uid?: number;
 
 }
 
@@ -27,6 +28,11 @@ export default class Inventory {
 
     // Methode zum Hinzufügen oder Aktualisieren eines Items im Inventar
     updateItem(item: Item): void {
+        if (item.uid) {
+            // direct added if item got an uid
+            this.inventory.push(item);
+            return;  //method end now bec the rest is useless
+        }
         const existingItemIndex = this.inventory.findIndex(i => i.name === item.name);
         if (existingItemIndex >= 0) {
             // update excist item
@@ -39,20 +45,20 @@ export default class Inventory {
             this.inventory.push(item);
         }
     }
-     // Finde specific Items
+     // Find specific Items
      findItem(itemName: string) {
         return this.inventory.find(i => i.name === itemName);
 
     }
 
-    removeItem(item: Item, ammount: number){
+    adjustItem(item: Item, ammount: number){
         // reduce the Item quantity based on the ammount
         const existingItemIndex = this.inventory.findIndex(i => i.name === item.name)
         this.inventory[existingItemIndex] = {
             ...this.inventory[existingItemIndex],
-            quantity: this.inventory[existingItemIndex].quantity - ammount
+            quantity: this.inventory[existingItemIndex].quantity + ammount
         };
-        // if quantity is 0 delet it from the Inventory
+        // if quantity is 0 delete it from the Inventory
         if (this.inventory[existingItemIndex].quantity <= 0) {
             this.inventory = this.inventory.filter(i => i.name !== item.name)
             

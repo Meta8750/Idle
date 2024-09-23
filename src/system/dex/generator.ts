@@ -3,6 +3,7 @@ import { monData } from "./MonDexData.ts";
 import { monItemDex } from "./ItemDexData.ts";
 import { dropTable } from "./dropTableDex.ts";
 import Animon from "../Animon.ts";
+import artifacts from '../artifacts.ts'
 
 //use assign if no class behind
 class assign{
@@ -27,7 +28,7 @@ export default class dex{
             newAssign = new assign({...attackInfo})
         }
         if (monItemInfo){
-            newAssign = new assign({...monItemInfo})
+            newAssign = new artifacts({...monItemInfo})
         }
         if (dropTableInfo){
             newAssign = new assign({...dropTableInfo})

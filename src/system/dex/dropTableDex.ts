@@ -7,11 +7,11 @@ export const dropTable = [
         exp:100
      },
      rare: {
-        dropID: 30000,
+         dropID: 30000,
          exp:150
      },
      legendary:{
-        dropID: 30000,
+         dropID: 30000,
          exp:200
      }
     },

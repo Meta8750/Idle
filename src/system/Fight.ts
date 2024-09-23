@@ -109,12 +109,12 @@ export default class Fight{
               this.currentAttackerIndex = 0;
               this.currentAttacker = this.attackOrder[this.currentAttackerIndex];
             } else {
-           
+
+            const drop = this.getDropRarity()   
+            this.player.inventory.updateItem(Dex.generate(drop.dropID))
+            
             this.team.map((mon) =>{
-                const drop = this.getDropRarity() 
-                if (typeof drop.dropID != undefined){
-                    this.player.inventory.updateItem(Dex.generate(drop.dropID))
-                }
+               
                 mon.resetTempStats()
                 mon.exp += drop.exp
                 mon.levelProgess()
@@ -134,14 +134,14 @@ export default class Fight{
 
         getDropRarity(){
             const rng = Math.random()
-            console.log(rng)
+            
             if (rng >= 0.3){
                 return  this.arena.drop.common
             }
-            if (rng <= 0.3 && rng >= 0.1){
+            if (rng <= 0.3 && rng >= 0.02){
                 return  this.arena.drop.rare
             }
-            if (rng <= 0.01){
+            if (rng <= 0.02){
                 return this.arena.drop.legendary
             }
            

@@ -7,6 +7,7 @@
     grid-template-columns:  1fr 0.3fr;
     min-width: 100%;
     min-height: 100%;
+    color: white;
 }
 
 .team{
@@ -27,12 +28,14 @@
 .box{
     display:grid;
     grid-area: items;
-
+    
     grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
-    grid-template-rows: 1fr 1fr 1fr 1fr 1fr;
+    grid-template-rows: repeat(10, 1fr)
 }
 .items {
     border: solid 1px aqua;
+    text-align: center;
+    min-height: 100px;
 }
 
 .stats{

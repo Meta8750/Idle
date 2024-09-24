@@ -215,8 +215,36 @@ export default class Animon {
         
         
     }
+  
+
+    equipItem(item): void {
+        const { slotType } = item;
+
+        if (this.equipment[slotType]) {
+            this.removeItemStats()
+            this.removeItem(slotType); // Entferne das aktuelle Item im Slot
+        } else {
+            
+            this.equipment[slotType] = item;
+            item.equipped = true;
+            this.getItemStats()
+        }
+
+
+              
+    }
+
+    removeItem(slotType): void {
+        const currentItem = this.equipment[slotType];
+       
+        if (currentItem) {
+            currentItem.equipped = false;
+            this.equipment[slotType] = null;
+        }
+       
+        
+    }
     getItemStats(): void {
-      
         // Iteriere über die ausgerüsteten Items
         for (const slot in this.equipment) {
             const item = this.equipment[slot]; // Hole das ausgerüstete Item für jeden Slot
@@ -226,47 +254,32 @@ export default class Animon {
                     if (this.stats[stat] !== undefined) {
                         if(Number.isInteger(this.stats[stat])){
                             this.stats[stat] *= item.temp[stat];
-                            console.log(this.stats[stat])
-                            console.log(item.temp[stat])
                         } else {
                             this.stats[stat] += item.temp[stat]; // Addiere die Stats
                         }
                         
                     } else {
                         this.stats[stat] = item.temp[stat]; // Initialisiere, falls der Stat nicht existiert
-                    }
-                }
-            }
-        }
-    }
+        }}}}}
 
-    equipItem(item): void {
-        const { slotType } = item;
-
-        if (this.equipment[slotType]) {
-            
-            this.removeItem(slotType); // Entferne das aktuelle Item im Slot
-        }
-
-        this.equipment[slotType] = item;
-        item.equipped = true;
-        this.getItemStats()
-
-              
-    }
-
-    removeItem(slotType): void {
-        const currentItem = this.equipment[slotType];
-        console.log(this.equipment)
-        console.log(currentItem)
-        if (currentItem) {
-            currentItem.equipped = false;
-            this.equipment[slotType] = null;
-        }
-        this.getItemStats();
-        console.log(this.equipment)
-        console.log(currentItem)
-    }
-    
+        removeItemStats(): void {
+            // Iteriere über die ausgerüsteten Items
+            for (const slot in this.equipment) {
+                const item = this.equipment[slot]; // Hole das ausgerüstete Item für jeden Slot
+        
+                if (item && item.temp) { // Prüfen, ob ein Item vorhanden ist und temp-Stats hat
+                    for (const stat in item.temp) {
+                        if (this.stats[stat] !== undefined) {
+                            if(Number.isInteger(this.stats[stat])){
+                                this.stats[stat] /= item.temp[stat];
+                            } else {
+                                this.stats[stat] -= item.temp[stat]; // Addiere die Stats
+                                console.log("sollte gehen lol")
+                            }
+                            
+                        } else {
+                            this.stats[stat] = item.temp[stat]; // Initialisiere, falls der Stat nicht existiert
+        }}}}}
+           
 
 }

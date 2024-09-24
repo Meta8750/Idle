@@ -60,6 +60,13 @@ export default class Animon {
     ADReduction:number;
     APReduction:number;
     itemSlot: any[];
+    equipment: {
+        chain: any,
+        ring: any,
+        necklace: any,
+        head: any,
+        book: any,
+    }
     
     constructor(monData: any) {
         Object.assign(this, monData)
@@ -189,6 +196,7 @@ export default class Animon {
     resetTempStats() {
         this.stats.maxHealth -= this.temp.maxHealth
         this.stats.baseMS -= this.temp.MS
+        this.health = this.stats.maxHealth
         this.temp = {
             AD: 0,
             AP: 0,
@@ -208,14 +216,28 @@ export default class Animon {
         
     }
     getItemStats(): void {
-        for (const item in this.equipment){
-            if(item != null){
-                for (const stat in item){
-                    this.stats[stat] += item.temp[stat];
+      
+        // Iteriere über die ausgerüsteten Items
+        for (const slot in this.equipment) {
+            const item = this.equipment[slot]; // Hole das ausgerüstete Item für jeden Slot
+    
+            if (item && item.temp) { // Prüfen, ob ein Item vorhanden ist und temp-Stats hat
+                for (const stat in item.temp) {
+                    if (this.stats[stat] !== undefined) {
+                        if(Number.isInteger(this.stats[stat])){
+                            this.stats[stat] *= item.temp[stat];
+                            console.log(this.stats[stat])
+                            console.log(item.temp[stat])
+                        } else {
+                            this.stats[stat] += item.temp[stat]; // Addiere die Stats
+                        }
+                        
+                    } else {
+                        this.stats[stat] = item.temp[stat]; // Initialisiere, falls der Stat nicht existiert
+                    }
                 }
             }
         }
-
     }
 
     equipItem(item): void {
@@ -235,11 +257,15 @@ export default class Animon {
 
     removeItem(slotType): void {
         const currentItem = this.equipment[slotType];
-        
+        console.log(this.equipment)
+        console.log(currentItem)
         if (currentItem) {
             currentItem.equipped = false;
             this.equipment[slotType] = null;
         }
+        this.getItemStats();
+        console.log(this.equipment)
+        console.log(currentItem)
     }
     
 

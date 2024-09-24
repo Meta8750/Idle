@@ -7,8 +7,9 @@ export const monItemDex = [
         stars: 3,
         value: 100,
         temp: {
-            AD: 10000,
-            AP: 10000
+            baseAD: 10000,
+            baseAP: 10000,
+            maxHealth: 1.1,
         },
         equipped: false,
 

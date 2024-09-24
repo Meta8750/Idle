@@ -27,15 +27,15 @@ const displayDmg = (animon: any, attack: any) => {
        
             <div>
             <span className={attack.type === "AP" ? "text-blue-600" : "text-orange-500"}>
-                {Math.floor(attack.baseDMG + animon.baseAD * attack.adScaling + animon.baseAP * attack.apScaling)}
+                {Math.floor(attack.baseDMG + animon.stats.baseAD * attack.adScaling + animon.stats.baseAP * attack.apScaling)}
             </span>{" "}
             ={" "}
             <span className="text-orange-500">
-                {attack.baseDMG} + {animon.baseAD * attack.adScaling} ({attack.adScaling * 100}%)
+                {attack.baseDMG} + {animon.stats.baseAD * attack.adScaling} ({attack.adScaling * 100}%)
             </span>{" "}
             +{" "}
             <span className={"text-blue-600"}>
-                {attack.baseDMG} + {animon.baseAP * attack.apScaling} ({attack.apScaling * 100}%)
+                {attack.baseDMG} + {animon.stats.baseAP * attack.apScaling} ({attack.apScaling * 100}%)
             </span>
             </div>
     );
@@ -93,13 +93,14 @@ export const attackData: AttackData[] = [
         allyHeal:0,
         aoe:true,
         passive: (mon) => {
-            const prev = mon.maxHealth
-            mon.maxHealth *= 2
+            const prev = mon.stats.maxHealth
+            mon.stats.maxHealth *= 2
             mon.temp.health *= 2
-            mon.temp.maxHealth += mon.maxHealth - prev
+            mon.temp.maxHealth += mon.stats.maxHealth - prev
         },
-        description: (animon, attack) => {
-            const { baseAD, baseAP } = animon;
+        description: (mon, attack) => {
+            const baseAD = mon.stats.baseAD;
+            const baseAP = mon.stats.baseAP;
             return (
                 <li>
                     {attack.name} deals n{" "}

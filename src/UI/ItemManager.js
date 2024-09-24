@@ -17,11 +17,8 @@ function ItemManager({player})  {
       }
   };
   const equipItem = () => {
-    if (focusedItem && focusedItem.equipped === false) {
+    if (focusedItem) {
       focusedMon.equipItem(focusedItem);
-      
-    } else {
-      focusedMon.removeItem(focusedItem);
     }
   }
 

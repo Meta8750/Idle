@@ -24,24 +24,28 @@ export default class Animon {
     type: string;
     role: string;
     attacks: any[];
-    maxHealth: number;
     healthGrowth: number;
-    baseAD: number;
+    stats:{
+        maxHealth: number;
+        baseAD: number;
+        baseAP: number;
+        baseArmour: number;
+        baseMR: number;
+        maxMana: number;
+        baseMS: number;
+        baseCritRate: number;
+        baseCritDamage: number;
+        armourPen: number;
+        mrPen: number;
+        maxHealthDmg: number;
+    currentHealthDmg: number;
+    }
     ADGrowth: number;
-    baseAP: number;
     APGrowth: number;
-    baseArmour: number;
     armourGrowth: number;
-    baseMR: number;
     MRGrowth: number;
-    baseMS: number;
     MSGrowth: number;
-    maxMana: number;
     manaGrowth: number;
-    baseCritRate: number;
-    baseCritDamage: number;
-    armourPen: number;
-    mrPen: number;
     mana: number;
     health: number;
     exp: number;
@@ -52,8 +56,6 @@ export default class Animon {
     dmg: number;
     alive: boolean;
     uid: string;
-    maxHealthDmg: number;
-    currentHealthDmg: number;
     temp: TempStats;
     ADReduction:number;
     APReduction:number;
@@ -63,16 +65,26 @@ export default class Animon {
         Object.assign(this, monData)
 
         this.maxLevel = 0
-        this.maxMana = monData.maxMana + (this.manaGrowth * this.level)
-        this.maxHealth = monData.maxHealth + (this.healthGrowth * this.level)
-        this.baseAD = monData.baseAD + (this.ADGrowth * this.level)
-        this.baseAP = monData.baseAP + (this.APGrowth * this.level)
-        this.baseArmour = monData.baseArmour + (this.armourGrowth * this.level)
-        this.baseMR = monData.baseMR + (this.MRGrowth * this.level)
-        this.baseMS = monData.baseMS + (this.MSGrowth * this.level)
+        this.stats = {
+            maxMana:    monData.stats.maxMana + (this.manaGrowth * this.level),
+            maxHealth:  monData.stats.maxHealth + (this.healthGrowth * this.level),
+            baseAD:     monData.stats.baseAD + (this.ADGrowth * this.level),
+            baseAP:     monData.stats.baseAP + (this.APGrowth * this.level),
+            baseArmour: monData.stats.baseArmour + (this.armourGrowth * this.level),
+            baseMR:     monData.stats.baseMR + (this.MRGrowth * this.level),
+            baseMS:     monData.stats.baseMS + (this.MSGrowth * this.level),
+            baseCritDamage: monData.stats.baseCritDamage,
+            baseCritRate:  monData.stats.baseCritRate,
+            armourPen: monData.stats.armourPen,
+            mrPen:  monData.stats.mrPen,
+            currentHealthDmg:  monData.stats.currentHealthDmg,
+            maxHealthDmg: monData.stats.maxHealthDmg,
 
-        this.mana = this.maxMana
-        this.health = this.maxHealth
+
+        }
+       
+        this.mana = this.stats.maxMana
+        this.health = this.stats.maxHealth
         this.exp = 0
         this.nextLevel = this.calculateNextLevel()
         this.itemSlot = [];
@@ -84,8 +96,7 @@ export default class Animon {
         this.dmg = 0
         
         this.alive = true
-        this.ADReduction = this.calculateDmgReduction(this.baseArmour)
-        this.APReduction = this.calculateDmgReduction(this.baseMR)
+     
 
         this.equipment = {
             chain: null,
@@ -121,17 +132,17 @@ export default class Animon {
     levelProgess() :void{
         if (this.exp >= this.nextLevel){
             this.level++
-            this.baseAD += this.ADGrowth
-            this.baseAP += this.APGrowth
-            this.baseArmour += this.armourGrowth
-            this.baseMR += this.MRGrowth
-            this.baseMS += this.MSGrowth
-            this.maxHealth += this.healthGrowth
-            this.health = this.maxHealth
-            this.maxMana += this.manaGrowth
+            this.stats.baseAD += this.ADGrowth
+            this.stats.baseAP += this.APGrowth
+            this.stats.baseArmour += this.armourGrowth
+            this.stats.baseMR += this.MRGrowth
+            this.stats.baseMS += this.MSGrowth
+            this.stats.maxHealth += this.healthGrowth
+            this.health = this.stats.maxHealth
+            this.stats.maxMana += this.manaGrowth
             this.nextLevel = this.calculateNextLevel()
-            this.ADReduction = this.calculateDmgReduction(this.baseArmour)
-            this.APReduction = this.calculateDmgReduction(this.baseMR)
+            this.ADReduction = this.calculateDmgReduction(this.stats.baseArmour)
+            this.APReduction = this.calculateDmgReduction(this.stats.baseMR)
             this.exp = 0
         }
     }
@@ -141,26 +152,25 @@ export default class Animon {
     
     // attacker = this.mon and defender = enemy
     calculateDmg(attack: any, attacker: any, defender: any){
-
         let temp  = this.temp
 
-        this.dmg = attack.baseDMG + ((attacker.baseAD + temp.AD) * attack.adScaling) 
+        this.dmg = attack.baseDMG + ((attacker.stats.baseAD + temp.AD) * attack.adScaling) 
         
-        this.dmg += ((attacker.baseAP + temp.AP) * attack.apScaling)
+        this.dmg += ((attacker.stats.baseAP + temp.AP) * attack.apScaling)
        
         if (attack.type == "AD"){
-            let reduceDmg = this.calculateDmgReduction((this.armourPen + temp.armourPen) * (defender.baseArmour + defender.temp.armour))
+            let reduceDmg = this.calculateDmgReduction((this.stats.armourPen + temp.armourPen) * (defender.stats.baseArmour + defender.temp.armour))
             this.dmg = this.dmg - ( reduceDmg * this.dmg )
            
         }
         
         if (attack.type == "AP"){
-            let reduceDmg = this.calculateDmgReduction((this.mrPen + temp.mrPen ) * (defender.baseMR + defender.temp.MR))
+            let reduceDmg = this.calculateDmgReduction((this.stats.mrPen + temp.mrPen ) * (defender.stats.baseMR + defender.temp.MR))
 
             this.dmg = this.dmg - ( reduceDmg * this.dmg )
         }   
         
-        if (Math.random() <= attacker.baseCritRate + temp.critRate) {   this.dmg *= (attacker.baseCritDamage + temp.critDamage) }
+        if (Math.random() <= attacker.stats.baseCritRate + temp.critRate) {   this.dmg *= (attacker.stats.baseCritDamage + temp.critDamage) }
         this.dmg = this.dmg + (this.dmg * temp.dmgAmp)
         
         defender.health -= this.dmg
@@ -177,8 +187,8 @@ export default class Animon {
 
 
     resetTempStats() {
-        this.maxHealth -= this.temp.maxHealth
-        this.baseMS -= this.temp.MS
+        this.stats.maxHealth -= this.temp.maxHealth
+        this.stats.baseMS -= this.temp.MS
         this.temp = {
             AD: 0,
             AP: 0,
@@ -197,27 +207,40 @@ export default class Animon {
         
         
     }
-        equipItem(item): void {
-            const { slotType } = item;
-
-            if (this.equipment[slotType]) {
-                console.log(`Slot ${slotType} is already occupied. Replacing item...`);
-                this.removeItem(slotType); // Entferne das aktuelle Item im Slot
-            }
-
-            this.equipment[slotType] = item;
-            item.equipped = true;
-            console.log(`${item.name} equipped in slot ${slotType}.`);
-        }
-
-        removeItem(slotType): void {
-            const currentItem = this.equipment[slotType];
-            if (currentItem) {
-                currentItem.equipped = false;
-                this.equipment[slotType] = null;
-                console.log(`${currentItem.name} removed from slot ${slotType}.`);
+    getItemStats(): void {
+        for (const item in this.equipment){
+            if(item != null){
+                for (const stat in item){
+                    this.stats[stat] += item.temp[stat];
+                }
             }
         }
+
+    }
+
+    equipItem(item): void {
+        const { slotType } = item;
+
+        if (this.equipment[slotType]) {
+            
+            this.removeItem(slotType); // Entferne das aktuelle Item im Slot
+        }
+
+        this.equipment[slotType] = item;
+        item.equipped = true;
+        this.getItemStats()
+
+              
+    }
+
+    removeItem(slotType): void {
+        const currentItem = this.equipment[slotType];
+        
+        if (currentItem) {
+            currentItem.equipped = false;
+            this.equipment[slotType] = null;
+        }
+    }
     
 
 }

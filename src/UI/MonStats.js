@@ -9,13 +9,13 @@ function MonStats({mon}){
             <div>
                 <h1>{mon.name}</h1>
                 {mon.getImageElement()}
-                <li class="text-green-400" >{mon.maxHealth}/{mon.health}</li>
-                <li class="text-blue-300">{mon.maxMana}/{mon.mana}</li>
-                <li class="text-orange-500">AD: {mon.baseAD}</li>
-                <li class="text-blue-600">AP: {mon.baseAP}</li>
-                <li>MS: {mon.baseMS}</li>
-                <li>Armour: {mon.baseArmour}</li>
-                <li>MR: {mon.baseMR}</li>
+                <li class="text-green-400" >{mon.stats.maxHealth}/{mon.health}</li>
+                <li class="text-blue-300">{mon.stats.maxMana}/{mon.mana}</li>
+                <li class="text-orange-500">AD: {mon.stats.baseAD}</li>
+                <li class="text-blue-600">AP: {mon.stats.baseAP}</li>
+                <li>MS: {mon.stats.baseMS}</li>
+                <li>Armour: {mon.stats.baseArmour}</li>
+                <li>MR: {mon.stats.baseMR}</li>
                 <div>{mon.attacks.map((attack, index) => {
                     return attack.description(mon, attack)
                 })}</div>

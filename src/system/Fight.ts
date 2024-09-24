@@ -35,7 +35,7 @@ export default class Fight{
             this.player = player
             this.currentBatch = this.arena.enemys[0];
             this.combinedUnits = [...this.team, ...this.currentBatch];
-            this.attackOrder  = this.combinedUnits.sort((a, b) => b.baseMS - a.baseMS);
+            this.attackOrder  = this.combinedUnits.sort((a, b) => b.stats.baseMS - a.stats.baseMS);
             this.target = null;
             this.battleLogs = [];
             this.battleLogs.push("Battle Started");
@@ -72,14 +72,15 @@ export default class Fight{
         const attack = this.currentAttacker.attacks[Math.floor(Math.random() * 3)];
         const target = this.team[Math.floor(Math.random() * 3)];
         this.battleLogs.push(`${this.currentAttacker.name} uses ${attack.name} and dealt ${target.calculateDmg(attack, this.currentAttacker, target)}`)
-        this.attackOrder = [...this.attackOrder].sort((a, b) => b.baseMS - a.baseMS);
+       
+        this.attackOrder = [...this.attackOrder].sort((a, b) => b.stats.baseMS - a.stats.baseMS);
         this.advanceTurn();
       };
 
     //function to choose next attacker
     advanceTurn = () => {
        
-        this.attackOrder = [...this.attackOrder].sort((a, b) => b.baseMS - a.baseMS);
+        this.attackOrder = [...this.attackOrder].sort((a, b) => b.stats.baseMS - a.stats.baseMS);
         //choose next attack
         let nextIndex = (this.currentAttackerIndex + 1) % this.attackOrder.length;
         //check if alive
@@ -104,7 +105,7 @@ export default class Fight{
             this.currentBatchIndex++;
               this.currentBatch =  this.arena.enemys[this.currentBatchIndex];
               this.combinedUnits = [...this.team, ...this.currentBatch];
-              this.sortedUnits = this.combinedUnits.sort((a, b) => b.MS - a.MS);
+              this.sortedUnits = this.combinedUnits.sort((a, b) => b.stats.MS - a.stats.MS);
               this.attackOrder = this.sortedUnits;
               this.currentAttackerIndex = 0;
               this.currentAttacker = this.attackOrder[this.currentAttackerIndex];
@@ -114,7 +115,11 @@ export default class Fight{
             this.player.inventory.updateItem(Dex.generate(drop.dropID))
             
             this.team.map((mon) =>{
-               
+                this.player.inventory.updateItem(Dex.generate(drop.dropID))
+                this.player.inventory.updateItem(Dex.generate(drop.dropID))
+                this.player.inventory.updateItem(Dex.generate(drop.dropID))
+                this.player.inventory.updateItem(Dex.generate(drop.dropID))
+                this.player.inventory.updateItem(Dex.generate(drop.dropID))
                 mon.resetTempStats()
                 mon.exp += drop.exp
                 mon.levelProgess()

@@ -6,21 +6,25 @@ type monData = {
     type: string;
     role: string;
     attacks: any[],
-    maxHealth: number;
+    stats: {
+        maxHealth: number;
+        baseAP: number;
+        baseAD: number;
+        baseArmour: number;
+        baseMR: number;
+        baseMS: number;
+        baseCritRate: number;
+        baseCritDamage: number;
+        maxMana: number;
+
+    },
+    
     healthGrowth: number;
-    baseAD: number;
     ADGrowth: number;
-    baseAP: number;
     APGrowth: number;
-    baseArmour: number;
     armourGrowth: number;
-    baseMR: number;
     MRGrowth: number;
-    baseMS: number;
     MSGrowth: number;
-    baseCritRate: number;
-    baseCritDamage: number;
-    maxMana: number;
     manaGrowth: number;
     armourPen: number;
     mrPen: number;
@@ -39,26 +43,30 @@ export const monData = [
         rarity: "common",
         type: "Fire",
         role: "DD",  
-        maxHealth: 100,
-        healthGrowth: 10,
-        baseAD: 10,
+        stats: {
+            maxHealth: 100,
+            baseAD: 10,
+            baseAP: 5,
+            baseArmour: 2,
+            baseMR: 1,
+            baseMS: 300,  
+            baseCritRate: 0.05,
+            baseCritDamage: 0.2,
+            maxMana: 100,
+            armourPen: 0,
+            mrPen: 0,
+            maxHealthDmg: 0,
+            currentHealthDmg: 0,
+        },
+
         ADGrowth: 1.5,
-        baseAP: 5,
         APGrowth: 0.5,
-        baseArmour: 2,
+        healthGrowth: 10,
         armourGrowth: 1,
-        baseMR: 1,
         MRGrowth: 0.5,
-        baseMS: 300,  
         MSGrowth: 5,
-        baseCritRate: 0.05,
-        baseCritDamage: 0.2,
-        maxMana: 100,
         manaGrowth: 10,
-        armourPen: 0,
-        mrPen: 0,
-        maxHealthDmg: 0,
-        currentHealthDmg: 0,
+
         attacks: [20000, 20000, 20000, 20000],
 
     },
@@ -69,26 +77,30 @@ export const monData = [
         rarity: "common",
         type: "Fire",
         role: "DD",
-        maxHealth: 120,
-        healthGrowth: 12,
-        baseAD: 12,
+        stats: {
+            maxHealth: 120,
+            baseAD: 12,
+            baseAP: 6,
+            baseMR: 2,
+            baseArmour: 3,
+            baseMS: 320,
+            baseCritRate: 0.05,
+            baseCritDamage: 0.2,
+            maxMana: 101,
+            armourPen: 0,
+            mrPen: 0,
+            maxHealthDmg: 0,
+            currentHealthDmg: 0,
+        },
+
         ADGrowth: 1.8,
-        baseAP: 6,
         APGrowth: 0.6,
-        baseArmour: 3,
+        healthGrowth: 12,
         armourGrowth: 1.2,
-        baseMR: 2,
         MRGrowth: 0.6,
-        baseMS: 320,
         MSGrowth: 6,
-        baseCritRate: 0.05,
-        baseCritDamage: 0.2,
-        maxMana: 101,
         manaGrowth: 10,
-        armourPen: 0,
-        mrPen: 0,
-        maxHealthDmg: 0,
-        currentHealthDmg: 0,
+
         attacks: [20000, 20000, 20000, 20000],
 
     },
@@ -100,26 +112,31 @@ export const monData = [
         rarity: "common",
         type: "Fire",
         role: "DD",
-        maxHealth: 120,
-        healthGrowth: 12,
-        baseAD: 12,
+        stats: {
+            maxHealth: 120,
+            baseAD: 12,
+            baseAP: 6,
+            baseArmour: 3,
+            baseMR: 2,
+            baseMS: 320,
+            baseCritRate: 0.5,
+            baseCritDamage: 2,
+            maxMana: 100,
+            armourPen: 0,
+            mrPen: 0,
+            maxHealthDmg: 0,
+            currentHealthDmg: 0,
+        },
+
+       
         ADGrowth: 1.8,
-        baseAP: 6,
         APGrowth: 0.6,
-        baseArmour: 3,
+        healthGrowth: 12,
         armourGrowth: 1.2,
-        baseMR: 2,
         MRGrowth: 0.6,
-        baseMS: 320,
         MSGrowth: 6,
-        baseCritRate: 0.5,
-        baseCritDamage: 2,
-        maxMana: 100,
         manaGrowth: 10,
-        armourPen: 0,
-        mrPen: 0,
-        maxHealthDmg: 0,
-        currentHealthDmg: 0,
+
         attacks: [20000, 20999, 20999, 20999],
 
     },

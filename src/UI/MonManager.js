@@ -52,7 +52,7 @@ function MonManager({player}) {
                 <p>{focusedMon.name}</p>
                 <p>Level: {focusedMon.level}</p>
                 <p>Exp: {focusedMon.exp}/{focusedMon.nextLevel}</p>
-                <p>HP: {focusedMon.health}/{focusedMon.maxHealth}</p>
+                <p>HP: {focusedMon.health}/{focusedMon.stats.maxHealth}</p>
                 <p>Defense: {focusedMon.defense}</p>
                 <p>Speed: {focusedMon.speed}</p>
                 <p>Type: {focusedMon.type}</p>

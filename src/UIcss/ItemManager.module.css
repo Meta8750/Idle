@@ -25,17 +25,23 @@
     border: solid 1px aqua;
 }
 
+/* design for the hole box */
 .box{
     display:grid;
     grid-area: items;
-    
     grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
-    grid-template-rows: repeat(10, 1fr)
+    grid-template-rows: repeat(10, 1fr);
+    overflow: auto;
+    max-height: 800px;
 }
+
+/* design for the idividual item */
 .items {
     border: solid 1px aqua;
     text-align: center;
     min-height: 100px;
+    margin: 10px;
+    padding: 10px;
 }
 
 .stats{

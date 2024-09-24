@@ -1,4 +1,5 @@
 import React from 'react';
+import styles from '../../UIcss/components/ItemStars.module.css'
 
 interface Item {
   name: string;
@@ -12,11 +13,11 @@ const ItemStars: React.FC<{ item: Item }> = ({ item }) => {
       
       <div className="stars">
         {starArray.map((_, index) => (
-          <span key={index} className="star filled">★</span>
+          <span key={index} >★</span>
         ))}
-        {Array(5 - item.stars).fill('').map((_, index) => (
-          <span key={index + item.stars} className="star">★</span>
-        ))}
+        {/* {Array(item.stars).fill('').map((_, index) => (
+          <span key={index + item.stars} className={styles.rainbowText}>★</span>
+        ))} */}
       </div>
     </div>
   );

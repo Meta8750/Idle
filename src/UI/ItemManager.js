@@ -34,7 +34,7 @@ function ItemManager({player})  {
         <div className={styles.mainContainer}>
           <div className={styles.box}>
           
-          {player.inventory.getInventory().map((item, index) => (
+          {player.inventory.getArtifacts().map((item, index) => (
                 <ul className={styles.items} onClick={() => setFocusedItem(item)}>
                   <li key={index}>
                   <p class="px-0 m-0 f text-sm" >{item.name}</p>

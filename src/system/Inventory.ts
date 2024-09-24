@@ -68,6 +68,9 @@ export default class Inventory {
     getInventory(){
         return this.inventory;
     }
+    getArtifacts(){
+        return this.inventory.filter(i => i.uid !== undefined)
+    }
     getEquippedItems() {
         return this.inventory.filter(item => item.equipped);
     }

@@ -246,16 +246,30 @@ export default class Animon {
     }
     getItemStats(): void {
         // Iteriere über die ausgerüsteten Items
+      
         for (const slot in this.equipment) {
             const item = this.equipment[slot]; // Hole das ausgerüstete Item für jeden Slot
-    
+           
             if (item && item.temp) { // Prüfen, ob ein Item vorhanden ist und temp-Stats hat
                 for (const stat in item.temp) {
+                  
                     if (this.stats[stat] !== undefined) {
-                        if(Number.isInteger(this.stats[stat])){
+                        console.log(this.stats[stat])
+                        console.log(item.temp[stat])
+                        console.log(stat)
+                        
+                        if(Number.isInteger(this.temp[stat])){
+                            console.log(this.stats[stat])
+                            console.log(item.temp[stat])
+                            console.log(stat)
                             this.stats[stat] *= item.temp[stat];
+                           
                         } else {
+                            console.log(this.stats[stat])
+                            console.log(item.temp[stat])
+                            console.log(stat)
                             this.stats[stat] += item.temp[stat]; // Addiere die Stats
+                           
                         }
                         
                     } else {
@@ -270,11 +284,12 @@ export default class Animon {
                 if (item && item.temp) { // Prüfen, ob ein Item vorhanden ist und temp-Stats hat
                     for (const stat in item.temp) {
                         if (this.stats[stat] !== undefined) {
-                            if(Number.isInteger(this.stats[stat])){
+                            if(Number.isInteger(this.temp[stat])){
                                 this.stats[stat] /= item.temp[stat];
+                              
                             } else {
                                 this.stats[stat] -= item.temp[stat]; // Addiere die Stats
-                                console.log("sollte gehen lol")
+                               
                             }
                             
                         } else {

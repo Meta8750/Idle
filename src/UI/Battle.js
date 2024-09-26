@@ -9,6 +9,25 @@ const battleLogs = []
 let fight = new Fight()
 
 function Battle({ player }) {
+  const [fight] = useState(new Fight(updateDamage));
+
+  const [dmgTracker,setDmgTracker] = useState({})
+
+  function updateDamage(monId, damageAmount) {
+    setDmgTracker((prevState) => ({
+      ...prevState,
+      [monId]: damageAmount,
+    }));
+
+    // Remove damage after 1 second
+    setTimeout(() => {
+      setDmgTracker((prevState) => ({
+        
+        ...prevState,
+        [monId]: null,
+      }));
+    }, 2000); // 1 second duration for the damage display
+  }
 
   const initializeBattle = (batch, exp) => {
     fight.startFight(player, batch, exp)
@@ -40,8 +59,13 @@ function Battle({ player }) {
       > 
         <p>{mon.name} {mon.level}</p>
         <div className={styles.hpBar}><div className={styles.hpFill} style={hpBar(mon)}>{mon.stats.maxHealth}\{mon.health}</div></div>
+        {dmgTracker[mon.uid] && (
+          <div className={styles.damageIndicator}>
+            -{dmgTracker[mon.uid]}
+          </div>
+        )}
         <img class="w-52 h-52" alt ={mon.name}src={mon.img}></img>
-      
+        
         <ul class={fight.currentAttacker === mon ? "" : "hidden"}>
           {mon.attacks.map((attack, attackIndex) => (
             <li
@@ -70,9 +94,15 @@ function Battle({ player }) {
         className={`${styles.enemy} ${
           fight.attackOrder[fight.currentAttackerIndex] === enemy ? styles.activeEnemy : ""
         }`}
-      >
+      >  
         <p>{enemy.name}</p>
         <div className={styles.hpBar}><div className={styles.hpFill} style={hpBar(enemy)}>{enemy.stats.maxHealth}\{enemy.health}</div></div>
+        {dmgTracker[enemy.uid] && (
+          <div className={styles.damageIndicator}>
+          
+            {dmgTracker[enemy.uid]}
+          </div>
+        )}
         <img class="w-52 h-52" alt ={enemy.name}src={enemy.img}></img>
       </div>
       

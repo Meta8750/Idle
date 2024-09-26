@@ -20,9 +20,13 @@ export default class Fight{
     currentAttacker: any;
     player:any;
     autoBattle: boolean;
+    updateDamageCallback: any;
+    dmgAmount: number;
 
-    constructor(){
+    constructor(updateDamageCallback){
         this.result = "Battle"
+        this.updateDamageCallback = updateDamageCallback; // Callback to update damage in UI
+        this.dmgAmount = 0;
     }
 
     startFight(player: any, batch: number[],drop: number){
@@ -44,6 +48,7 @@ export default class Fight{
             this.lastFight = null;
             this.currentAttacker = this.attackOrder[this.currentAttackerIndex];
             this.autoBattle = false;
+           
     }
 
     handleAttack(attack: any, mon: any){
@@ -55,13 +60,16 @@ export default class Fight{
           if (this.attackTarget != "none") {
             // Apply damage, buffs, debuffs, etc.
             if (attack.aoe){
-                this.arena.enemys[this.currentBatchIndex].map((enemy) =>{
-                mon.calculateDmg(attack, mon, enemy)
+                    this.arena.enemys[this.currentBatchIndex].map((enemy) =>{
+                    this.dmgAmount = mon.calculateDmg(attack, mon, enemy);
+                    this.updateDamageCallback(enemy.uid, this.dmgAmount);
               })
             } else {
-                this.battleLogs.push(`${this.currentAttacker.name} uses ${this.currentAttacker.name} and dealt ${mon.calculateDmg(attack, mon, this.attackTarget)}`);
+                // this.battleLogs.push(`${this.currentAttacker.name} uses ${this.currentAttacker.name} and dealt ${mon.calculateDmg(attack, mon, this.attackTarget)}`);
+                this.dmgAmount = mon.calculateDmg(attack, mon, this.attackTarget);
+                this.updateDamageCallback(this.attackTarget.uid, this.dmgAmount);
             }
-            attack.passive(this.currentAttacker)
+                attack.passive(this.currentAttacker)
             this.advanceTurn();
             this.attackTarget = "none"
             this.checkAndAdvanceBatch()

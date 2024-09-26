@@ -3,9 +3,12 @@
     grid-template-areas:
       "aside header header"
       "aside main main";
-    grid-template-rows: 0.06fr 1fr;
+    grid-template-rows: 0.006fr 1fr;
     grid-template-columns: 0.8fr 6fr;
-    height: 100vh;
+    height: 1000vh;
+    overflow: auto; 
+    -ms-overflow-style: none; 
+    scrollbar-width: none;  
   }
 
   body{
@@ -14,8 +17,8 @@
   
   header {
     grid-area: header;
-    
-    
+    background-color: black;
+  
    
   }
   

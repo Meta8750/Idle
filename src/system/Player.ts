@@ -121,9 +121,7 @@ class Player {
         // Iteriere durch die Mons-Sammlung
         for (const mon of this.mons) {
             if (mon.equipment[slotType] === null) continue
-                console.log(mon.equipment[slotType])
-            // Finde das Item anhand der UID in den Slots des Mons
-            
+              
                 
                 if (mon.equipment[slotType].uid === uid) {
                     // Item gefunden, entferne es

@@ -219,17 +219,22 @@ export default class Animon {
 
     equipItem(item): void {
         const { slotType } = item;
-
+        
+        
         if (this.equipment[slotType]) {
             this.removeItemStats()
             this.removeItem(slotType); // Entferne das aktuelle Item im Slot
+        
         } else {
             
-            this.equipment[slotType] = item;
-            item.equipped = true;
-            this.getItemStats()
+            if (item.equipped === false){
+                this.equipment[slotType] = item;
+                item.equipped = true;
+                this.getItemStats()
+            }
+        
         }
-
+ 
 
               
     }
@@ -254,20 +259,14 @@ export default class Animon {
                 for (const stat in item.temp) {
                   
                     if (this.stats[stat] !== undefined) {
-                        console.log(this.stats[stat])
-                        console.log(item.temp[stat])
-                        console.log(stat)
+                      
                         
-                        if(Number.isInteger(this.temp[stat])){
-                            console.log(this.stats[stat])
-                            console.log(item.temp[stat])
-                            console.log(stat)
+                     if(Number.isInteger(this.temp[stat])){
+                          
                             this.stats[stat] *= item.temp[stat];
                            
                         } else {
-                            console.log(this.stats[stat])
-                            console.log(item.temp[stat])
-                            console.log(stat)
+                        
                             this.stats[stat] += item.temp[stat]; // Addiere die Stats
                            
                         }

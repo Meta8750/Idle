@@ -117,7 +117,24 @@ class Player {
         }
 
     }
-    
+    removeItemFromMon(slotType: string, uid: number): void {
+        // Iteriere durch die Mons-Sammlung
+        for (const mon of this.mons) {
+            if (mon.equipment[slotType] === null) continue
+                console.log(mon.equipment[slotType])
+            // Finde das Item anhand der UID in den Slots des Mons
+            
+                
+                if (mon.equipment[slotType].uid === uid) {
+                    // Item gefunden, entferne es
+                    mon.equipItem(mon.equipment[slotType])
+                    mon.equipment[slotType] = null;
+                    return;
+                
+            }
+        }
+      
+    }
     getSkills(skill: any) { //return the hole obj
         return this.skills[skill]
     }

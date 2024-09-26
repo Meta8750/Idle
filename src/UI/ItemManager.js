@@ -13,13 +13,18 @@ function ItemManager({player})  {
       
         player.inventory.updateItem({name: focusedItem.name, quantity: -focusedItem.quantity});
        
-        
       }
   };
   const equipItem = () => {
-    if (focusedItem) {
+    
+    if (focusedItem.equipped === true){
+      player.removeItemFromMon(focusedItem.slotType, focusedItem.uid)
+      
+    } else {
       focusedMon.equipItem(focusedItem);
     }
+   
+    
   }
 
   const focusingItem = (item) => {

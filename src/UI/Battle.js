@@ -2,7 +2,6 @@ import React from "react";
 import { useState, useEffect } from "react";
 import styles from '../UIcss/Battle.module.css'
 import Monstats from './MonStats.js'
-import PostScreen from "./PostScreen.js";
 import Fight from "../system/Fight.ts";
 
 const battleLogs = []
@@ -29,9 +28,15 @@ function Battle({ player }) {
     }, 2000); // 1 second duration for the damage display
   }
 
-  const initializeBattle = (batch, exp) => {
-    fight.startFight(player, batch, exp)
+  const initializeBattle = (batch, drop) => {
+    if (player.team.length != 0) {
+      fight.startFight(player, batch, drop)
+    }
     
+  }
+
+  const playAgain = () => {
+    fight.startFight(player, fight.lastFight.enemyList, fight.lastFight.dropID)
   }
  
   const hpBar = (mon) => {
@@ -146,7 +151,10 @@ function Battle({ player }) {
           <p>No current Battle</p>
         )}
       
-       <div className={fight.result === "won" ? styles.visible : styles.hidden}> <PostScreen team={player.getTeam()} arena={fight.lastFight} result={fight.result}/>1</div>
+       <div className={fight.result === "won" ? styles.visible : styles.hidden}>
+         <p>Victory</p>
+         <button onClick={() => playAgain()}></button>
+         </div>
     </div>
   );
 }

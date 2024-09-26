@@ -170,9 +170,11 @@ class Arena {
     expDrop: number
     enemyMons: any
     drop: any;
+    dropID:number;
     
 
     constructor(enemyList: number[], id: number) {
+        this.dropID = id;
         this.dex = new dex();
         this.enemyList = enemyList || [[10000,10000,10000],[10000,10001,10000]]
         this.enemys = []

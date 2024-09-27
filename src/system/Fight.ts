@@ -22,6 +22,7 @@ export default class Fight{
     autoBattle: boolean;
     updateDamageCallback: any;
     dmgAmount: number;
+    drop: any;
 
     constructor(updateDamageCallback){
         this.result = "Battle"
@@ -48,6 +49,7 @@ export default class Fight{
             this.lastFight = null;
             this.currentAttacker = this.attackOrder[this.currentAttackerIndex];
             this.autoBattle = false;
+            this.drop = null;
            
     }
 
@@ -72,7 +74,7 @@ export default class Fight{
                 attack.passive(this.currentAttacker)
             this.advanceTurn();
             this.attackTarget = "none"
-            this.checkAndAdvanceBatch()
+            setTimeout(()=> {this.checkAndAdvanceBatch()}, 1500)
         }
     }
 
@@ -82,7 +84,7 @@ export default class Fight{
         this.battleLogs.push(`${this.currentAttacker.name} uses ${attack.name} and dealt ${target.calculateDmg(attack, this.currentAttacker, target)}`)
        
         this.attackOrder = [...this.attackOrder].sort((a, b) => b.stats.baseMS - a.stats.baseMS);
-        this.advanceTurn();
+        setTimeout(() => {this.advanceTurn();}, 1000)
       };
 
     //function to choose next attacker
@@ -119,17 +121,13 @@ export default class Fight{
               this.currentAttacker = this.attackOrder[this.currentAttackerIndex];
             } else {
 
-            const drop = this.getDropRarity()   
-            this.player.inventory.updateItem(Dex.generate(drop.dropID))
-            
+            this.drop = this.getDropRarity()   
+            this.player.inventory.updateItem(Dex.generate(this.drop.dropID)) //this.drop for postScreen  
+            this.drop.name =Dex.generate(this.drop.dropID).name       
             this.team.map((mon) =>{
-                this.player.inventory.updateItem(Dex.generate(drop.dropID))
-                this.player.inventory.updateItem(Dex.generate(drop.dropID))
-                this.player.inventory.updateItem(Dex.generate(drop.dropID))
-                this.player.inventory.updateItem(Dex.generate(drop.dropID))
-                this.player.inventory.updateItem(Dex.generate(drop.dropID))
+                
                 mon.resetTempStats()
-                mon.exp += drop.exp
+                mon.exp += this.drop.exp
                 mon.levelProgess()
                 
             })

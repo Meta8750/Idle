@@ -1,17 +1,29 @@
 .mainContainer {
     display:grid;
     grid-template-areas:
-    "team  stats"
-    "items  stats";
-    grid-template-rows: 0.001fr 1fr;
-    grid-template-columns:  1fr 0.3fr;
+    "mon item stats"
+    "mon item stats";
+    grid-template-rows: 1fr 1fr;
+    grid-template-columns:  1fr  2fr 1fr;
     min-width: 100%;
     min-height: 100%;
     color: white;
+  
+    
+}
+
+.itemSelection{
+    border-radius: 0px;
+    border:solid grey 0.1vh;
+    padding: 0.5vh;
+    margin: 0px;
+    max-width: 100%;
+    min-width: 20%;
+    
 }
 
 .team{
-    grid-area: team;
+    grid-area: mon;
     background-color: #000000;
     padding: 20px;
     display: flex;
@@ -28,7 +40,7 @@
 /* design for the hole box */
 .box{
     display:grid;
-    grid-area: items;
+    grid-area: item;
     grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
     grid-template-rows: repeat(10, 1fr);
     overflow: auto;

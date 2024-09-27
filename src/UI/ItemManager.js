@@ -1,12 +1,21 @@
 import React, { useState, useEffect } from 'react';
 import styles from '../UIcss/ItemManager.module.css'
 import ItemStar from './components/ItemStars.tsx'
+import MonStats from './components/MonStats.tsx'
 
-function ItemManager({player})  {
+
+
+function ItemManager({player, mon, setTab})  {
+
+ 
 
   const [focusedItem, setFocusedItem] = useState(null);
-  const [focusedMon, setFocusedMon] = useState(null);
-  
+ 
+  const [itemTab, setItemTab] = useState("chain");
+ 
+  if (player.mons.length === 0 ||  mon === undefined) {
+    return <p>No Mons available</p>; // break if player dont have mons
+  }
   
   const handleSell = () => {
     if (focusedItem) {
@@ -21,7 +30,7 @@ function ItemManager({player})  {
       player.removeItemFromMon(focusedItem.slotType, focusedItem.uid)
       
     } else {
-      focusedMon.equipItem(focusedItem);
+      mon.equipItem(focusedItem);
     }
    
     
@@ -29,10 +38,6 @@ function ItemManager({player})  {
 
   const focusingItem = (item) => {
       setFocusedItem(item);
-  }
-
-  const focusingMon = (mon) =>{
-      setFocusedMon(mon);
   }
   
     return (
@@ -52,49 +57,67 @@ function ItemManager({player})  {
               ))}
           </div>
           
-          
+         
           <div className={styles.team}>
-          {player.getTeam() ? (
-                player.getTeam().map((mon, index) => (
-                  
-                  <div className="" onClick={() => setFocusedMon(mon)}>
-                      <p>{mon.name} {mon.level}</p>
+          <button onClick={() => setTab("mon")}>back</button>
+                  <div className="" >
+                      <p>{mon.name}</p>
 
                       <img class="w-52 h-52" alt ={mon.name}src={mon.img}></img>
+                      <MonStats mon={mon} />
+                      
                   </div>
-                
-              ))
-            ) : (<p>d</p>)}</div>
+              </div>
             
             
             <div className={styles.stats}>
-              {focusedItem ? (
-                <div>
-                  <p>{focusedItem.name}</p>
-                  <p>{focusedItem.quantity}</p>
-                  <p>{focusedItem.value}</p>
-                  {Object.entries(focusedItem.temp).map(([stat, value]) => {
-                  return <p>{stat} {value}</p>
-                    })}
-                  <img class="px-35" alt ={focusedItem.name}src={focusedItem.img}></img>
-                  <button onClick={() => equipItem()}>equip</button>
-              </div>  ) : (  <p>No Item selected</p>  )}
+              <div class="flex">
+                <button className={styles.itemSelection} onClick={() => setItemTab("chain")}>chain</button>
+                <button className={styles.itemSelection} onClick={() => setItemTab("ring")}>ring</button>
+                <button className={styles.itemSelection} onClick={() => setItemTab("necklace")}>necklace</button>
+                <button className={styles.itemSelection} onClick={() => setItemTab("head")}>head</button>
+                <button className={styles.itemSelection} onClick={() => setItemTab("book")}>book</button>
+              </div>
+             
 
-              {focusedMon ? (
+              {mon ? (
                 
                 
-                <div>
-                  <p>{focusedMon.name}</p>
-                  {Object.entries(focusedMon.equipment).map(([type, item]) => {
-                  return ( <div class="flex">
-                              <p>{type}</p> 
-                              {item != null ? <p>:{" "} {item.name}</p>
-                              : <p></p>}
-                          </div>
-                          )
-                       })};
+              <div>
+                 
+                {Object.entries(mon.equipment).map(([type, item]) => {
+                  return (
+                    <div class="flex">
+                      {type === itemTab ? (<div>
+                        {item != null ? (
+                          <div>
+                            <p>{item.name}</p>
+                            
+                        
+                              {Object.entries(item.temp).map(([stat, value]) => {
+                                return <p>{stat} {value}</p>})}
+                                 
+                            <img class="px-35" src={item.img}></img>
+                            
+                          </div> ) : <p></p>}  </div>) : (<p></p>)}
+            
+                        </div>
+                        )
+                    })}
 
               </div>) : ( <p>No Mon selected</p> )}
+
+              {focusedItem ? (
+                <div >
+                <p>{focusedItem.name}</p>
+                <p>{focusedItem.quantity}</p>
+                <p>{focusedItem.value}</p>
+                {Object.entries(focusedItem.temp).map(([stat, value]) => {
+                return <p>{stat} {value}</p> })}
+                 
+                <img class="px-35"src={focusedItem.img}></img>
+                <button onClick={() => equipItem()}>equip</button>
+            </div>  ) : (  <p>No Item selected</p>  )}
                
              
           </div>

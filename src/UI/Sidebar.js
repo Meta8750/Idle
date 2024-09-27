@@ -7,7 +7,7 @@ function Sidebar({player}) {
 
   
     
-    const tabs = ["Hub", "Player", "Battle", "MonManager", "ItemManager","Inventory","Shop","Cutting", "Mining","Smithing","Crafting", "Gambling", "Settings", "Logout"];
+    const tabs = ["Hub", "Player", "Battle", "MonManager","Inventory","Shop","Cutting", "Mining","Smithing","Crafting", "Gambling", "Settings", "Logout"];
 
     return (
         <div className={styles.sidebar}>

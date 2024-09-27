@@ -1,13 +1,16 @@
 import React from "react";
 import { useState } from "react";
 import Animon from "../system/Animon.ts";
+import ItemManager  from "./ItemManager.js";
 
 import styles from '../UIcss/MonManager.module.css'
+import Inventory from "../system/Inventory.ts";
 
 
 function MonManager({player}) {
 
     const [focusedMon, setFocusedMon] = useState();
+    const [tab, setTab] = useState("mon");
 
    const test = () => {
     player.setMons(10000)
@@ -27,7 +30,9 @@ function MonManager({player}) {
     }
     
     return (
-          <div className={styles.MonManager}>
+      <div>
+        <p className={tab === "item"  ? 'block' : ' hidden'} ><ItemManager player={player} mon={focusedMon} setTab={setTab}/></p>
+          <div  className={tab === "mon" ? styles.MonManager : ' hidden'}>
           <div className={styles.team}>
             <button class="" onClick={() => test()}></button>
               {player.getTeam() ? (
@@ -62,6 +67,7 @@ function MonManager({player}) {
                 ))}
                 <p>UID: {focusedMon.uid}</p>
                 <button class="px-10"onClick={() => setTeam(focusedMon)} >get in Team</button>
+                <button onClick={() => setTab("item")}>equipment</button>
                 
                 </div>
             
@@ -82,7 +88,7 @@ function MonManager({player}) {
               ))
             ) : (<p>none</p>)}
             </div>
-            </div>
+            </div></div>
     )
 }
 

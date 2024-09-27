@@ -29,13 +29,13 @@ const displayDmg = (animon: any, attack: any) => {
             <span className={attack.type === "AP" ? "text-blue-600" : "text-orange-500"}>
                 {Math.floor(attack.baseDMG + animon.stats.baseAD * attack.adScaling + animon.stats.baseAP * attack.apScaling)}
             </span>{" "}
-            ={" "}
+            ={" "} {attack.baseDMG} {" "}
             <span className="text-orange-500">
-                {attack.baseDMG} + {animon.stats.baseAD * attack.adScaling} ({attack.adScaling * 100}%)
+                 + {animon.stats.baseAD * attack.adScaling} ({attack.adScaling * 100}%)
             </span>{" "}
-            +{" "}
+            {" "}
             <span className={"text-blue-600"}>
-                {attack.baseDMG} + {animon.stats.baseAP * attack.apScaling} ({attack.apScaling * 100}%)
+                 + {animon.stats.baseAP * attack.apScaling} ({attack.apScaling * 100}%)
             </span>
             </div>
     );
@@ -79,9 +79,9 @@ export const attackData: AttackData[] = [
         id: 20999,
         level: 1,
         type: "AD",
-        baseDMG: 9999999,
-        adScaling: 999,
-        apScaling: 999,
+        baseDMG: 99999999999,
+        adScaling: 0,
+        apScaling: 0,
 
         manaCost: 10,
 
@@ -97,6 +97,7 @@ export const attackData: AttackData[] = [
             mon.stats.maxHealth *= 2
             mon.temp.health *= 2
             mon.temp.maxHealth += mon.stats.maxHealth - prev
+            mon.health += mon.stats.maxHealth - prev
         },
         description: (mon, attack) => {
             const baseAD = mon.stats.baseAD;

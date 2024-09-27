@@ -75,6 +75,49 @@ export const attackData: AttackData[] = [
     },
 
     {
+        name: "Death Lotus",
+        id: 20001,
+        level: 1,
+        type: "AP",
+        baseDMG: 40,
+        adScaling: 1,
+        apScaling: 0.5,
+
+        manaCost: 10,
+
+        armorPen:0,
+        mrPen:0,
+
+        lifeSteal:0,
+        selfHeal:0,
+        allyHeal:0,
+        aoe: false,
+
+        passive: (mon) => {
+            console.log(mon)
+            if (mon.kills > 0){
+                mon.kills = 0 
+                return true // true == reset mon is allowed to attack again
+            }
+           
+        },
+        
+        description: (animon, attack) => {
+            const { baseAD, baseAP } = animon;
+            return (
+                <div>
+
+                    <p>{attack.name} deals{" "} single target magic damage {displayDmg(animon, attack)}</p> 
+                    <p>the attacker gets an extra round if the target die's</p>
+
+                </div>
+            )
+                    
+            
+        }
+    },
+
+    {
         name: "Ammagedon",
         id: 20999,
         level: 1,

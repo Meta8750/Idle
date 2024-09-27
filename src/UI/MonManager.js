@@ -14,7 +14,7 @@ function MonManager({player}) {
 
    const test = () => {
     player.setMons(10000)
-    player.setMons(10001)
+    player.setMons(10003)
     player.setMons(10005)
     player.setTeam(player.getMons(0), 0)  
     player.setTeam(player.getMons(1), 0) 

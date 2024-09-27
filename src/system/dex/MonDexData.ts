@@ -106,6 +106,42 @@ export const monData = [
     },
 
     {
+        name: "Rose",
+        id: 10003,
+        level: 10,
+        rarity: "common",
+        type: "Dark",
+        role: "DD",
+        stats: {
+            maxHealth: 120,
+            baseAD: 12,
+            baseAP: 6,
+            baseArmour: 3,
+            baseMR: 2,
+            baseMS: 320,
+            baseCritRate: 0.5,
+            baseCritDamage: 2,
+            maxMana: 100,
+            armourPen: 0,
+            mrPen: 0,
+            maxHealthDmg: 0,
+            currentHealthDmg: 0,
+        },
+
+       
+        ADGrowth: 1.8,
+        APGrowth: 0.6,
+        healthGrowth: 12,
+        armourGrowth: 1.2,
+        MRGrowth: 0.6,
+        MSGrowth: 6,
+        manaGrowth: 10,
+
+        attacks: [20001, 20999, 20999, 20999],
+
+    },
+
+    {
         name: "Hell",
         id: 10005,
         level: 100,

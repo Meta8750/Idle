@@ -71,10 +71,14 @@ export default class Fight{
                 this.dmgAmount = mon.calculateDmg(attack, mon, this.attackTarget);
                 this.updateDamageCallback(this.attackTarget.uid, this.dmgAmount);
             }
-                attack.passive(this.currentAttacker)
-            this.advanceTurn();
+            if (attack.passive(this.currentAttacker) != true){
+                this.advanceTurn();
+            }
+           
+            
             this.attackTarget = "none"
             setTimeout(()=> {this.checkAndAdvanceBatch()}, 1500)
+            
         }
     }
 

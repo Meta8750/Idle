@@ -60,6 +60,7 @@ export default class Animon {
     ADReduction:number;
     APReduction:number;
     itemSlot: any[];
+    kills: number;
     equipment: {
         chain: any,
         ring: any,
@@ -106,6 +107,7 @@ export default class Animon {
         this.dmg = 0
         
         this.alive = true
+        this.kills = 0;
      
 
         this.equipment = {
@@ -165,6 +167,7 @@ export default class Animon {
     
     // attacker = this.mon and defender = enemy
     calculateDmg(attack: any, attacker: any, defender: any){
+        
         let temp  = this.temp
 
         this.dmg = attack.baseDMG + ((attacker.stats.baseAD + temp.AD) * attack.adScaling) 
@@ -189,7 +192,11 @@ export default class Animon {
         defender.health -= Math.round(this.dmg)
         
         if (this.health <= 0){ this.alive = false } //check if animon is dead
-        if (defender.health <= 0){ defender.alive = false } //check if defender is alive
+        if (defender.health <= 0){ 
+            defender.alive = false
+            this.kills++
+
+        } //check if defender is alive
             
         return Math.round(this.dmg)
     }

@@ -65,9 +65,6 @@ function App() {
           <div  className={activeTab === 'MonManager' ? styles.visible : styles.hidden}>
             <MonManager player={player}/>
           </div>
-          <div  className={activeTab === 'ItemManager' ? styles.visible : styles.hidden}>
-            <ItemManager player={player}/>
-          </div>
           <div className={activeTab === 'Mining' ? styles.visible : styles.hidden}>
             <Mining  time={time} player={player}/>
           </div>

@@ -71,7 +71,7 @@ export default class Animon {
     constructor(monData: any) {
         Object.assign(this, monData)
 
-        this.maxLevel = 0
+        this.maxLevel = 100
         this.stats = {
             maxMana:    monData.stats.maxMana + (this.manaGrowth * this.level),
             maxHealth:  monData.stats.maxHealth + (this.healthGrowth * this.level),
@@ -89,6 +89,9 @@ export default class Animon {
 
 
         }
+
+        this.ADReduction = this.calculateDmgReduction(this.stats.baseArmour)
+        this.APReduction = this.calculateDmgReduction(this.stats.baseMR)
        
         this.mana = this.stats.maxMana
         this.health = this.stats.maxHealth
@@ -137,24 +140,27 @@ export default class Animon {
         };
     }
     levelProgess() :void{
-        if (this.exp >= this.nextLevel){
-            this.level++
-            this.stats.baseAD += this.ADGrowth
-            this.stats.baseAP += this.APGrowth
-            this.stats.baseArmour += this.armourGrowth
-            this.stats.baseMR += this.MRGrowth
-            this.stats.baseMS += this.MSGrowth
-            this.stats.maxHealth += this.healthGrowth
-            this.health = this.stats.maxHealth
-            this.stats.maxMana += this.manaGrowth
-            this.nextLevel = this.calculateNextLevel()
-            this.ADReduction = this.calculateDmgReduction(this.stats.baseArmour)
-            this.APReduction = this.calculateDmgReduction(this.stats.baseMR)
-            this.exp = 0
+        if (this.level <= this.maxLevel){
+            if (this.exp >= this.nextLevel){
+                this.level++
+                this.stats.baseAD += this.ADGrowth
+                this.stats.baseAP += this.APGrowth
+                this.stats.baseArmour += this.armourGrowth
+                this.stats.baseMR += this.MRGrowth
+                this.stats.baseMS += this.MSGrowth
+                this.stats.maxHealth += this.healthGrowth
+                this.health = this.stats.maxHealth
+                this.stats.maxMana += this.manaGrowth
+                this.nextLevel = this.calculateNextLevel()
+                this.ADReduction = this.calculateDmgReduction(this.stats.baseArmour)
+                this.APReduction = this.calculateDmgReduction(this.stats.baseMR)
+                this.exp = 0
+            }
         }
+        
     }
     calculateNextLevel(){
-        return Math.pow(1.16, this.level) + 10 * this.level * (this.level / 2) + 4;
+        return Math.round(Math.pow(1.16, this.level) + 10 * this.level * (this.level / 2) + 4);
     }
     
     // attacker = this.mon and defender = enemy
@@ -180,16 +186,16 @@ export default class Animon {
         if (Math.random() <= attacker.stats.baseCritRate + temp.critRate) {   this.dmg *= (attacker.stats.baseCritDamage + temp.critDamage) }
         this.dmg = this.dmg + (this.dmg * temp.dmgAmp)
         
-        defender.health -= this.dmg
+        defender.health -= Math.round(this.dmg)
         
         if (this.health <= 0){ this.alive = false } //check if animon is dead
         if (defender.health <= 0){ defender.alive = false } //check if defender is alive
             
-        return this.dmg
+        return Math.round(this.dmg)
     }
 
     calculateDmgReduction(defense: number): number{
-        return 100 * (defense / (defense + 100))
+        return Math.round(100 * (defense / (defense + 100)))
     }
 
 

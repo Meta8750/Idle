@@ -153,7 +153,12 @@ function Battle({ player }) {
       
        <div className={fight.result === "won" ? styles.visible : styles.hidden}>
          <p>Victory</p>
-         <button onClick={() => playAgain()}></button>
+         <button onClick={() => playAgain()}>Again?</button>
+          
+         <p>{fight.drop ? (Object.entries(fight.drop).map(([name, drop]) => {
+          return <p>{name} {drop}</p>
+         })) : (<p></p>)}</p>
+         <p></p>
          </div>
     </div>
   );

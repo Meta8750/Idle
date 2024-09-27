@@ -112,6 +112,8 @@ function ItemManager({player, mon, setTab})  {
                 <p>{focusedItem.name}</p>
                 <p>{focusedItem.quantity}</p>
                 <p>{focusedItem.value}</p>
+                
+                <button onClick={()=> focusedItem.randomStats()}>upgrade</button>
                 {Object.entries(focusedItem.temp).map(([stat, value]) => {
                 return <p>{stat} {value}</p> })}
                  

@@ -80,6 +80,7 @@
 .enemy{
     background-color: black;
     transition:  1s ease;
+    margin: 5px;
 }
 
 .activeEnemy {

@@ -11,8 +11,8 @@ export default class artifacts{
 
     constructor(monItemInfo:any){
         Object.assign(this, monItemInfo)
-        this.temp = monItemInfo.temp; // we need to add the temp bec we would change base data
-        this.info = monItemInfo
+          // Erstelle eine tiefe Kopie von monItemInfo.temp
+        this.temp = JSON.parse(JSON.stringify(monItemInfo.temp));
         this.uid = uuidv4()
         this.level = 0
         this.maxLevel = 5
@@ -20,12 +20,14 @@ export default class artifacts{
 
     }
     randomStats(): void{
-        if (this.maxLevel === this.level) {
+        if (this.maxLevel != this.level) {
+            
             const rng = Math.random();
             const rStat = this.randomBaseStats[Math.floor(rng * this.randomBaseStats.length)];
             let rDigit  = rng * (0.3 - 0.01) + 0.01;
-            if (rng >= 0.5 || Number.isInteger(this.temp[rStat])){
-                rDigit = Math.floor(rng * (1000 - 100 + 1)) + 100;
+            
+            if (rng >= 0.5 || Number.isInteger(this.temp[rStat]) && rStat !== "baseCritDamage" && rStat !== "baseCritRate"){
+                rDigit = Math.round(Math.floor(rng * (50 - 1 + 1)) + 1);
             }
 
             if (this.temp[rStat] != undefined){
@@ -33,6 +35,7 @@ export default class artifacts{
                 this.temp[rStat] += rDigit;
             
             } else {
+
                 this.temp[rStat] = rDigit;
             }
             this.level++;

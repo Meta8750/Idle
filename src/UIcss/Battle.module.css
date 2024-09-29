@@ -73,12 +73,14 @@
 .activeMon{
     border: solid 2px aqua;
     transition: border 1s ease, transform 1s ease;
+    animation: rainbowText 7s infinite;
     
 }
 
 
 .enemy{
     background-color: black;
+    border: solid 2px rgb(0, 0, 0);
     transition:  1s ease;
     margin: 5px;
 }
@@ -92,12 +94,42 @@
 
 
 
-@keyframes spin {
-  from {
-    transform: rotate(0deg); /* Startet bei 0 Grad */
+@keyframes rainbowText {
+  100%,0%{
+    border-color: rgb(255,0,0);
   }
-  to {
-    transform: rotate(360deg); /* Dreht sich vollständig um 360 Grad */
+  8%{
+    border-color: rgb(255,127,0);
+  }
+  16%{
+    border-color: rgb(255,255,0);
+  }
+  25%{
+    border-color: rgb(127,255,0);
+  }
+  33%{
+    border-color: rgb(0,255,0);
+  }
+  41%{
+    border-color: rgb(0,255,127);
+  }
+  50%{
+    border-color: rgb(0,255,255);
+  }
+  58%{
+    border-color: rgb(0,127,255);
+  }
+  66%{
+    border-color: rgb(0,0,255);
+  }
+  75%{
+    border-color: rgb(127,0,255);
+  }
+  83%{
+    border-color: rgb(255,0,255);
+  }
+  91%{
+    border-color: rgb(255,0,127);
   }
 }
     

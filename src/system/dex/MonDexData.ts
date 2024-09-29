@@ -3,9 +3,12 @@ import dex from './generator.ts'
 type monData = {
     name: string;
     id: number;
+    level: number;
     type: string;
+    rarity: string;
+    tier: number;
     role: string;
-    attacks: any[],
+    
     stats: {
         maxHealth: number;
         baseAP: number;
@@ -16,9 +19,13 @@ type monData = {
         baseCritRate: number;
         baseCritDamage: number;
         maxMana: number;
+        maxHealthDmg: number;
+        currentHealthDmg:number;
+        armourPen: number;
+        mrPen: number;
 
     },
-    
+    lifeSteal: number;
     healthGrowth: number;
     ADGrowth: number;
     APGrowth: number;
@@ -26,21 +33,17 @@ type monData = {
     MRGrowth: number;
     MSGrowth: number;
     manaGrowth: number;
-    armourPen: number;
-    mrPen: number;
-    maxHealthDmg: number;
-    currentHealthDmg:number;
-    expDrop: number,
-    goldDrop: number,
-    lootTable: any[],
+    attacks: any[],
+    statusChance: number;
 }
 
-export const monData = [
+export const monData: monData[] = [
     {
         name: "Vagabund",
         id: 10000,
         level: 1,
         rarity: "common",
+        tier: 1,
         type: "Fire",
         role: "DD",  
         stats: {
@@ -58,7 +61,6 @@ export const monData = [
             maxHealthDmg: 0,
             currentHealthDmg: 0,
         },
-
         ADGrowth: 1.5,
         APGrowth: 0.5,
         healthGrowth: 10,
@@ -66,7 +68,8 @@ export const monData = [
         MRGrowth: 0.5,
         MSGrowth: 5,
         manaGrowth: 10,
-
+        lifeSteal: 0.1,
+        statusChance:0.5,
         attacks: [20000, 20000, 20000, 20000],
 
     },
@@ -74,6 +77,7 @@ export const monData = [
         name: "Wolf",
         id: 10001,
         level: 1,
+        tier: 1,
         rarity: "common",
         type: "Fire",
         role: "DD",
@@ -100,7 +104,8 @@ export const monData = [
         MRGrowth: 0.6,
         MSGrowth: 6,
         manaGrowth: 10,
-
+        lifeSteal: 0.1,
+        statusChance:0.5,
         attacks: [20000, 20000, 20000, 20000],
 
     },
@@ -110,6 +115,7 @@ export const monData = [
         id: 10003,
         level: 10,
         rarity: "common",
+        tier: 1,
         type: "Dark",
         role: "DD",
         stats: {
@@ -136,7 +142,8 @@ export const monData = [
         MRGrowth: 0.6,
         MSGrowth: 6,
         manaGrowth: 10,
-
+        lifeSteal: 0.1,
+        statusChance:1,
         attacks: [20001, 20999, 20999, 20999],
 
     },
@@ -145,7 +152,8 @@ export const monData = [
         name: "Hell",
         id: 10005,
         level: 100,
-        rarity: "common",
+        rarity: "SSR",
+        tier: 1,
         type: "Fire",
         role: "DD",
         stats: {
@@ -164,7 +172,6 @@ export const monData = [
             currentHealthDmg: 0,
         },
 
-       
         ADGrowth: 1.8,
         APGrowth: 0.6,
         healthGrowth: 12,
@@ -172,7 +179,8 @@ export const monData = [
         MRGrowth: 0.6,
         MSGrowth: 6,
         manaGrowth: 10,
-
+        lifeSteal: 0.1,
+        statusChance:0.5,
         attacks: [20000, 20999, 20999, 20999],
 
     },

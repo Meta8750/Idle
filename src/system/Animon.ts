@@ -61,6 +61,8 @@ export default class Animon {
     APReduction:number;
     itemSlot: any[];
     kills: number;
+    lifeSteal: number;
+    status:{};
     equipment: {
         chain: any,
         ring: any,
@@ -68,6 +70,8 @@ export default class Animon {
         head: any,
         book: any,
     }
+    
+
     
     constructor(monData: any) {
         Object.assign(this, monData)
@@ -107,8 +111,7 @@ export default class Animon {
         this.dmg = 0
         
         this.alive = true
-        this.kills = 0;
-     
+        this.kills = 0;  
 
         this.equipment = {
             chain: null,
@@ -117,6 +120,10 @@ export default class Animon {
             head: null,
             book: null,
         }
+
+        this.status = [
+
+        ]
 
         this.temp = {
             AD: 0,
@@ -169,6 +176,34 @@ export default class Animon {
     calculateDmg(attack: any, attacker: any, defender: any){
         
         let temp  = this.temp
+        let rng = Math.random()
+        console.log(attack.status)
+        
+        if (attack.status){
+            for (const status in attack.status){
+                if (rng <= 1){
+                    defender.status[status] = attack.status[status]; 
+                }
+            }
+        }
+        for (let status in this.status) {
+            // Beispiel: Reduziere die Dauer des Status-Effekts
+            if (this.status[status] > 0) {
+                if (status === "bleeding"){
+                    this.health *= 0.5
+                }
+                
+                // Reduziere die Dauer um 1
+                this.status[status] -= 1;
+        
+                
+        
+                // Entferne den Status, wenn die Dauer 0 erreicht hat
+                if (this.status[status] <= 0) {
+                    delete this.status[status];
+                }
+            }
+        }
 
         this.dmg = attack.baseDMG + ((attacker.stats.baseAD + temp.AD) * attack.adScaling) 
         
@@ -188,9 +223,12 @@ export default class Animon {
         
         if (Math.random() <= attacker.stats.baseCritRate + temp.critRate) {   this.dmg *= (attacker.stats.baseCritDamage + temp.critDamage) }
         this.dmg = this.dmg + (this.dmg * temp.dmgAmp)
+
+        this.dmg = Math.round(this.dmg)
         
-        defender.health -= Math.round(this.dmg)
-        
+        defender.health -= this.dmg
+        this.setHealth(this.dmg * this.lifeSteal)
+
         if (this.health <= 0){ this.alive = false } //check if animon is dead
         if (defender.health <= 0){ 
             defender.alive = false
@@ -308,5 +346,10 @@ export default class Animon {
                             this.stats[stat] = item.temp[stat]; // Initialisiere, falls der Stat nicht existiert
         }}}}}
            
-
+        setHealth(health){
+            this.health += health;
+            if (this.health > this.stats.maxHealth){
+                this.health = this.stats.maxHealth;
+            }
+        }
 }

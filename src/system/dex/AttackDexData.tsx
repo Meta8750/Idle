@@ -11,12 +11,11 @@ type AttackData = {
     manaCost: number,
     armorPen: number,
     mrPen: number,
-    lifeSteal: number,
-    selfHeal: number,
     allyHeal: number,
     aoe: boolean,
     buffs?: {},
-    debuffs?: {}
+    debuffs?: {},
+    status?:{},
     passive: (animon : any) => void
     description: (animon: any, attack: AttackData) => JSX.Element;
     
@@ -57,18 +56,16 @@ export const attackData: AttackData[] = [
         armorPen:0,
         mrPen:0,
 
-        lifeSteal:0,
-        selfHeal:0,
         allyHeal:0,
         aoe: false,
 
-        passive: (animon) => {
+        passive: (mon) => {
             
         },
         
-        description: (animon, attack) => {
-            const { baseAD, baseAP } = animon;
-            return <li>{attack.name} deals{" "} single target magic damage {displayDmg(animon, attack)}</li> 
+        description: (mon, attack) => {
+            const { baseAD, baseAP } = mon;
+            return <li>{attack.name} deals{" "} single target magic damage {displayDmg(mon, attack)}</li> 
                     
             
         }
@@ -82,19 +79,18 @@ export const attackData: AttackData[] = [
         baseDMG: 40,
         adScaling: 1,
         apScaling: 0.5,
-
         manaCost: 10,
-
         armorPen:0,
         mrPen:0,
-
-        lifeSteal:0,
-        selfHeal:0,
         allyHeal:0,
         aoe: false,
 
+        status:{
+            bleeding: 3,
+        },
+
         passive: (mon) => {
-            console.log(mon)
+            
             if (mon.kills > 0){
                 mon.kills = 0 
                 return true // true == reset mon is allowed to attack again
@@ -106,14 +102,11 @@ export const attackData: AttackData[] = [
             const { baseAD, baseAP } = animon;
             return (
                 <div>
-
                     <p>{attack.name} deals{" "} single target magic damage {displayDmg(animon, attack)}</p> 
                     <p>the attacker gets an extra round if the target die's</p>
-
                 </div>
             )
                     
-            
         }
     },
 
@@ -125,14 +118,9 @@ export const attackData: AttackData[] = [
         baseDMG: 99999999999,
         adScaling: 0,
         apScaling: 0,
-
         manaCost: 10,
-
         armorPen:0,
         mrPen:0,
-
-        lifeSteal:0,
-        selfHeal:0,
         allyHeal:0,
         aoe:true,
         passive: (mon) => {
@@ -143,27 +131,14 @@ export const attackData: AttackData[] = [
             mon.health += mon.stats.maxHealth - prev
         },
         description: (mon, attack) => {
-            const baseAD = mon.stats.baseAD;
-            const baseAP = mon.stats.baseAP;
             return (
-                <li>
-                    {attack.name} deals n{" "}
-                    <span className={attack.type === "AP" ? "text-blue-600" : "text-orange-500"}>
-                        {Math.floor(attack.baseDMG + baseAD * attack.adScaling + baseAP * attack.apScaling)}
-                    </span>{" "}
-                    ={" "}
-                    <span className="text-orange-500">
-                        {attack.baseDMG} + {baseAD * attack.adScaling} ({attack.adScaling * 100}%)
-                    </span>{" "}
-                    +{" "}
-                    <span className={"text-blue-600"}>
-                        {attack.baseDMG} + {baseAP * attack.apScaling} ({attack.apScaling * 100}%)
-                    </span>
-                </li>
+                <div>
+                    <p>{attack.name} deals{" "} aor ad magic damage {displayDmg(mon, attack)}</p> 
+                    <p>the attacker gets an extra round if the target die's</p>
+                </div>
             );
         }
        
-
     },
     
 ];

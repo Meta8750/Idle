@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import styles from '../UIcss/Battle.module.css'
 import Monstats from './MonStats.js'
 import Fight from "../system/Fight.ts";
+import StatusEffect  from "./components/StatusEffects.tsx";
 
 const battleLogs = []
 let fight = new Fight()
@@ -37,6 +38,19 @@ function Battle({ player }) {
 
   const playAgain = () => {
     fight.startFight(player, fight.lastFight.enemyList, fight.lastFight.dropID)
+    fight.advanceTurn()
+  }
+
+  const autoBattler = () => {
+    if (fight.autoBattle){
+      fight.autoBattle = false
+      
+    } else {
+      fight.autoBattle = true
+      fight.advanceTurn()
+
+    }
+      
   }
  
   const hpBar = (mon) => {
@@ -54,6 +68,8 @@ function Battle({ player }) {
     if (mon.mana <= 0){ pWidth = '0%' } return { width: pWidth, };
   }
 
+
+
   const renderTeam = () => {
     return player.getTeam().map((mon, index) => (
       <div onClick={() => fight.handleTarget(mon)}
@@ -63,6 +79,7 @@ function Battle({ player }) {
         }`}
       > 
         <p>{mon.name} {mon.level}</p>
+        <StatusEffect mon={mon}/>
         <div className={styles.hpBar}><div className={styles.hpFill} style={hpBar(mon)}>{mon.stats.maxHealth}\{mon.health}</div></div>
         {dmgTracker[mon.uid] && (
           <div className={styles.damageIndicator}>
@@ -116,10 +133,13 @@ function Battle({ player }) {
 
   return (
     <div>
-      <p>
-        <button onClick={() =>initializeBattle([[10000, 10001, 10000]],40000)}>Start Battle</button>
+      <div className={fight.state === "outOfCombat" ? "" :  "hidden"}>
+        <button onClick={() =>initializeBattle([[10000, 10001, 10000]], 40000)}>Start Battle</button>
         <button onClick={() =>initializeBattle([[10001, 10001, 10001], [10000, 10001, 10001], [10001,10005,10001]],40000)}>Start Battle</button>
-      </p>
+      </div>
+      <div>
+        <button onClick={() => autoBattler()}>Auto Battle</button>
+      </div>
         {fight.arena ? (
              <div className={styles.arena}>
             <div className={styles.enemyContainer}>
@@ -138,7 +158,7 @@ function Battle({ player }) {
               <p>Attack Target: {fight.attackTarget.name}</p>
             </div>
             <div className={styles.battleLogsContainer}>
-                {battleLogs.map((battleLog, index) => (
+                {fight.battleLogs.map((battleLog, index) => (
                 <p key={index}>{battleLog}</p>
               ))}
             </div>

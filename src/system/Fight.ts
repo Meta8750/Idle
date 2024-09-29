@@ -23,14 +23,18 @@ export default class Fight{
     updateDamageCallback: any;
     dmgAmount: number;
     drop: any;
-
+    state: string;
+    
     constructor(updateDamageCallback){
-        this.result = "Battle"
+        this.state = "outOfCombat"
         this.updateDamageCallback = updateDamageCallback; // Callback to update damage in UI
         this.dmgAmount = 0;
+        this.autoBattle = false;
     }
 
     startFight(player: any, batch: number[],drop: number){
+            this.state = "Combat"
+            this.result = ""
             this.arena = new Arena(batch,drop);
             this.arena.genEnemys();
             this.currentBatchIndex = 0;
@@ -48,9 +52,32 @@ export default class Fight{
             this.attackTarget = this.attackOrder[this.currentAttackerIndex]; //just to fill
             this.lastFight = null;
             this.currentAttacker = this.attackOrder[this.currentAttackerIndex];
-            this.autoBattle = false;
+            
             this.drop = null;
            
+           
+    }
+
+    autoBattleAi(){
+        const attack = this.currentAttacker.attacks[Math.floor(Math.random() * 3)];
+        if (attack.aoe){
+            this.arena.enemys[this.currentBatchIndex].map((enemy) =>{
+            this.dmgAmount = this.currentAttacker.calculateDmg(attack, this.currentAttacker, enemy);
+            this.updateDamageCallback(enemy.uid, this.dmgAmount);
+        })} else {
+            const target = this.currentBatch[Math.floor(Math.random() * 3)];
+            this.dmgAmount = this.currentAttacker.calculateDmg(attack, this.currentAttacker, target);
+            //this.battleLogs.push(`${this.currentAttacker.name} uses ${attack.name} and dealt ${target.calculateDmg(attack, this.currentAttacker, target)}`)
+            this.updateDamageCallback(this.attackTarget.uid, this.dmgAmount);
+            
+        }
+        this.battleLogs.push(`${this.currentAttacker.name} uses ${attack.name} and dealt ${this.dmgAmount}`)
+       
+        this.attackOrder = [...this.attackOrder].sort((a, b) => b.stats.baseMS - a.stats.baseMS);
+        this.advanceTurn()
+        
+        return;
+        
     }
 
     handleAttack(attack: any, mon: any){
@@ -58,7 +85,8 @@ export default class Fight{
         if (!this.currentAttacker.alive) {
             this.advanceTurn();
             return;
-          }
+        }
+        
           if (this.attackTarget != "none") {
             // Apply damage, buffs, debuffs, etc.
             if (attack.aoe){
@@ -75,9 +103,10 @@ export default class Fight{
                 this.advanceTurn();
             }
            
-            
+            this.battleLogs.push(`${this.currentAttacker.name} uses ${attack.name} and dealt ${this.dmgAmount}`)
+       
             this.attackTarget = "none"
-            setTimeout(()=> {this.checkAndAdvanceBatch()}, 1500)
+            setTimeout(()=> {this.checkAndAdvanceBatch()}, 1100)
             
         }
     }
@@ -88,27 +117,35 @@ export default class Fight{
         this.battleLogs.push(`${this.currentAttacker.name} uses ${attack.name} and dealt ${target.calculateDmg(attack, this.currentAttacker, target)}`)
        
         this.attackOrder = [...this.attackOrder].sort((a, b) => b.stats.baseMS - a.stats.baseMS);
-        setTimeout(() => {this.advanceTurn();}, 1000)
+        
+        this.advanceTurn()
       };
 
     //function to choose next attacker
     advanceTurn = () => {
+        setTimeout(() => {
+            this.checkAndAdvanceBatch()
+            
+            this.attackOrder = [...this.attackOrder].sort((a, b) => b.stats.baseMS - a.stats.baseMS);
+            //choose next attack
+            let nextIndex = (this.currentAttackerIndex + 1) % this.attackOrder.length;
+            //check if alive
+            while (!this.attackOrder[nextIndex].alive) {
+                //if not next
+                nextIndex = (nextIndex + 1) % this.attackOrder.length;
+                // this.attackOrder = this.attackOrder.filter(unit => unit.alive);
+            }
+            this.currentAttackerIndex = nextIndex
+            this.currentAttacker = this.attackOrder[this.currentAttackerIndex];
+            
+            if (this.currentAttacker && this.arena && this.arena.enemys.flat().includes(this.currentAttacker)) {
+                this.enemyAi();
+      
+            } else { if (this.autoBattle && this.result != "won") {this.autoBattleAi();}}
+                
+        }, 1100)
        
-        this.attackOrder = [...this.attackOrder].sort((a, b) => b.stats.baseMS - a.stats.baseMS);
-        //choose next attack
-        let nextIndex = (this.currentAttackerIndex + 1) % this.attackOrder.length;
-        //check if alive
-        while (!this.attackOrder[nextIndex].alive) {
-            //if not next
-          nextIndex = (nextIndex + 1) % this.attackOrder.length;
-        }
-        this.currentAttackerIndex = nextIndex
-        this.currentAttacker = this.attackOrder[this.currentAttackerIndex];
-        
-        if (this.currentAttacker && this.arena && this.arena.enemys.flat().includes(this.currentAttacker)) {
-            this.enemyAi();
-  
-      };}
+    }
 
       checkAndAdvanceBatch = () => {
         if (!this.arena || !this.arena.enemys) return;
@@ -139,6 +176,7 @@ export default class Fight{
             this.lastFight = this.arena;
             this.arena = null;
             this.result = "won"
+            this.state = "outOfCombat"
             
           }
         }}
@@ -160,7 +198,6 @@ export default class Fight{
                 return this.arena.drop.legendary
             }
            
-
         }
 
       };
@@ -173,7 +210,6 @@ class Arena {
     enemyMons: any
     drop: any;
     dropID:number;
-    
 
     constructor(enemyList: number[], id: number) {
         this.dropID = id;
@@ -184,7 +220,6 @@ class Arena {
         this.drop =  this.dex.generate(id)
         
     }
-
     genEnemys(){
         
         this.enemyMons = this.enemyList.map(row => {

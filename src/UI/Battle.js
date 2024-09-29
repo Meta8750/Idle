@@ -38,7 +38,7 @@ function Battle({ player }) {
 
   const playAgain = () => {
     fight.startFight(player, fight.lastFight.enemyList, fight.lastFight.dropID)
-    fight.advanceTurn()
+    
   }
 
   const autoBattler = () => {
@@ -48,9 +48,14 @@ function Battle({ player }) {
     } else {
       fight.autoBattle = true
       fight.advanceTurn()
-
     }
-      
+  }
+
+  const ff = () => {
+    fight.result = "lost"
+    fight.state = "outOfCombat"
+    fight.lastFight = fight.arena
+    fight.arena = null
   }
  
   const hpBar = (mon) => {
@@ -143,6 +148,7 @@ function Battle({ player }) {
       </div>
       <div>
         <button onClick={() => autoBattler()}>Auto Battle</button>
+        <button onClick={() => ff()}>FF</button>
       </div>
         {fight.arena ? (
              <div className={styles.arena}>
@@ -166,17 +172,14 @@ function Battle({ player }) {
                 <p key={index}>{battleLog}</p>
               ))}
             </div>
-            
               <Monstats mon={fight.attackTarget}/>
-           
-             
             </div>
         ) : (
           <p>No current Battle</p>
         )}
       
-       <div className={fight.result === "won" ? styles.visible : styles.hidden}>
-         <p>Victory</p>
+       <div className={fight.result === "won" || fight.result === "lost" ? styles.visible : styles.hidden}>
+         <p>{fight.result}</p>
          <button onClick={() => playAgain()}>Again?</button>
           
          <p>{fight.drop ? (Object.entries(fight.drop).map(([name, drop]) => {

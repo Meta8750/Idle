@@ -79,15 +79,19 @@ function Battle({ player }) {
         }`}
       > 
         <p>{mon.name} {mon.level}</p>
-        <StatusEffect mon={mon}/>
+       
         <div className={styles.hpBar}><div className={styles.hpFill} style={hpBar(mon)}>{mon.stats.maxHealth}\{mon.health}</div></div>
+        
         {dmgTracker[mon.uid] && (
           <div className={styles.damageIndicator}>
             -{dmgTracker[mon.uid]}
           </div>
         )}
-        <img class="w-52 h-52" alt ={mon.name}src={mon.img}></img>
+
+         <StatusEffect mon={mon}/>
         
+        <img class="w-52 h-52" alt ={mon.name}src={mon.img}></img>
+       
         <ul class={fight.currentAttacker === mon ? "" : "hidden"}>
           {mon.attacks.map((attack, attackIndex) => (
             <li

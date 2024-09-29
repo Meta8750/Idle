@@ -87,6 +87,8 @@ export const attackData: AttackData[] = [
 
         status:{
             bleeding: 3,
+            poised: 3,
+            burning: 3,
         },
 
         passive: (mon) => {

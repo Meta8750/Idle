@@ -190,7 +190,13 @@ export default class Animon {
             // Beispiel: Reduziere die Dauer des Status-Effekts
             if (this.status[status] > 0) {
                 if (status === "bleeding"){
-                    this.health *= 0.5
+                    this.health *= 0.3
+                }
+                if (status === "poised"){
+                    this.health -= this.temp.maxHealth * 0.9
+                }
+                if (status === "burning"){
+                    
                 }
                 
                 // Reduziere die Dauer um 1

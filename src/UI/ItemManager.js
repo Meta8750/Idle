@@ -42,6 +42,7 @@ function ItemManager({player, mon, setTab})  {
   
     return (
         <div className={styles.mainContainer}>
+          
           <div className={styles.box}>
           
           {player.inventory.getArtifacts().map((item, index) => (
@@ -59,14 +60,15 @@ function ItemManager({player, mon, setTab})  {
           
          
           <div className={styles.team}>
-          <button onClick={() => setTab("mon")}>back</button>
-                  <div className="" >
+          
+                
+                    <button onClick={() => setTab("mon")}>back</button>
                       <p>{mon.name}</p>
 
                       <img class="w-52 h-52" alt ={mon.name}src={mon.img}></img>
                       <MonStats mon={mon} />
                       
-                  </div>
+                  
               </div>
             
             

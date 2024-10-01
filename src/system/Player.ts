@@ -29,6 +29,8 @@ class Player {
     activeTab: string;
     mons: any[];
     team: any[];
+    section: number;
+    zone: number;
     
     constructor() {
         
@@ -51,6 +53,9 @@ class Player {
         this.activeTab = '';
         this.mons = [];
         this.team = [];
+        this.section = 1;
+        this.zone = 1;
+        
         
     }
 

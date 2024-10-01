@@ -28,7 +28,8 @@ function Story({player}){
         <div>
             <div>
                 <button onClick={()=> startStory()}></button>
-            </div>
+            </div> <p>{player.zone}-{player.section}</p>
+            <button className={fight.result === "won" ? "flex" : "hidden"} onClick={()=>player.section +=1}>Next</button>
             <Battle player={player} fight={fight}/>
         </div>
     )

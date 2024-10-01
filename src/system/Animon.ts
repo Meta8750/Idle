@@ -71,8 +71,6 @@ export default class Animon {
         book: any,
     }
     
-
-    
     constructor(monData: any) {
         Object.assign(this, monData)
 

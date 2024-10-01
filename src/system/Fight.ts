@@ -24,12 +24,13 @@ export default class Fight{
     dmgAmount: number;
     drop: any;
     state: string;
+    dmgTracker: any;
     
-    constructor(updateDamageCallback){
+    constructor(){
         this.state = "outOfCombat"
-        this.updateDamageCallback = updateDamageCallback; // Callback to update damage in UI
         this.dmgAmount = 0;
         this.autoBattle = false;
+        this.dmgTracker = {};
     }
 
     startFight(player: any, batch: number[],drop: number){
@@ -63,12 +64,12 @@ export default class Fight{
         if (attack.aoe){
             this.arena.enemys[this.currentBatchIndex].map((enemy) =>{
             this.dmgAmount = this.currentAttacker.calculateDmg(attack, this.currentAttacker, enemy);
-            this.updateDamageCallback(enemy.uid, this.dmgAmount);
+            this.updateDamage(enemy.uid, this.dmgAmount);
         })} else {
             const target = this.currentBatch[Math.floor(Math.random() * 3)];
             this.dmgAmount = this.currentAttacker.calculateDmg(attack, this.currentAttacker, target);
             //this.battleLogs.push(`${this.currentAttacker.name} uses ${attack.name} and dealt ${target.calculateDmg(attack, this.currentAttacker, target)}`)
-            this.updateDamageCallback(this.attackTarget.uid, this.dmgAmount);
+            this.updateDamage(this.attackTarget.uid, this.dmgAmount);
             
         }
         this.battleLogs.push(`${this.currentAttacker.name} uses ${attack.name} and dealt ${this.dmgAmount}`)
@@ -92,12 +93,12 @@ export default class Fight{
             if (attack.aoe){
                     this.arena.enemys[this.currentBatchIndex].map((enemy) =>{
                     this.dmgAmount = mon.calculateDmg(attack, mon, enemy);
-                    this.updateDamageCallback(enemy.uid, this.dmgAmount);
+                    this.updateDamage(enemy.uid, this.dmgAmount);
               })
             } else {
                 // this.battleLogs.push(`${this.currentAttacker.name} uses ${this.currentAttacker.name} and dealt ${mon.calculateDmg(attack, mon, this.attackTarget)}`);
                 this.dmgAmount = mon.calculateDmg(attack, mon, this.attackTarget);
-                this.updateDamageCallback(this.attackTarget.uid, this.dmgAmount);
+                this.updateDamage(this.attackTarget.uid, this.dmgAmount);
             }
             if (attack.passive(this.currentAttacker) != true){
                 this.advanceTurn();
@@ -199,6 +200,14 @@ export default class Fight{
             }
            
         }
+        updateDamage(monId, damageAmount) {
+            this.dmgTracker = {
+                ...this.dmgTracker,
+             [monId]: damageAmount}
+            setTimeout(() => {this.dmgTracker = {[monId]: null}},1500)
+              
+        }
+
 
       };
 class Arena {

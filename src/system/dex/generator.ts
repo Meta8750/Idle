@@ -11,7 +11,7 @@ class assign{
             Object.assign(this, Data)
     }
 }
-export default class dex{
+export default class Dex{
     generate(id: number){
         try {
             let monInfo = monData.find(mon => mon.id === id);
@@ -54,6 +54,10 @@ export default class dex{
         return monInfo
 
     }
+
+    getMondex(){
+        return monData
+    } 
 }
 
 

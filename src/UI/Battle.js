@@ -6,35 +6,11 @@ import Fight from "../system/Fight.ts";
 import StatusEffect  from "./components/StatusEffects.tsx";
 
 const battleLogs = []
-let fight = new Fight()
 
-function Battle({ player }) {
-  const [fight] = useState(new Fight(updateDamage));
 
-  const [dmgTracker,setDmgTracker] = useState({})
-
-  function updateDamage(monId, damageAmount) {
-    setDmgTracker((prevState) => ({
-      ...prevState,
-      [monId]: damageAmount,
-    }));
-
-    // Remove damage after 1 second
-    setTimeout(() => {
-      setDmgTracker((prevState) => ({
-        
-        ...prevState,
-        [monId]: null,
-      }));
-    }, 2000); // 1 second duration for the damage display
-  }
-
-  const initializeBattle = (batch, drop) => {
-    if (player.team.length != 0) {
-      fight.startFight(player, batch, drop)
-    }
-    
-  }
+function Battle({ player, fight }) {
+ 
+ 
 
   const playAgain = () => {
     fight.startFight(player, fight.lastFight.enemyList, fight.lastFight.dropID)
@@ -87,9 +63,9 @@ function Battle({ player }) {
        
         <div className={styles.hpBar}><div className={styles.hpFill} style={hpBar(mon)}>{mon.stats.maxHealth}\{mon.health}</div></div>
         
-        {dmgTracker[mon.uid] && (
+        {fight.dmgTracker[mon.uid] && (
           <div className={styles.damageIndicator}>
-            -{dmgTracker[mon.uid]}
+            -{fight.dmgTracker[mon.uid]}
           </div>
         )}
 
@@ -126,12 +102,12 @@ function Battle({ player }) {
           fight.attackOrder[fight.currentAttackerIndex] === enemy ? styles.activeEnemy : ""
         }`}
       >  
-        <p>{enemy.name}</p>
+        <p>{enemy.name} {enemy.level}</p>
         <div className={styles.hpBar}><div className={styles.hpFill} style={hpBar(enemy)}>{enemy.stats.maxHealth}\{enemy.health}</div></div>
-        {dmgTracker[enemy.uid] && (
+        {fight.dmgTracker[enemy.uid] && (
           <div className={styles.damageIndicator}>
           
-            {dmgTracker[enemy.uid]}
+            {fight.dmgTracker[enemy.uid]}
           </div>
         )}
         <img class="w-52 h-52" alt ={enemy.name}src={enemy.img}></img>
@@ -142,10 +118,6 @@ function Battle({ player }) {
 
   return (
     <div>
-      <div className={fight.state === "outOfCombat" ? "" :  "hidden"}>
-        <button onClick={() =>initializeBattle([[10000, 10001, 10000]], 40000)}>Start Battle</button>
-        <button onClick={() =>initializeBattle([[10001, 10001, 10001], [10000, 10001, 10001], [10001,10005,10001]],40000)}>Start Battle</button>
-      </div>
       <div>
         <button onClick={() => autoBattler()}>Auto Battle</button>
         <button onClick={() => ff()}>FF</button>

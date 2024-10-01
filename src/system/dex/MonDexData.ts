@@ -113,7 +113,7 @@ export const monData: monData[] = [
     {
         name: "Rose",
         id: 10003,
-        level: 10,
+        level: 1,
         rarity: "common",
         tier: 1,
         type: "Dark",
@@ -151,7 +151,7 @@ export const monData: monData[] = [
     {
         name: "Hell",
         id: 10005,
-        level: 100,
+        level: 1,
         rarity: "SSR",
         tier: 1,
         type: "Fire",

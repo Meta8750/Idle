@@ -110,6 +110,7 @@ function Battle({ player, fight }) {
             {fight.dmgTracker[enemy.uid]}
           </div>
         )}
+        <StatusEffect mon={enemy}/>
         <img class="w-52 h-52" alt ={enemy.name}src={enemy.img}></img>
       </div>
       

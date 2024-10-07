@@ -25,12 +25,14 @@ export default class Fight{
     drop: any;
     state: string;
     dmgTracker: any;
+    type: string;
     
     constructor(){
         this.state = "outOfCombat"
         this.dmgAmount = 0;
         this.autoBattle = false;
         this.dmgTracker = {};
+        this.type = "unknown";
     }
 
     startFight(player: any, batch: number[],drop: number){
@@ -162,7 +164,8 @@ export default class Fight{
               this.currentAttackerIndex = 0;
               this.currentAttacker = this.attackOrder[this.currentAttackerIndex];
             } else {
-
+            
+            // code below if player win the battle
             this.drop = this.getDropRarity()   
             this.player.inventory.updateItem(Dex.generate(this.drop.dropID)) //this.drop for postScreen  
             this.drop.name =Dex.generate(this.drop.dropID).name       
@@ -173,11 +176,15 @@ export default class Fight{
                 mon.levelProgess()
                 
             })
-           
+          
             this.lastFight = this.arena;
             this.arena = null;
             this.result = "won"
             this.state = "outOfCombat"
+            if (this.type === "Story"){
+                this.player.coins += 100
+                this.player.essence += 100
+            }
             
           }
         }}

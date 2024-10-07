@@ -5,18 +5,29 @@ import GenBattle from "../system/GenBattle.ts";
 
 let fight = new Fight()
 let genBattle = new GenBattle()
+let enemyCreated = false
 
 function Story({player}){
 
+    const storyProgess = () => {
+        player.section +=1
+        if (player.section > 5) {
+            player.section = 1
+            player.zone++
+        }
+        startStory()
+    }
+
     const startStory = () => {
         if (player.team.length != 0) {
-            fight.startFight(player, genBattle.getStory(), 40000)
-            console.log(fight.arena.enemys)
+            fight.startFight(player, genBattle.getStory(player.section, player.zone), 40000)
+            fight.type = "Story"
+            enemyCreated = true
             for (const batch of fight.arena.enemys){
-                console.log(batch)
+              
                 for(const enemy of batch){
-                    enemy.level = 9
-                    enemy.exp = 99999999999 * 999999999999
+                    enemy.level = player.section + (player.zone * 10) -1
+                    enemy.exp = enemy.nextLevel 
                     enemy.levelProgess()
                 }
             }
@@ -26,10 +37,10 @@ function Story({player}){
     return(
         
         <div>
-            <div>
+            <div className={enemyCreated ? "hidden" : "flex"}>
                 <button onClick={()=> startStory()}></button>
             </div> <p>{player.zone}-{player.section}</p>
-            <button className={fight.result === "won" ? "flex" : "hidden"} onClick={()=>player.section +=1}>Next</button>
+            <button className={fight.result === "won" ? "flex" : "hidden"} onClick={()=> storyProgess()}>Next</button>
             <Battle player={player} fight={fight}/>
         </div>
     )

@@ -23,6 +23,8 @@ class Player {
     score: number;
     level: number;
     coins: number;
+    gems: number;
+    essence: number;
     health: number;
     skills: Skills;
     activity: any;
@@ -39,6 +41,8 @@ class Player {
         this.score = 0;
         this.level = 1;
         this.coins = 100;
+        this.gems = 100;
+        this.essence = 1000;
         this.health = 100;
         // exp muliplicatoren
         // global stats buffs

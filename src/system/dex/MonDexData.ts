@@ -120,7 +120,7 @@ export const monData: monData[] = [
         role: "DD",
         stats: {
             maxHealth: 120,
-            baseAD: 12,
+            baseAD: 12000000000,
             baseAP: 6,
             baseArmour: 3,
             baseMR: 2,

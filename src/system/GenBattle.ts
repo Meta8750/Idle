@@ -37,10 +37,24 @@ export default class GenBattle {
         return stages;
       }
 
-    getStory(){
+    getStory(section, zone){
+
+        let stageSize = 1;
+
+        if (section === 5){
+          stageSize = 2
+        }
+
+        if (zone >= 5){
+          stageSize = 2
+          if (section === 5){
+            stageSize = 3
+          }
+        }
+        
         let tierMonDex = this.monDex.filter(mon => mon.tier === this.tier)
-      
-        let batch = this.createStages(2, 3)
+
+        let batch = this.createStages(stageSize, 3)
       
         return batch
 

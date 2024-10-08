@@ -132,11 +132,11 @@ function Battle({ player, fight }) {
               {renderTeam()}
             </div>
             <div>
-              <p>Attack Order: {fight.attackOrder.map((mon,index) => (
+              <div class={styles.order}>Order: {fight.attackOrder.map((mon,index) => (
                 <span className={`${styles.mon} ${
                   fight.attackOrder[fight.currentAttackerIndex] === mon ? styles.activeMon : ""
                 }`}>{mon.name}</span>
-              ))}</p>
+              ))}</div>
               <p>Current Attacker: {fight.attackOrder[fight.currentAttackerIndex].name}</p>
               <p>Attack Target: {fight.attackTarget.name}</p>
             </div>

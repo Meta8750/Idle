@@ -118,9 +118,10 @@ export const monData: monData[] = [
         tier: 1,
         type: "Dark",
         role: "DD",
+        
         stats: {
             maxHealth: 120,
-            baseAD: 12000000000,
+            baseAD: 12,
             baseAP: 6,
             baseArmour: 3,
             baseMR: 2,
@@ -134,7 +135,6 @@ export const monData: monData[] = [
             currentHealthDmg: 0,
         },
 
-       
         ADGrowth: 1.8,
         APGrowth: 0.6,
         healthGrowth: 12,

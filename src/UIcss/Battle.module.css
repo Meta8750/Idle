@@ -92,7 +92,11 @@
     
 }
 
-
+.order{
+  display: flex;
+  flex-direction: column;
+  
+}
 
 
 @keyframes rainbowText {

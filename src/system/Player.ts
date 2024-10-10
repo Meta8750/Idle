@@ -115,6 +115,7 @@ class Player {
     }
     setMons(id: number){
         this.mons.push(this.dex.generate(id));
+        this.mons[this.mons.length - 1].ally = true;
     }
 
     setTeam(mon: any) {

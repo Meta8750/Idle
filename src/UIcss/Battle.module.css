@@ -14,10 +14,10 @@
     color: white;
     display:grid;
     grid-template-areas:
-    "enemy  enemy enemyStats"
+    "enemy  order enemyStats"
     "team  team playerStats";
     grid-template-rows: auto 1fr;
-    grid-template-columns:  1fr 0.1fr;
+    grid-template-columns:  1fr 0.1fr 0.5fr;
     min-width: 100%;
     min-height: 100%;
     
@@ -91,20 +91,38 @@
   transition: border 1s ease, transform 1s ease;
     
 }
+.order {
+    grid-area: order;
+    align-items: flex-end;
+    text-align: right;
+    flex-direction: column;
+    display: flex;
+    width: 15vh;
+    
+}
+.orderTab {
+  width: auto; 
+  transition: width 1s ease;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  border:solid 1px #02ffff;
+  
+  i {
+   
+    width: 1vh;
+    height: 1vh;
+    background-color: aqua;
+    
+  }
 
-.activeOrder{
-  border: solid 2px aqua;
-  transition: border 1s ease, transform 1s ease;
-  animation: rainbowText 7s infinite;
-  transform: scaleX(10px);
-  width:100px
 }
 
-.order{
-  display: flex;
-  flex-direction: column;
-  
-  
+.activeOrder {
+  border: solid 2px aqua;
+  width: 12vh; 
+
+  animation: rainbowText 7s infinite;
 }
 
 

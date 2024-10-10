@@ -59,6 +59,7 @@ export default class Fight{
             this.drop = null;
            
            
+           
     }
 
     autoBattleAi(){

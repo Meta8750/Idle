@@ -32,6 +32,9 @@ function Battle({ player, fight }) {
     fight.state = "outOfCombat"
     fight.lastFight = fight.arena
     fight.arena = null
+    player.team.map((mon) =>{
+      mon.resetTempStats()
+    })
   }
  
   const hpBar = (mon) => {
@@ -131,15 +134,16 @@ function Battle({ player, fight }) {
             <div className={styles.teamContainer}>
               {renderTeam()}
             </div>
-            <div>
+            
               <div class={styles.order}>Order: {fight.attackOrder.map((mon,index) => (
-                <span className={`${styles.mon} ${
+                <span className={`${styles.orderTab} ${
                   fight.attackOrder[fight.currentAttackerIndex] === mon ? styles.activeOrder : ""
-                }`}>{mon.name}</span>
+                  }`}>
+                    {mon.ally ? (<i></i>) : ""} {mon.name}
+                </span>
               ))}</div>
-              <p>Current Attacker: {fight.attackOrder[fight.currentAttackerIndex].name}</p>
               <p>Attack Target: {fight.attackTarget.name}</p>
-            </div>
+           
             <div className={styles.battleLogsContainer}>
                 {fight.battleLogs.map((battleLog, index) => (
                 <p key={index}>{battleLog}</p>

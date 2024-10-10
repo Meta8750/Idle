@@ -63,6 +63,7 @@ export default class Animon {
     kills: number;
     lifeSteal: number;
     status:{};
+    ally: boolean;
     equipment: {
         chain: any,
         ring: any,
@@ -107,6 +108,8 @@ export default class Animon {
         this.uid = uuidv4()
         this.dmgDealt = 0
         this.dmg = 0
+
+        this.ally = false
         
         this.alive = true
         this.kills = 0;  

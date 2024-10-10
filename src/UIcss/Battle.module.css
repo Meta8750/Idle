@@ -101,11 +101,10 @@
     
 }
 .orderTab {
-  width: auto; 
+  width: 11vh; 
   transition: width 1s ease;
   display: flex;
   align-items: center;
-  justify-content: flex-start;
   border:solid 1px #02ffff;
   
   i {
@@ -114,6 +113,9 @@
     height: 1vh;
     background-color: aqua;
     
+  }
+  p{
+    color:red
   }
 
 }

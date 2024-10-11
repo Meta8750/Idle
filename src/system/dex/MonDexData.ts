@@ -70,7 +70,7 @@ export const monData: monData[] = [
         manaGrowth: 10,
         lifeSteal: 0.0,
         statusChance:0.5,
-        attacks: [20000, 20000, 20000, 20000],
+        attacks: [21000, 21000, 21000, 20000],
 
     },
     {

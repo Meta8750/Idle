@@ -179,8 +179,9 @@ export default class Animon {
         let temp  = this.temp
         this.heal = 0
         let rng = Math.random()
-        console.log(attack.status)
-        
+
+       
+
         if (attack.status){
             for (const status in attack.status){
                 if (rng <= 1){
@@ -216,7 +217,12 @@ export default class Animon {
         this.dmg = attack.baseDMG + ((attacker.stats.baseAD + temp.AD) * attack.adScaling) 
         
         this.dmg += ((attacker.stats.baseAP + temp.AP) * attack.apScaling)
-       
+        
+        if(attack.heal){
+            defender.setHealth(this.dmg)
+            return Math.round(this.dmg)
+        }
+        console.log(2)
         if (attack.type == "AD"){
             let reduceDmg = this.calculateDmgReduction((this.stats.armourPen + temp.armourPen) * (defender.stats.baseArmour + defender.temp.armour))
             this.dmg = this.dmg - ( reduceDmg * this.dmg )
@@ -235,8 +241,10 @@ export default class Animon {
         this.dmg = Math.round(this.dmg)
         
         defender.health -= this.dmg
-        this.heal = this.dmg * this.lifeSteal
-        this.setHealth(this.heal)
+        if (defender.alive){
+            this.heal = this.dmg * this.lifeSteal
+            this.setHealth(this.heal)
+        }
 
         if (this.health <= 0){ this.alive = false } //check if animon is dead
         if (defender.health <= 0){ 

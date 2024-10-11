@@ -11,7 +11,7 @@ type AttackData = {
     manaCost: number,
     armorPen: number,
     mrPen: number,
-    allyHeal: number,
+    heal: boolean,
     aoe: boolean,
     buffs?: {},
     debuffs?: {},
@@ -56,7 +56,7 @@ export const attackData: AttackData[] = [
         armorPen:0,
         mrPen:0,
 
-        allyHeal:0,
+        heal: false,
         aoe: false,
 
         passive: (mon) => {
@@ -82,7 +82,7 @@ export const attackData: AttackData[] = [
         manaCost: 10,
         armorPen:0,
         mrPen:0,
-        allyHeal:0,
+        heal: false,
         aoe: false,
 
         status:{
@@ -123,7 +123,7 @@ export const attackData: AttackData[] = [
         manaCost: 10,
         armorPen:0,
         mrPen:0,
-        allyHeal:0,
+        heal: false,
         aoe:true,
         passive: (mon) => {
             const prev = mon.stats.maxHealth
@@ -137,6 +137,31 @@ export const attackData: AttackData[] = [
                 <div>
                     <p>{attack.name} deals{" "} aor ad magic damage {displayDmg(mon, attack)}</p> 
                     <p>the attacker gets an extra round if the target die's</p>
+                </div>
+            );
+        }
+       
+    },
+    {
+        name: "Heal",
+        id: 21000,
+        level: 1,
+        type: "AP",
+        baseDMG: 10,
+        adScaling: 0,
+        apScaling: 1,
+        manaCost: 10,
+        armorPen:0,
+        mrPen:0,
+        heal: true,
+        aoe:false,
+        passive: (mon) => {
+           // mon.health *= 0.1
+        },
+        description: (mon, attack) => {
+            return (
+                <div>
+                    <p>{attack.name} heals {displayDmg(mon, attack)}</p> 
                 </div>
             );
         }

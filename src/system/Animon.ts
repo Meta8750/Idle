@@ -367,7 +367,12 @@ export default class Animon {
         }}}}}
            
         setHealth(health){
-            this.health += health;
+            if (health.isInteger){
+                this.health *= health;
+            } else {
+                this.health += health;
+            }
+            
             if (this.health > this.stats.maxHealth){
                 this.health = this.stats.maxHealth;
             }

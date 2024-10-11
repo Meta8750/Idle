@@ -29,6 +29,17 @@ function Battle({ player, fight }) {
     }
   }
 
+  const hpBar = (mon) => {
+    return (
+      <div className={styles.hpBar}>
+        <div className={styles.hpUnder} style={hpBarCalc(mon)}></div>
+        <div className={styles.hpFill} style={hpBarCalc(mon)}>{mon.stats.maxHealth}\{mon.health}</div>
+      </div>
+    )
+    
+  }
+  
+
   const playAgain = () => {
     fight.startFight(player, fight.lastFight.enemyList, fight.lastFight.dropID)
 
@@ -48,7 +59,7 @@ function Battle({ player, fight }) {
     fight.reset("lost")
   }
 
-  const hpBar = (mon) => {
+  const hpBarCalc = (mon) => {
     let pWidth = `${(mon.health / mon.stats.maxHealth) * 100}%`;
     if (mon.health <= 0) {
       pWidth = '0%'
@@ -72,9 +83,7 @@ function Battle({ player, fight }) {
         className={`${styles.mon}  ${borderUI(mon)}`}
       >
         <p>{mon.name} {mon.level}</p>
-
-        <div className={styles.hpBar}><div className={styles.hpFill} style={hpBar(mon)}>{mon.stats.maxHealth}\{mon.health}</div></div>
-
+        {hpBar(mon)}
         {digitUI(mon)}
 
         <StatusEffect mon={mon} />
@@ -109,7 +118,8 @@ function Battle({ player, fight }) {
         className={`${styles.enemy} ${borderUI(enemy)}`}
       >
         <p>{enemy.name} {enemy.level}</p>
-        <div className={styles.hpBar}><div className={styles.hpFill} style={hpBar(enemy)}>{enemy.stats.maxHealth}\{enemy.health}</div></div>
+        {hpBar(enemy)}
+        
         {fight.dmgTracker[enemy.uid] && (
           <div className={styles.damageIndicator}>
             {fight.dmgTracker[enemy.uid]}

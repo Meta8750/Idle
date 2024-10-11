@@ -25,6 +25,7 @@ export default class Fight{
     state: string;
     dmgTracker: any;
     type: string;
+    aggro: boolean
     
     constructor(){
         this.state = "outOfCombat"

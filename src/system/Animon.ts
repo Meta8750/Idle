@@ -64,6 +64,7 @@ export default class Animon {
     lifeSteal: number;
     status:{};
     ally: boolean;
+    heal:number;
     equipment: {
         chain: any,
         ring: any,
@@ -122,9 +123,7 @@ export default class Animon {
             book: null,
         }
 
-        this.status = [
-
-        ]
+        this.status = []
 
         this.temp = {
             AD: 0,
@@ -141,6 +140,7 @@ export default class Animon {
             maxHealth: 0,
             dmgAmp: 0
         };
+        this.heal = 0;
     }
     getImageElement(x: string, y: string) {
         const style = {
@@ -177,6 +177,7 @@ export default class Animon {
     calculateDmg(attack: any, attacker: any, defender: any){
         
         let temp  = this.temp
+        this.heal = 0
         let rng = Math.random()
         console.log(attack.status)
         
@@ -234,7 +235,8 @@ export default class Animon {
         this.dmg = Math.round(this.dmg)
         
         defender.health -= this.dmg
-        this.setHealth(this.dmg * this.lifeSteal)
+        this.heal = this.dmg * this.lifeSteal
+        this.setHealth(this.heal)
 
         if (this.health <= 0){ this.alive = false } //check if animon is dead
         if (defender.health <= 0){ 
@@ -270,6 +272,9 @@ export default class Animon {
             maxHealth: 0,
             dmgAmp: 0
         };
+        this.status = []
+        this.alive = true
+
         
         
     }

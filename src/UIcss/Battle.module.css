@@ -20,8 +20,10 @@
     grid-template-columns:  1fr 0.1fr 0.5fr;
     min-width: 100%;
     min-height: 100%;
+    border: solid 2px aqua; 
     
 }
+
 .battleLogsContainer{
   width: 96.1%;         
   max-height: 450px;    
@@ -59,6 +61,7 @@
 }
 
 .monContainer{
+    
     position: relative;
 }
 
@@ -71,6 +74,11 @@
 
 }
 
+.target {
+  border: solid 2px red !important;
+ 
+}
+
 .activeMon{
     border: solid 2px aqua;
     transition: border 1s ease, transform 1s ease;
@@ -78,19 +86,15 @@
     
 }
 
-
 .enemy{
     background-color: black;
     border: solid 2px rgb(0, 0, 0);
     transition:  1s ease;
     margin: 5px;
-}
-
-.activeEnemy {
-  border: solid 2px aqua;
-  transition: border 1s ease, transform 1s ease;
     
 }
+
+
 .order {
     grid-area: order;
     align-items: flex-end;
@@ -114,6 +118,7 @@
     background-color: aqua;
     
   }
+
   p{
     color:red
   }
@@ -123,8 +128,30 @@
 .activeOrder {
   border: solid 2px aqua;
   width: 12vh; 
-
   animation: rainbowText 7s infinite;
+}
+
+
+    
+.damageIndicator {
+  position: absolute;
+  color: red;
+  font-size: 25px;
+  animation: fadeOut 2s forwards; /* Fading out over 1 second */
+  z-index: 10;
+  padding-left: 1%;
+  
+}
+
+@keyframes fadeOut {
+  0% {
+    opacity: 1;
+    transform: translateY(100px);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(60px); /* Move upwards while fading */
+  }
 }
 
 
@@ -164,24 +191,5 @@
   }
   91%{
     border-color: rgb(255,0,127);
-  }
-}
-    
-.damageIndicator {
-  position: absolute;
-  color: red;
-  font-size: 20px;
-  animation: fadeOut 2s forwards; /* Fading out over 1 second */
-  z-index: 10;
-}
-
-@keyframes fadeOut {
-  0% {
-    opacity: 1;
-    transform: translateY(0);
-  }
-  100% {
-    opacity: 0;
-    transform: translateY(-20px); /* Move upwards while fading */
   }
 }

@@ -10,7 +10,24 @@ const battleLogs = []
 
 function Battle({ player, fight }) {
 
+  const borderUI = (mon) => {
+    if (fight.attackOrder[fight.currentAttackerIndex] === mon){
+      return styles.activeMon
+    }
+    if (fight.attackTarget === mon){
+      return styles.target
+    }
+  }
 
+  const digitUI = (mon) => {
+    if (fight.dmgTracker[mon.uid]){
+      return (
+        <div className={`${styles.damageIndicator} ${fight.dmgTracker[mon.uid] > 0 ? "!text-green-400" : ""}`}>
+        {Math.round(fight.dmgTracker[mon.uid])}
+      </div>
+      )
+    }
+  }
 
   const playAgain = () => {
     fight.startFight(player, fight.lastFight.enemyList, fight.lastFight.dropID)
@@ -28,13 +45,7 @@ function Battle({ player, fight }) {
   }
 
   const ff = () => {
-    fight.result = "lost"
-    fight.state = "outOfCombat"
-    fight.lastFight = fight.arena
-    fight.arena = null
-    player.team.map((mon) => {
-      mon.resetTempStats()
-    })
+    fight.reset("lost")
   }
 
   const hpBar = (mon) => {
@@ -56,24 +67,19 @@ function Battle({ player, fight }) {
 
   const renderTeam = () => {
     return player.getTeam().map((mon, index) => (
-      <div onClick={() => fight.handleTarget(mon)}
+      <div 
         key={index}
-        className={`${styles.mon} ${fight.attackOrder[fight.currentAttackerIndex] === mon ? styles.activeMon : ""
-          }`}
+        className={`${styles.mon}  ${borderUI(mon)}`}
       >
         <p>{mon.name} {mon.level}</p>
 
         <div className={styles.hpBar}><div className={styles.hpFill} style={hpBar(mon)}>{mon.stats.maxHealth}\{mon.health}</div></div>
 
-        {fight.dmgTracker[mon.uid] && (
-          <div className={styles.damageIndicator}>
-            -{fight.dmgTracker[mon.uid]}
-          </div>
-        )}
+        {digitUI(mon)}
 
         <StatusEffect mon={mon} />
 
-        <img class="w-52 h-52" alt={mon.name} src={mon.img}></img>
+        <img onClick={() => fight.handleTarget(mon)}  class="w-52 h-52" alt={mon.name} src={mon.img}></img>
 
         <ul class={fight.currentAttacker === mon ? "" : "hidden"}>
           {mon.attacks.map((attack, attackIndex) => (
@@ -100,14 +106,12 @@ function Battle({ player, fight }) {
     return currentBatch.map((enemy, index) => (
       <div onClick={() => fight.handleTarget(enemy)}
         key={index}
-        className={`${styles.enemy} ${fight.attackOrder[fight.currentAttackerIndex] === enemy ? styles.activeEnemy : ""
-          }`}
+        className={`${styles.enemy} ${borderUI(enemy)}`}
       >
         <p>{enemy.name} {enemy.level}</p>
         <div className={styles.hpBar}><div className={styles.hpFill} style={hpBar(enemy)}>{enemy.stats.maxHealth}\{enemy.health}</div></div>
         {fight.dmgTracker[enemy.uid] && (
           <div className={styles.damageIndicator}>
-
             {fight.dmgTracker[enemy.uid]}
           </div>
         )}
@@ -133,8 +137,8 @@ function Battle({ player, fight }) {
             {renderTeam()}
           </div>
 
-          <div class={styles.order}>Order: {fight.attackOrder.map((mon, index) => (
-            <span className={`${styles.orderTab} ${fight.attackOrder[fight.currentAttackerIndex] === mon ? styles.activeOrder : ""}`}>
+          <div class={styles.order}>{fight.attackOrder.map((mon, index) => (
+            <span className={`${styles.orderTab} ${fight.attackOrder[fight.currentAttackerIndex] === mon ? styles.activeOrder : ""} ${fight.attackTarget === mon ? styles.target : ""}`}>
               {mon.ally ? (<i></i>) : ""} {mon.name}
               {mon.alive ? "" : (<p>: dead</p>)}
             </span>

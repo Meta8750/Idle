@@ -12,7 +12,6 @@ export default class Fight{
     currentBatch:any;
     combinedUnits:any;
     sortedUnits:any;
-    target:any;
     battleLogs: string[];
     attacker: any;
     attackTarget: any;
@@ -48,18 +47,26 @@ export default class Fight{
             this.currentBatch = this.arena.enemys[0];
             this.combinedUnits = [...this.team, ...this.currentBatch];
             this.attackOrder  = this.combinedUnits.sort((a, b) => b.stats.baseMS - a.stats.baseMS);
-            this.target = null;
             this.battleLogs = [];
             this.battleLogs.push("Battle Started");
             this.attacker = null;
             this.attackTarget = this.attackOrder[this.currentAttackerIndex]; //just to fill
             this.lastFight = null;
             this.currentAttacker = this.attackOrder[this.currentAttackerIndex];
-            
             this.drop = null;
            
            
            
+    }
+
+    reset(result: string): void{
+        this.result = result
+        this.state = "outOfCombat"
+        this.lastFight = this.arena
+        this.arena = null
+        this.team.map((mon) => {
+          mon.resetTempStats()
+        })
     }
 
     autoBattleAi(){
@@ -72,7 +79,7 @@ export default class Fight{
             const target = this.currentBatch[Math.floor(Math.random() * 3)];
             this.dmgAmount = this.currentAttacker.calculateDmg(attack, this.currentAttacker, target);
             //this.battleLogs.push(`${this.currentAttacker.name} uses ${attack.name} and dealt ${target.calculateDmg(attack, this.currentAttacker, target)}`)
-            this.updateDamage(this.attackTarget.uid, this.dmgAmount);
+            this.updateDamage(this.attackTarget.uid, -this.dmgAmount);
             
         }
         this.battleLogs.push(`${this.currentAttacker.name} uses ${attack.name} and dealt ${this.dmgAmount}`)
@@ -83,6 +90,18 @@ export default class Fight{
         return;
         
     }
+
+    enemyAi = () => {
+        const attack = this.currentAttacker.attacks[Math.floor(Math.random() * 3)];
+        const aliveTeam = this.team.filter(unit => unit.alive)
+        const target = aliveTeam[Math.floor(Math.random() * aliveTeam.length)];
+        this.battleLogs.push(`${this.currentAttacker.name} uses ${attack.name} and dealt ${target.calculateDmg(attack, this.currentAttacker, target)}`)
+       
+        this.attackOrder = [...this.attackOrder].sort((a, b) => b.stats.baseMS - a.stats.baseMS);
+        
+        this.advanceTurn()
+      };
+
 
     handleAttack(attack: any, mon: any){
         //check if attack is even alive
@@ -96,17 +115,17 @@ export default class Fight{
             if (attack.aoe){
                     this.arena.enemys[this.currentBatchIndex].map((enemy) =>{
                     this.dmgAmount = mon.calculateDmg(attack, mon, enemy);
-                    this.updateDamage(enemy.uid, this.dmgAmount);
+                    this.updateDamage(enemy.uid, -this.dmgAmount);
               })
             } else {
                 // this.battleLogs.push(`${this.currentAttacker.name} uses ${this.currentAttacker.name} and dealt ${mon.calculateDmg(attack, mon, this.attackTarget)}`);
                 this.dmgAmount = mon.calculateDmg(attack, mon, this.attackTarget);
-                this.updateDamage(this.attackTarget.uid, this.dmgAmount);
+                this.updateDamage(this.attackTarget.uid, -this.dmgAmount);
             }
             if (attack.passive(this.currentAttacker) != true){
                 this.advanceTurn();
             }
-           
+            this.updateDamage(mon.uid, mon.heal);
             this.battleLogs.push(`${this.currentAttacker.name} uses ${attack.name} and dealt ${this.dmgAmount}`)
        
             this.attackTarget = "none"
@@ -115,16 +134,7 @@ export default class Fight{
         }
     }
 
-    enemyAi = () => {
-        const attack = this.currentAttacker.attacks[Math.floor(Math.random() * 3)];
-        const target = this.team[Math.floor(Math.random() * 3)];
-        this.battleLogs.push(`${this.currentAttacker.name} uses ${attack.name} and dealt ${target.calculateDmg(attack, this.currentAttacker, target)}`)
-       
-        this.attackOrder = [...this.attackOrder].sort((a, b) => b.stats.baseMS - a.stats.baseMS);
-        
-        this.advanceTurn()
-      };
-
+    
     //function to choose next attacker
     advanceTurn = () => {
         setTimeout(() => {
@@ -153,7 +163,7 @@ export default class Fight{
 
       checkAndAdvanceBatch = () => {
         if (!this.arena || !this.arena.enemys) return;
-        const allDefeated = this.currentBatch.every(enemy => !enemy.alive);
+        let allDefeated = this.currentBatch.every(enemy => !enemy.alive);
         if (allDefeated) {
           if (this.currentBatchIndex < this.arena.enemys.length - 1) {
             // if all dead next batch
@@ -178,16 +188,19 @@ export default class Fight{
                 
             })
           
-            this.lastFight = this.arena;
-            this.arena = null;
-            this.result = "won"
-            this.state = "outOfCombat"
+            this.reset("won")
             if (this.type === "Story"){
                 this.player.coins += 100
                 this.player.essence += 100
             }
             
           }
+        } else {
+            allDefeated = this.team.every(mon => !mon.alive) 
+            
+            if (allDefeated){
+              this.reset("lost")
+            }
         }}
 
         handleTarget = (target) => {
@@ -212,7 +225,7 @@ export default class Fight{
             this.dmgTracker = {
                 ...this.dmgTracker,
              [monId]: damageAmount}
-            setTimeout(() => {this.dmgTracker = {[monId]: null}},1500)
+            setTimeout(() => {this.dmgTracker = {[monId]: null}},2000)
               
         }
 

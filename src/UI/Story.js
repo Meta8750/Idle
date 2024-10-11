@@ -26,7 +26,7 @@ function Story({player}){
             for (const batch of fight.arena.enemys){
               
                 for(const enemy of batch){
-                    enemy.level = player.section + (player.zone * 10) -1
+                    enemy.level = player.section + ((player.zone - 1) * 10) -1
                     enemy.exp = enemy.nextLevel 
                     enemy.levelProgess()
                 }

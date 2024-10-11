@@ -68,7 +68,7 @@ export const monData: monData[] = [
         MRGrowth: 0.5,
         MSGrowth: 5,
         manaGrowth: 10,
-        lifeSteal: 0.1,
+        lifeSteal: 0.0,
         statusChance:0.5,
         attacks: [20000, 20000, 20000, 20000],
 
@@ -179,7 +179,7 @@ export const monData: monData[] = [
         MRGrowth: 0.6,
         MSGrowth: 6,
         manaGrowth: 10,
-        lifeSteal: 0.1,
+        lifeSteal: 0.0,
         statusChance:0.5,
         attacks: [20000, 20999, 20999, 20999],
 

@@ -13,12 +13,13 @@ class assign{
 }
 export default class Dex{
     generate(id: number){
+
         try {
             let monInfo = monData.find(mon => mon.id === id);
-        let attackInfo =  attackData.find(attack => attack.id === id);
-        let monItemInfo = monItemDex.find(item => item.id === id);
-        let dropTableInfo = dropTable.find(drop => drop.id === id)
-        let newAssign: any
+            let attackInfo =  attackData.find(attack => attack.id === id);
+            let monItemInfo = monItemDex.find(item => item.id === id);
+            let dropTableInfo = dropTable.find(drop => drop.id === id)
+            let newAssign: any
 
         if (monInfo){
             monInfo = this.genAttacks(monInfo)

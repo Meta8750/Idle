@@ -113,6 +113,85 @@ export const attackData: AttackData[] = [
     },
 
     {
+        name: "Bite",
+        id: 20002,
+        level: 1,
+        type: "AD",
+        baseDMG: 10,
+        adScaling: 1,
+        apScaling: 0.1,
+        manaCost: 10,
+        armorPen:0.1,
+        mrPen:0,
+        heal: false,
+        aoe:false,
+        passive: (mon) => {
+           // mon.health *= 0.1
+        },
+        description: (mon, attack) => {
+            return (
+                <div>
+                    <p>{attack.name} heals {displayDmg(mon, attack)}</p> 
+                </div>
+            );
+        }
+       
+    },
+
+    {
+        name: "Thunder",
+        id: 20003,
+        level: 1,
+        type: "AP",
+        baseDMG: 1,
+        adScaling: 2,
+        apScaling: 0,
+        manaCost: 10,
+        armorPen:0,
+        mrPen:0,
+        heal: false,
+        aoe:false,
+        passive: (mon) => {
+           // mon.health *= 0.1
+        },
+        description: (mon, attack) => {
+            return (
+                <div>
+                    <p>{attack.name} heals {displayDmg(mon, attack)}</p> 
+                </div>
+            );
+        }
+       
+    },
+
+    {
+        name: "Quick Attack",
+        id: 20004,
+        level: 1,
+        type: "AD",
+        baseDMG: 10,
+        adScaling: 1,
+        apScaling: 0,
+        manaCost: 10,
+        armorPen:0,
+        mrPen:0,
+        heal: false,
+        aoe:false,
+        passive: (mon) => {
+           mon.temp.MS += 10
+        },
+        description: (mon, attack) => {
+            return (
+                <div>
+                    <p>{attack.name} heals {displayDmg(mon, attack)}</p> 
+                </div>
+            );
+        }
+       
+    },
+    
+
+    {
         name: "Ammagedon",
         id: 20999,
         level: 1,
@@ -142,6 +221,8 @@ export const attackData: AttackData[] = [
         }
        
     },
+    
+
     {
         name: "Heal",
         id: 21000,
@@ -167,5 +248,7 @@ export const attackData: AttackData[] = [
         }
        
     },
+
+    
     
 ];

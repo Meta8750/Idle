@@ -65,6 +65,9 @@ export default class Animon {
     status:{};
     ally: boolean;
     heal:number;
+    aggro: boolean;
+    immune: boolean;
+    boss: boolean;
     equipment: {
         chain: any,
         ring: any,
@@ -173,6 +176,27 @@ export default class Animon {
         return Math.round(Math.pow(1.16, this.level) + 10 * this.level * (this.level / 2) + 4);
     }
     
+    calcStatus(){
+        for (let status in this.status) {
+            // Beispiel: Reduziere die Dauer des Status-Effekts
+            if (this.status[status] > 0) {
+                if (status === "bleeding"){
+                    this.health *= 0.9
+                }
+                if (status === "poised"){
+                    this.health -= this.temp.maxHealth * 0.95
+                }
+                if (status === "burning"){
+                    
+                }
+                this.status[status] -= 1;
+                // Entferne den Status, wenn die Dauer 0 erreicht hat
+                if (this.status[status] <= 0) {
+                    delete this.status[status];
+                }
+            }
+        }
+    }
     // attacker = this.mon and defender = enemy
     calculateDmg(attack: any, attacker: any, defender: any){
         
@@ -184,35 +208,13 @@ export default class Animon {
 
         if (attack.status){
             for (const status in attack.status){
-                if (rng <= 1){
+                if (rng <= 0.5){
                     defender.status[status] = attack.status[status]; 
                 }
             }
         }
-        for (let status in this.status) {
-            // Beispiel: Reduziere die Dauer des Status-Effekts
-            if (this.status[status] > 0) {
-                if (status === "bleeding"){
-                    this.health *= 0.3
-                }
-                if (status === "poised"){
-                    this.health -= this.temp.maxHealth * 0.9
-                }
-                if (status === "burning"){
-                    
-                }
-                
-                // Reduziere die Dauer um 1
-                this.status[status] -= 1;
         
-                
         
-                // Entferne den Status, wenn die Dauer 0 erreicht hat
-                if (this.status[status] <= 0) {
-                    delete this.status[status];
-                }
-            }
-        }
 
         this.dmg = attack.baseDMG + ((attacker.stats.baseAD + temp.AD) * attack.adScaling) 
         

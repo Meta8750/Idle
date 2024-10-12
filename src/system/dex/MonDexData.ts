@@ -184,5 +184,42 @@ export const monData: monData[] = [
         attacks: [20000, 20999, 20999, 20999],
 
     },
+
+    {
+        name: "Raiku",
+        id: 10044,
+        level: 1,
+        rarity: "SSR",
+        tier: 3,
+        type: "Dark",
+        role: "DD",
+        stats: {
+            maxHealth: 500,
+            baseAD: 30,
+            baseAP: 30,
+            baseArmour: 30,
+            baseMR: 20,
+            baseMS: 320,
+            baseCritRate: 0.5,
+            baseCritDamage: 2,
+            maxMana: 100,
+            armourPen: 0,
+            mrPen: 0,
+            maxHealthDmg: 0,
+            currentHealthDmg: 0,
+        },
+
+        ADGrowth: 1.8,
+        APGrowth: 0.6,
+        healthGrowth: 12,
+        armourGrowth: 1.2,
+        MRGrowth: 0.6,
+        MSGrowth: 6,
+        manaGrowth: 10,
+        lifeSteal: 0.1,
+        statusChance:0.5,
+        attacks: [20001, 20002, 20003, 20004],
+
+    },
     
 ];

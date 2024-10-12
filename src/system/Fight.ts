@@ -152,7 +152,7 @@ export default class Fight{
             }
             this.currentAttackerIndex = nextIndex
             this.currentAttacker = this.attackOrder[this.currentAttackerIndex];
-            
+            this.currentAttacker.calcStatus()
             if (this.currentAttacker && this.arena && this.arena.enemys.flat().includes(this.currentAttacker)) {
                 this.enemyAi();
       

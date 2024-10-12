@@ -16,7 +16,7 @@ type AttackData = {
     buffs?: {},
     debuffs?: {},
     status?:{},
-    passive: (animon : any) => void
+    passive?: (animon : any) => void
     description: (animon: any, attack: AttackData) => JSX.Element;
     
 }
@@ -50,18 +50,11 @@ export const attackData: AttackData[] = [
         baseDMG: 40,
         adScaling: 1,
         apScaling: 0.5,
-
         manaCost: 10,
-
         armorPen:0,
         mrPen:0,
-
         heal: false,
         aoe: false,
-
-        passive: (mon) => {
-            
-        },
         
         description: (mon, attack) => {
             const { baseAD, baseAP } = mon;
@@ -236,9 +229,7 @@ export const attackData: AttackData[] = [
         mrPen:0,
         heal: true,
         aoe:false,
-        passive: (mon) => {
-           // mon.health *= 0.1
-        },
+        
         description: (mon, attack) => {
             return (
                 <div>

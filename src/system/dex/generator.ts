@@ -2,6 +2,7 @@ import { attackData } from "./AttackDexData.tsx";
 import { monData } from "./MonDexData.ts";
 import { monItemDex } from "./ItemDexData.ts";
 import { dropTable } from "./dropTableDex.ts";
+import { passiveData } from "./PassiveDexData.js";
 import Animon from "../Animon.ts";
 import artifacts from '../artifacts.ts'
 
@@ -13,17 +14,23 @@ class assign{
 }
 export default class Dex{
     generate(id: number){
-
+        console.log(id)
         try {
             let monInfo = monData.find(mon => mon.id === id);
             let attackInfo =  attackData.find(attack => attack.id === id);
             let monItemInfo = monItemDex.find(item => item.id === id);
-            let dropTableInfo = dropTable.find(drop => drop.id === id)
+            let dropTableInfo = dropTable.find(drop => drop.id === id);
+            
             let newAssign: any
 
         if (monInfo){
             monInfo = this.genAttacks(monInfo)
             newAssign = new Animon({ ...monInfo })
+            let passiveID = newAssign.passiveID
+
+            if (passiveID){
+                newAssign.passive = passiveData.find(passive => passive.passiveID === passiveID);
+            }
         }
         if (attackInfo){
             newAssign = new assign({...attackInfo})
@@ -34,6 +41,7 @@ export default class Dex{
         if (dropTableInfo){
             newAssign = new assign({...dropTableInfo})
         }
+
    
         return newAssign
         }

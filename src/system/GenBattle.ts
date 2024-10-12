@@ -20,12 +20,12 @@ export default class GenBattle {
         for (let i = 0; i < batchSize; i++) {
           // Wähle ein zufälliges Monster und füge es zum Batch hinzu
           let tierMonDex = this.monDex.filter(mon => mon.tier === this.tier)
-          let randomMon = tierMonDex[Math.floor(Math.random() * this.monDex.length)];
+          let randomMon = tierMonDex[Math.floor(Math.random() * tierMonDex.length)];
           batch.push(randomMon.id);
         }
         return batch;
       }
-      
+       
       // Funktion, um mehrere Stages mit zufälligen Monster-Batches zu erstellen
        createStages(stagesCount, batchSize) {
         let stages = [];

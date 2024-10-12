@@ -224,7 +224,7 @@ export default class Animon {
             defender.setHealth(this.dmg)
             return Math.round(this.dmg)
         }
-        console.log(2)
+        
         if (attack.type == "AD"){
             let reduceDmg = this.calculateDmgReduction((this.stats.armourPen + temp.armourPen) * (defender.stats.baseArmour + defender.temp.armour))
             this.dmg = this.dmg - ( reduceDmg * this.dmg )

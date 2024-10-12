@@ -56,8 +56,6 @@ export default class Fight{
             this.currentAttacker = this.attackOrder[this.currentAttackerIndex];
             this.drop = null;
            
-           
-           
     }
 
     reset(result: string): void{
@@ -123,9 +121,17 @@ export default class Fight{
                 this.dmgAmount = mon.calculateDmg(attack, mon, this.attackTarget);
                 this.updateDamage(this.attackTarget.uid, -this.dmgAmount);
             }
-            if (attack.passive(this.currentAttacker) != true){
+            /* if (attack.passive(this.currentAttacker) != true){
                 this.advanceTurn();
+            } */
+            if (attack.passive){
+                attack.passive(this.currentAttacker)
+            } 
+            if (mon.passive){
+                mon.passive(this.currentAttacker)
             }
+
+            this.advanceTurn()
             this.updateDamage(mon.uid, mon.heal);
             this.battleLogs.push(`${this.currentAttacker.name} uses ${attack.name} and dealt ${this.dmgAmount}`)
        

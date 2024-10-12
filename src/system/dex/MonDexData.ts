@@ -105,4 +105,4 @@ const newMon = {
   };
   
   // Rufe die Funktion auf, um die Daten hinzuzufügen
-  addMonToFirestore(); 
+  //addMonToFirestore(); 

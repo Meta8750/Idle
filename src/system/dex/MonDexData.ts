@@ -91,7 +91,85 @@ export const fetchMonData = async () => {
 fetchMonData();
 
 const newMon = {
-  name: "Ammagedon",
+  name: "Malphite",
+  id: 10095,
+  level: 1,
+  rarity: "SSR",
+  tier: 3,
+  type: "Dark",
+  role: "Tank",  
+  stats: {
+    maxHealth: 1000,
+    baseAD: 5,
+    baseAP: 0,
+    baseArmour: 50,
+    baseMR: 50,
+    baseMS: 250,  
+    baseCritRate: 0.05,
+    baseCritDamage: 0.15,
+    maxMana: 100,
+    armourPen: 0,
+    mrPen: 0,
+    maxHealthDmg: 0,
+    currentHealthDmg: 0,
+  },
+  ADGrowth: 1.5,
+  APGrowth: 0.5,
+  healthGrowth: 40,
+  armourGrowth: 3,
+  MRGrowth: 2,
+  MSGrowth: 5,
+  manaGrowth: 10,
+  lifeSteal: 0.0,
+  statusChance: 0.5,
+  attacks: [22000, 22000, 21000, 20004],
+}
+
+  const addMonToFirestore = async () => {
+    try {
+      const docRef = await addDoc(collection(db, "MonDex"), newMon);
+      console.log("Document written with ID: ", docRef.id);
+    } catch (e) {
+      console.error("Error adding document: ", e);
+    }
+  };
+  
+   // addMonToFirestore(); 
+/*
+  name: "Vagabund",
+  id: 10000,
+  level: 1,
+  rarity: "common",
+  tier: 1,
+  type: "Fire",
+  role: "DD",  
+  stats: {
+    maxHealth: 100,
+    baseAD: 10,
+    baseAP: 5,
+    baseArmour: 2,
+    baseMR: 1,
+    baseMS: 300,  
+    baseCritRate: 0.05,
+    baseCritDamage: 0.2,
+    maxMana: 100,
+    armourPen: 0,
+    mrPen: 0,
+    maxHealthDmg: 0,
+    currentHealthDmg: 0,
+  },
+  ADGrowth: 1.5,
+  APGrowth: 0.5,
+  healthGrowth: 10,
+  armourGrowth: 1,
+  MRGrowth: 0.5,
+  MSGrowth: 5,
+  manaGrowth: 10,
+  lifeSteal: 0.0,
+  statusChance: 0.5,
+  attacks: [21000, 21000, 21000, 20000],
+
+   name: "Ammagedon",
   id: 20999,
   level: 1,
   type: "AD",
@@ -103,17 +181,5 @@ const newMon = {
   mrPen:0,
   heal: false,
   aoe:true,
-}
-  
-  // Funktion, um die Daten in Firestore einzufügen
-  const addMonToFirestore = async () => {
-    try {
-      const docRef = await addDoc(collection(db, "AttackDex"), newMon);
-      console.log("Document written with ID: ", docRef.id);
-    } catch (e) {
-      console.error("Error adding document: ", e);
-    }
-  };
-  
-  // Rufe die Funktion auf, um die Daten hinzuzufügen
-  //addMonToFirestore(); 
+
+*/

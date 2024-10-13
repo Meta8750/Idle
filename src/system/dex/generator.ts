@@ -14,7 +14,7 @@ class assign{
 }
 export default class Dex{
     generate(id: number){
-        console.log(id)
+        // console.log(id)
         try {
             let monInfo = monData.find(mon => mon.id === id);
             let attackInfo =  attackData.find(attack => attack.id === id);
@@ -27,14 +27,17 @@ export default class Dex{
             monInfo = this.genAttacks(monInfo)
             newAssign = new Animon({ ...monInfo })
             let passiveID = newAssign.passiveID
-            console.log(newAssign)
             if (passiveID){
-                newAssign.passive = passiveData.find(passive => passive.passiveID === passiveID);
+                newAssign.passive = passiveData.find(passive => passive.id === passiveID);
             }
         }
         if (attackInfo){
             newAssign = new assign({...attackInfo})
+            let passiveID = newAssign.passiveID
             
+            if (Number.isInteger(passiveID)){
+                newAssign.passive = passiveData.find(passive => passive.id === passiveID);
+            }
         }
         if (monItemInfo){
             newAssign = new artifacts({...monItemInfo})

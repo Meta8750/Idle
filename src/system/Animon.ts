@@ -189,9 +189,14 @@ export default class Animon {
                 if (status === "burning"){
                     
                 }
+                if (status === "aggro"){
+                    this.aggro = true
+                    
+                }
                 this.status[status] -= 1;
                 // Entferne den Status, wenn die Dauer 0 erreicht hat
                 if (this.status[status] <= 0) {
+                    if (status === "aggro"){ this.aggro = false }
                     delete this.status[status];
                 }
             }

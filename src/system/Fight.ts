@@ -75,7 +75,8 @@ export default class Fight{
             this.dmgAmount = this.currentAttacker.calculateDmg(attack, this.currentAttacker, enemy);
             this.updateDamage(enemy.uid, this.dmgAmount);
         })} else {
-            const target = this.currentBatch[Math.floor(Math.random() * 3)];
+            let target = this.currentBatch.filter(mon => mon.aggro === true)
+            target = this.currentBatch[Math.floor(Math.random() * target.length)];
             this.dmgAmount = this.currentAttacker.calculateDmg(attack, this.currentAttacker, target);
             //this.battleLogs.push(`${this.currentAttacker.name} uses ${attack.name} and dealt ${target.calculateDmg(attack, this.currentAttacker, target)}`)
             this.updateDamage(this.attackTarget.uid, -this.dmgAmount);
@@ -92,7 +93,12 @@ export default class Fight{
 
     enemyAi = () => {
         const attack = this.currentAttacker.attacks[Math.floor(Math.random() * 3)];
-        const aliveTeam = this.team.filter(unit => unit.alive)
+        let aliveTeam = this.team.filter(unit => unit.alive)
+        
+        if (aliveTeam.filter(mon => mon.aggro === true).length > 0){
+            aliveTeam = aliveTeam.filter(mon => mon.aggro === true)
+        }
+        
         const target = aliveTeam[Math.floor(Math.random() * aliveTeam.length)];
         this.battleLogs.push(`${this.currentAttacker.name} uses ${attack.name} and dealt ${target.calculateDmg(attack, this.currentAttacker, target)}`)
        
@@ -121,11 +127,9 @@ export default class Fight{
                 this.dmgAmount = mon.calculateDmg(attack, mon, this.attackTarget);
                 this.updateDamage(this.attackTarget.uid, -this.dmgAmount);
             }
-            /* if (attack.passive(this.currentAttacker) != true){
-                this.advanceTurn();
-            } */
+          
             if (attack.passive){
-                attack.passive(this.currentAttacker)
+                attack.passive.passive(this.currentAttacker)
             } 
             if (mon.passive){
                 mon.passive(this.currentAttacker)

@@ -18,6 +18,7 @@ function MonManager({player}) {
     player.setMons(10003)
     player.setMons(10005)
     player.setMons(10044)
+    player.setMons(10095)
     player.setTeam(player.getMons(0), 0)  
     player.setTeam(player.getMons(1), 0) 
     player.setTeam(player.getMons(2), 0)  

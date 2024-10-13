@@ -1,25 +1,6 @@
 import React from 'react';
 
-type AttackData = {
-    name: string,
-    id: number,
-    level: number,
-    type: string,
-    baseDMG: number,
-    adScaling: number,
-    apScaling: number,
-    manaCost: number,
-    armorPen: number,
-    mrPen: number,
-    heal: boolean,
-    aoe: boolean,
-    buffs?: {},
-    debuffs?: {},
-    status?:{},
-    passive?: (animon : any) => void
-    description: (animon: any, attack: AttackData) => JSX.Element;
-    
-}
+
 
 const displayDmg = (animon: any, attack: any) => {
     return (
@@ -41,20 +22,9 @@ const displayDmg = (animon: any, attack: any) => {
 
 }
 
-export const attackData: AttackData[] = [
+export const descData = [
     {
-        name: "Fireball",
-        id: 20000,
-        level: 1,
-        type: "AP",
-        baseDMG: 40,
-        adScaling: 1,
-        apScaling: 0.5,
-        manaCost: 10,
-        armorPen:0,
-        mrPen:0,
-        heal: false,
-        aoe: false,
+      
         
         description: (mon, attack) => {
             const { baseAD, baseAP } = mon;

@@ -1,5 +1,5 @@
-import { attackData } from "./AttackDexData.tsx";
-import { monData } from "./MonDexData.ts";
+import { descData } from "./AttackDexData.tsx";
+import { monData, attackData } from "./MonDexData.ts";
 import { monItemDex } from "./ItemDexData.ts";
 import { dropTable } from "./dropTableDex.ts";
 import { passiveData } from "./PassiveDexData.js";
@@ -27,13 +27,14 @@ export default class Dex{
             monInfo = this.genAttacks(monInfo)
             newAssign = new Animon({ ...monInfo })
             let passiveID = newAssign.passiveID
-
+            console.log(newAssign)
             if (passiveID){
                 newAssign.passive = passiveData.find(passive => passive.passiveID === passiveID);
             }
         }
         if (attackInfo){
             newAssign = new assign({...attackInfo})
+            
         }
         if (monItemInfo){
             newAssign = new artifacts({...monItemInfo})

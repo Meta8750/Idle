@@ -36,26 +36,34 @@ export default class Fight{
     }
 
     startFight(player: any, batch: number[],drop: number){
-            this.state = "Combat"
-            this.result = ""
+          
             this.arena = new Arena(batch,drop);
             this.arena.genEnemys();
+            this.player = player
+            this.team = player.getTeam();
+
             this.currentBatchIndex = 0;
             this.currentAttackerIndex = 0;
             this.attackOrder = [];
-            this.team = player.getTeam();  
-            this.player = player
+            
             this.currentBatch = this.arena.enemys[0];
             this.combinedUnits = [...this.team, ...this.currentBatch];
-            this.attackOrder  = this.combinedUnits.sort((a, b) => b.stats.baseMS - a.stats.baseMS);
-            this.battleLogs = [];
-            this.battleLogs.push("Battle Started");
+        
+            this.attackOrder  = [...this.combinedUnits].sort((a, b) => b.stats.baseMS - a.stats.baseMS);
+
+            this.attackOrder = [...this.attackOrder].sort((a, b) => b.stats.baseMS - a.stats.baseMS);
+         
             this.attacker = null;
             this.attackTarget = this.attackOrder[this.currentAttackerIndex]; //just to fill
-            this.lastFight = null;
+            
             this.currentAttacker = this.attackOrder[this.currentAttackerIndex];
+
+            this.state = "Combat"
+            this.result = ""
+            this.lastFight = null;
             this.drop = null;
-           
+            this.battleLogs = [];
+            this.battleLogs.push("Battle Started");
     }
 
     reset(result: string): void{
@@ -132,7 +140,7 @@ export default class Fight{
                 attack.passive.passive(this.currentAttacker)
             } 
             if (mon.passive){
-                mon.passive(this.currentAttacker)
+                mon.passive.passive(this.currentAttacker)
             }
 
             this.advanceTurn()
@@ -166,7 +174,9 @@ export default class Fight{
             if (this.currentAttacker && this.arena && this.arena.enemys.flat().includes(this.currentAttacker)) {
                 this.enemyAi();
       
-            } else { if (this.autoBattle && this.result != "won") {this.autoBattleAi();}}
+            } else { 
+                if (this.autoBattle && this.result != "won") {this.autoBattleAi();}
+            }
                 
         }, 1100)
        

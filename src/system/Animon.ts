@@ -208,9 +208,7 @@ export default class Animon {
         let temp  = this.temp
         this.heal = 0
         let rng = Math.random()
-
        
-
         if (attack.status){
             for (const status in attack.status){
                 if (rng <= 0.5){

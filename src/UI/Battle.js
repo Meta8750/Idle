@@ -149,11 +149,12 @@ function Battle({ player, fight }) {
 
           <div class={styles.order}>{fight.attackOrder.map((mon, index) => (
             <span className={`${styles.orderTab} ${fight.attackOrder[fight.currentAttackerIndex] === mon ? styles.activeOrder : ""} ${fight.attackTarget === mon ? styles.target : ""}`}>
-              {mon.ally ? (<i></i>) : ""} {mon.name}
+              {mon.ally ? (<i></i>) : ""} {mon.name}{mon.stats.baseMS}
               {mon.alive ? "" : (<p>: dead</p>)}
             </span>
           ))}</div>
-          <p>Attack Target: {fight.attackTarget.name}</p>
+          <p>Attack Target: {fight.attackTarget.name} {fight.battleState}</p>
+  
 
           <div className={styles.battleLogsContainer}>
             {fight.battleLogs.map((battleLog, index) => (

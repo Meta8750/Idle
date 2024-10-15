@@ -40,13 +40,13 @@
     display:grid;
     grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
     grid-template-rows: 1fr 1fr 1fr 1fr 1fr;
-    background: Linear-gradient(90deg, grey, #00d6da );
+    background: Linear-gradient(0deg, grey, #2b4b4b );
     padding: 10px;
     
 }
 
 .boxSlot {
-    background-color: rgb(158, 156, 156);
+    background-color: rgb(107, 107, 107);
     color: white;
     align-items: center;
     text-align: center;

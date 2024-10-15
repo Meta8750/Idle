@@ -4,10 +4,14 @@ import styles from '../../UIcss/components/ItemStars.module.css'
 interface Item {
   name: string;
   stars: number;
+  tier:number;
 }
 
-const ItemStars: React.FC<{ item: Item }> = ({ item }) => {
-  const starArray = Array(item.stars).fill('★'); 
+const ItemStars: React.FC<{ item: Item }> = ({ num }) => {
+ 
+  const starArray = Array(num).fill('★');
+ 
+
   return (
     <div>
       

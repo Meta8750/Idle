@@ -1,10 +1,11 @@
 import React from "react";
 import { useState } from "react";
-import Animon from "../system/Animon.ts";
+
 import ItemManager  from "./ItemManager.js";
+import ItemStars from "./components/ItemStars.tsx";
 
 import styles from '../UIcss/MonManager.module.css'
-import Inventory from "../system/Inventory.ts";
+
 
 
 function MonManager({player}) {
@@ -87,7 +88,7 @@ function MonManager({player}) {
                       <p>Lv {mon.level}</p>
                       
                       <img class="w-32 h-32" alt ={mon.name}src={mon.img}></img>
-                      <span></span>
+                      <span><ItemStars num={mon.tier}/></span>
                         <p>{mon.name} {mon.role}</p>
                        
                       

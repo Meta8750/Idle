@@ -51,7 +51,7 @@ function ItemManager({player, mon, setTab})  {
                   <p class="px-0 m-0 f text-sm" >{item.name}</p>
                   <img class="px-1 w-9 mr-auto ml-auto" src={item.img}></img>
                   <h1 class="">{item.quantity}</h1>
-                  <ItemStar item={item}/>
+                  <ItemStar num={item.stars}/>
                   <span></span>
                 </li>
                 </ul>

@@ -14,7 +14,6 @@ function MonManager({player}) {
     const [tab, setTab] = useState("mon");
 
    const test = () => {
-
     player.setMons(10000)
     player.setMons(10003)
     player.setMons(10005)

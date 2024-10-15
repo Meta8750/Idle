@@ -247,8 +247,6 @@ export default class Animon {
                 }
             }
         }
-        
-        
 
         this.dmg = attack.baseDMG + ((attacker.stats.baseAD + temp.AD) * attack.adScaling) 
         

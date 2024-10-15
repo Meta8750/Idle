@@ -16,6 +16,20 @@ interface TempStats {
     dmgAmp: number;
 }
 
+const typeMatrix = {
+    "Dark":     [1.0, 1.5, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0],
+    "Light":    [1.5, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0],
+    "Water":    [1.0, 1.0, 1.0, 1.5, 0.5, 1.5, 0.0, 1.0],
+    "Plant":    [1.0, 1.0, 0.5, 1.0, 1.5, 0.5, 0.0, 1.5],
+    "Fire":     [1.0, 1.0, 1.5, 0.5, 1.0, 1.0, 1.5, 0.5],
+    "Electro":  [1.0, 1.0, 0.0, 1.0, 1.0, 0.0, 1.5, 1.0],
+    "Stone":    [1.0, 1.0, 1.5, 1.5, 0.5, 0.0, 1.0, 0.5],
+    "Ice":      [1.0, 1.0, 1.0, 0.5, 1.5, 1.0, 1.5, 1.0]
+};
+
+const typeOrder = ["Dark", "Light", "Water", "Plant", "Fire", "Electro", "Stone", "Ice"];
+
+
 export default class Animon {
     name: string;
     level: number;
@@ -205,6 +219,20 @@ export default class Animon {
             }
         }
     }
+
+    getEffectiveness(attackType: string, defenderType: string){
+        if (attackType === "normal" || defenderType === "normal"){
+            return 1
+        }
+        const attackerIndex = typeOrder.indexOf(attackType);
+        const defenderIndex = typeOrder.indexOf(defenderType);
+        
+        if (attackerIndex === -1 || defenderIndex === -1) {
+            throw new Error("Ungültiger Typ");
+        }
+        
+        return typeMatrix[attackType][defenderIndex];
+    }
     // attacker = this.mon and defender = enemy
     calculateDmg(attack: any, attacker: any, defender: any){
         
@@ -245,6 +273,8 @@ export default class Animon {
         
         if (Math.random() <= attacker.stats.baseCritRate + temp.critRate) {   this.dmg *= (attacker.stats.baseCritDamage + temp.critDamage) }
         this.dmg = this.dmg + (this.dmg * temp.dmgAmp)
+
+        this.dmg *= this.getEffectiveness(attack.type, defender.type)
 
         this.dmg = Math.round(this.dmg)
         

@@ -80,7 +80,7 @@ function MonManager({player}) {
                 player.getMons().map((mon, index) => (
                   <div onClick={() => setFocus(mon)} className={styles.boxSlot}>
                       <header>
-                        <img className="!w-10 h-10" src={`/icons/type/${mon.element}.png`}></img>
+                        <img className="!w-10 h-10" src={`/icons/element/${mon.element}.png`}></img>
                         <h1> Lv. {mon.level}00</h1>
                       </header>
                       <i className={player.team.some(teamMon => teamMon.uid === mon.uid) ? "" : "hidden"}>

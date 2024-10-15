@@ -119,7 +119,7 @@ class Player {
     }
 
     setTeam(mon: any) {
-        if (this.team.length >= 3) {
+        if (this.team.length >= 4) {
             this.team.shift();  
         }
         if (this.isUIDUnique(mon.uid)) {

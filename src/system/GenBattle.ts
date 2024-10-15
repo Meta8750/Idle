@@ -54,7 +54,7 @@ export default class GenBattle {
         
         let tierMonDex = this.monDex.filter(mon => mon.tier === this.tier)
 
-        let batch = this.createStages(stageSize, 3)
+        let batch = this.createStages(stageSize, 4)
       
         return batch
 

@@ -22,6 +22,7 @@ function MonManager({player}) {
     player.setTeam(player.getMons(0), 0)  
     player.setTeam(player.getMons(1), 0) 
     player.setTeam(player.getMons(2), 0)  
+    player.setTeam(player.getMons(3), 0)  
 
    }
     const setFocus = (mon) => {

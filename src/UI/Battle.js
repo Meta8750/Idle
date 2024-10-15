@@ -10,6 +10,8 @@ const battleLogs = []
 
 function Battle({ player, fight }) {
 
+  const [battleLog, setBattleLog] = useState(false)
+
   const borderUI = (mon) => {
     if (fight.attackOrder[fight.currentAttackerIndex] === mon){
       return styles.activeMon
@@ -74,7 +76,57 @@ function Battle({ player, fight }) {
     if (mon.mana <= 0) { pWidth = '0%' } return { width: pWidth, };
   }
 
+  useEffect(() => {
+    const handleKeyDown = (event) => {
+      const key = event.key;
+      // Überprüfen, ob die Taste zwischen 1 und 4 liegt
+      if (key >= '1' && key <= '4') {
+        handleAttackSelection(Number(key));
+      }
+      if (key === "q"){
+        handleTargetSelection(4)
+      }
+      if (key === "w"){
+        handleTargetSelection(5)
+      }
+      if (key === "e"){
+        handleTargetSelection(6)
+      }
+      if (key === "re"){
+        handleTargetSelection(7)
+      }
+      if (key === "a"){
+        handleTargetSelection(0)
+      }
+      if (key === "s"){
+        handleTargetSelection(1)
+      }
+      if (key === "d"){
+        handleTargetSelection(2)
+      }
+      if (key === "f"){
+        handleTargetSelection(3)
+      }
+    };
+    // Event-Listener für Tasteneingaben hinzufügen
+    window.addEventListener('keydown', handleKeyDown);
+    // Event-Listener entfernen, wenn die Komponente unmontiert wird
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+    };
+  }, []);
 
+  const handleAttackSelection = (num) =>{
+    if (fight.currentAttacker){
+      fight.handleAttack(fight.currentAttacker.attacks[num - 1], fight.currentAttacker)
+    }
+  }
+
+  const handleTargetSelection = (num) => {
+    if (fight.combinedUnits){
+      fight.attackTarget = fight.combinedUnits[num]
+    }
+  }
 
   const renderTeam = () => {
     return player.getTeam().map((mon, index) => (
@@ -88,7 +140,7 @@ function Battle({ player, fight }) {
 
         <StatusEffect mon={mon} />
 
-        <img onClick={() => fight.handleTarget(mon)}  class="w-52 h-52" alt={mon.name} src={mon.img}></img>
+        <img onClick={() => fight.handleTarget(mon)}  class="w-60 h-52" alt={mon.name} src={mon.img}></img>
 
         <ul class={fight.currentAttacker === mon ? "" : "hidden"}>
           {mon.attacks.map((attack, attackIndex) => (
@@ -126,7 +178,7 @@ function Battle({ player, fight }) {
           </div>
         )}
         <StatusEffect mon={enemy} />
-        <img class="w-52 h-52" alt={enemy.name} src={enemy.img}></img>
+        <img class="w-60 h-52" alt={enemy.name} src={enemy.img}></img>
       </div>
 
     ));
@@ -137,6 +189,7 @@ function Battle({ player, fight }) {
       <div>
         <button onClick={() => autoBattler()}>Auto Battle</button>
         <button onClick={() => ff()}>FF</button>
+        <button onClick={() => setBattleLog(true)}>Battelog</button>
       </div>
       {fight.arena ? (
         <div className={styles.arena}>
@@ -153,10 +206,9 @@ function Battle({ player, fight }) {
               {mon.alive ? "" : (<p>: dead</p>)}
             </span>
           ))}</div>
-          <p>Attack Target: {fight.attackTarget.name} {fight.battleState}</p>
-  
 
-          <div className={styles.battleLogsContainer}>
+          <div className={battleLog ? styles.battleLogsContainer : "hidden"}>
+            <button onClick={() => setBattleLog(false)}>X</button>
             {fight.battleLogs.map((battleLog, index) => (
               <p key={index}>{battleLog}</p>
             ))}

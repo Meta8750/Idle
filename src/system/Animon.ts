@@ -152,18 +152,21 @@ export default class Animon {
             objectFit: "cover",
         };
     }
-    levelProgess() :void{
+    levelProgess(level?) :void{
+        if (!level){
+            level = 1
+        }
         if (this.level <= this.maxLevel){
             if (this.exp >= this.nextLevel){
                 this.level++
-                this.stats.baseAD += this.ADGrowth
-                this.stats.baseAP += this.APGrowth
-                this.stats.baseArmour += this.armourGrowth
-                this.stats.baseMR += this.MRGrowth
-                this.stats.baseMS += this.MSGrowth
-                this.stats.maxHealth += this.healthGrowth
+                this.stats.baseAD += this.ADGrowth * level
+                this.stats.baseAP += this.APGrowth * level
+                this.stats.baseArmour += this.armourGrowth * level
+                this.stats.baseMR += this.MRGrowth * level
+                this.stats.baseMS += this.MSGrowth * level
+                this.stats.maxHealth += this.healthGrowth * level
                 this.health = this.stats.maxHealth
-                this.stats.maxMana += this.manaGrowth
+                this.stats.maxMana += this.manaGrowth * level
                 this.nextLevel = this.calculateNextLevel()
                 this.ADReduction = this.calculateDmgReduction(this.stats.baseArmour)
                 this.APReduction = this.calculateDmgReduction(this.stats.baseMR)

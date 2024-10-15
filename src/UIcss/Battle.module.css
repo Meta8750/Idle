@@ -10,36 +10,52 @@
 }
 
 .arena{
+  position: relative;
     background-color: black;
     color: white;
     display:grid;
     grid-template-areas:
-    "enemy  order enemyStats"
-    "team  team playerStats";
+    "enemy  order "
+    "team  order";
     grid-template-rows: auto 1fr;
     grid-template-columns:  1fr 0.1fr 0.5fr;
     min-width: 100%;
     min-height: 100%;
-    border: solid 2px aqua; 
+    border: solid 2px aqua;
+    img{
+      min-width: 100%;
+      object-fit:contain
+      
+    } 
     
 }
 
 .battleLogsContainer{
-  width: 96.1%;         
-  max-height: 450px;    
+    
+    
   overflow-y: auto;   
   border: 1px solid #ccc;  
-  padding: 10px;       
+   
   background-color: #000000;
+  z-index: 2;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  opacity: 0.8;
+  button{
+    position: absolute;
+    right:0;
+  }
 }
 
 .hpBar {
     background-color: grey;
     border: 1px solid black;
     height: 20px;
-    width: 100%; /* Full width as a container */
+    width: 95%; /* Full width as a container */
     position: relative;
     max-width: 100%;
+    
   }
   
   .hpFill {
@@ -47,6 +63,7 @@
     height: 100%;
     transition: width 0.9s ease;
     position:absolute;
+    
   }
 
   .hpUnder{
@@ -79,7 +96,8 @@
     margin: 5px 0.5vh 0px 0.5vh;
     position: relative;
     z-index: 1;
-
+    min-width: 30vh;
+    
 }
 
 .target {
@@ -99,6 +117,7 @@
     border: solid 2px rgb(0, 0, 0);
     transition:  1s ease;
     margin: 5px;
+    min-width: 30vh;
     
 }
 
@@ -113,7 +132,7 @@
     
 }
 .orderTab {
-  width: 11vh; 
+  width: 13vh; 
   transition: width 1s ease;
   display: flex;
   align-items: center;
@@ -135,7 +154,7 @@
 
 .activeOrder {
   border: solid 2px aqua;
-  width: 12vh; 
+  width: 14vh; 
   animation: rainbowText 7s infinite;
 }
 

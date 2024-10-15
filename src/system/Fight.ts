@@ -1,6 +1,7 @@
 import dex from './dex/generator.ts'
 import React from 'react';
 
+
 const Dex = new dex()
 export default class Fight{
     arena:any;
@@ -27,6 +28,7 @@ export default class Fight{
     type: string;
     aggro: boolean
     battleState:string;
+    currentAttack:any;
     
     constructor(){
         this.state = "outOfCombat"
@@ -34,9 +36,12 @@ export default class Fight{
         this.autoBattle = false;
         this.dmgTracker = {};
         this.type = "unknown";
+        this.currentAttack = null;
     }
 
-    startFight(player: any, batch: number[],drop: number){
+    
+
+    startFight = async (player: any, batch: number[],drop: number) => {
           
             this.arena = new Arena(batch,drop);
             this.arena.genEnemys();
@@ -49,21 +54,29 @@ export default class Fight{
             
             this.currentBatch = this.arena.enemys[0];
             this.combinedUnits = [...this.team, ...this.currentBatch];
-         
-            this.attackOrder  = [...this.combinedUnits].sort((a, b) => b.stats.baseMS - a.stats.baseMS);
-           
+            await this.initializeUnits();
+            this.attackOrder= [...this.combinedUnits].sort((a, b) => b.stats.baseMS - a.stats.baseMS);
+          
             this.attacker = null;
             this.attackTarget = this.attackOrder[this.currentAttackerIndex]; //just to fill
             this.currentAttacker = this.attackOrder[this.currentAttackerIndex];
 
             this.state = "Combat"
-            this.battleState = ""
+            this.battleState = "battle start"
             this.result = ""
             this.lastFight = null;
             this.drop = null;
             this.battleLogs = [];
             this.battleLogs.push("Battle Started");
             this.advanceTurn()
+    }
+
+    initializeUnits = async () => {
+        while (!this.combinedUnits.every(unit => unit.stats.baseMS != null)) {
+            // Warte, bis alle Einheiten ihre baseMS-Werte haben
+            await new Promise(resolve => setTimeout(resolve, 50)); // 50 ms warten und erneut prüfen
+        }
+        console.log("All units have baseMS initialized");
     }
 
     reset(result: string): void{
@@ -76,21 +89,32 @@ export default class Fight{
         })
     }
 
+    checkPassive(){
+        if (this.currentAttack != null){
+            if (this.currentAttack.passive){
+                this.currentAttack.passive.passive(this.currentAttacker, this.battleState)
+            } 
+            if (this.currentAttacker.passive){
+                this.currentAttacker.passive.passive(this.currentAttacker,  this.battleState)
+            }
+        }
+    }
+
     autoBattleAi(){
-        const attack = this.currentAttacker.attacks[Math.floor(Math.random() * 3)];
-        if (attack.aoe){
+        this.currentAttack = this.currentAttacker.attacks[Math.floor(Math.random() * 3)];
+        if ( this.currentAttack.aoe){
             this.arena.enemys[this.currentBatchIndex].map((enemy) =>{
-            this.dmgAmount = this.currentAttacker.calculateDmg(attack, this.currentAttacker, enemy);
+            this.dmgAmount = this.currentAttacker.calculateDmg( this.currentAttack, this.currentAttacker, enemy);
             this.updateDamage(enemy.uid, this.dmgAmount);
         })} else {
             let target = this.currentBatch.filter(mon => mon.aggro === true)
             target = this.currentBatch[Math.floor(Math.random() * target.length)];
-            this.dmgAmount = this.currentAttacker.calculateDmg(attack, this.currentAttacker, target);
+            this.dmgAmount = this.currentAttacker.calculateDmg( this.currentAttack, this.currentAttacker, target);
             //this.battleLogs.push(`${this.currentAttacker.name} uses ${attack.name} and dealt ${target.calculateDmg(attack, this.currentAttacker, target)}`)
             this.updateDamage(this.attackTarget.uid, -this.dmgAmount);
             
         }
-        this.battleLogs.push(`${this.currentAttacker.name} uses ${attack.name} and dealt ${this.dmgAmount}`)
+        this.battleLogs.push(`${this.currentAttacker.name} uses ${ this.currentAttack.name} and dealt ${this.dmgAmount}`)
        
         this.attackOrder = [...this.attackOrder].sort((a, b) => b.stats.baseMS - a.stats.baseMS);
         this.advanceTurn()
@@ -100,7 +124,7 @@ export default class Fight{
     }
 
     enemyAi = () => {
-        const attack = this.currentAttacker.attacks[Math.floor(Math.random() * 3)];
+        this.currentAttack = this.currentAttacker.attacks[Math.floor(Math.random() * 3)];
         let aliveTeam = this.team.filter(unit => unit.alive)
         
         if (aliveTeam.filter(mon => mon.aggro === true).length > 0){
@@ -108,8 +132,9 @@ export default class Fight{
         }
         
         const target = aliveTeam[Math.floor(Math.random() * aliveTeam.length)];
-        this.battleLogs.push(`${this.currentAttacker.name} uses ${attack.name} and dealt ${target.calculateDmg(attack, this.currentAttacker, target)}`)
-       
+        this.battleLogs.push(`${this.currentAttacker.name} uses ${ this.currentAttack.name} and dealt ${target.calculateDmg( this.currentAttack, this.currentAttacker, target)}`)
+        this.battleState = "End phase"
+        this.checkPassive()
         this.attackOrder = [...this.attackOrder].sort((a, b) => b.stats.baseMS - a.stats.baseMS);
         
         this.advanceTurn()
@@ -117,6 +142,7 @@ export default class Fight{
 
 
     handleAttack(attack: any, mon: any){
+
         //check if attack is even alive
         if (!this.currentAttacker.alive) {
             this.advanceTurn();
@@ -135,13 +161,10 @@ export default class Fight{
                 this.dmgAmount = mon.calculateDmg(attack, mon, this.attackTarget);
                 this.updateDamage(this.attackTarget.uid, -this.dmgAmount);
             }
-          
-            if (attack.passive){
-                attack.passive.passive(this.currentAttacker)
-            } 
-            if (mon.passive){
-                mon.passive.passive(this.currentAttacker)
-            }
+            
+            this.battleState = "End phase"
+            this.checkPassive()
+            
 
             this.advanceTurn()
             this.updateDamage(mon.uid, mon.heal);
@@ -157,8 +180,8 @@ export default class Fight{
     //function to choose next attacker
     advanceTurn = () => {
         setTimeout(() => {
+           
             this.checkAndAdvanceBatch()
-            
             this.attackOrder = [...this.attackOrder].sort((a, b) => b.stats.baseMS - a.stats.baseMS);
             //choose next attacker
             let nextIndex = (this.currentAttackerIndex + 1) % this.attackOrder.length;
@@ -167,16 +190,25 @@ export default class Fight{
                 nextIndex = (nextIndex + 1) % this.attackOrder.length;
                 // this.attackOrder = this.attackOrder.filter(unit => unit.alive);
             }
-            this.currentAttackerIndex = nextIndex
-            this.currentAttacker = this.attackOrder[this.currentAttackerIndex];
-            this.currentAttacker.calcStatus()
+            if (this.battleState != "battle start"){
+                this.currentAttackerIndex = nextIndex
+                this.currentAttacker = this.attackOrder[this.currentAttackerIndex];
+                this.currentAttacker.calcStatus()
+            }
+            
             if (this.currentAttacker && this.arena && this.arena.enemys.flat().includes(this.currentAttacker)) {
                 this.enemyAi();
-                this.battleState = "enemyturn"
+               
+
       
             } else { 
+               
+                
                 if (this.autoBattle && this.result != "won") {this.autoBattleAi();}
             }
+            this.battleState = "Main Phase"
+            this.checkPassive()
+           
                 
         }, 1100)
        

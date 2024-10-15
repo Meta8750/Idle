@@ -60,7 +60,6 @@ export default class Dex{
             let attackList = monInfo.attacks
             monInfo.attacks = []
             attackList.forEach(attackID => {
-                console.log(attackID)
                 monInfo.attacks.push(this.generate(attackID))
             });
         }

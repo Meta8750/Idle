@@ -118,12 +118,18 @@ class Player {
         this.mons[this.mons.length - 1].ally = true;
     }
 
-    setTeam(mon: any) {
-        if (this.team.length >= 4) {
-            this.team.shift();  
-        }
+    setTeam(mon: any, slot: number) {
+       
         if (this.isUIDUnique(mon.uid)) {
-            this.team.push(mon);  
+            if (slot){
+                this.team[slot] = mon
+            } else{
+                this.team.push(mon);  
+            }
+            
+        }
+        if (this.team.length > 5) {
+            this.team.shift();  
         }
 
     }

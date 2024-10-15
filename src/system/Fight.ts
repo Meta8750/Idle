@@ -283,7 +283,7 @@ export default class Fight{
             this.dmgTracker = {
                 ...this.dmgTracker,
              [monId]: damageAmount}
-            setTimeout(() => {this.dmgTracker = {[monId]: null}},2000)
+            setTimeout(() => {this.dmgTracker = {[monId]: null}},2500)
               
         }
 

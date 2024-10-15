@@ -3,6 +3,7 @@ import { useState } from "react";
 
 import ItemManager  from "./ItemManager.js";
 import ItemStars from "./components/ItemStars.tsx";
+import MonStats from "./components/MonStats.tsx";
 
 import styles from '../UIcss/MonManager.module.css'
 
@@ -11,6 +12,7 @@ import styles from '../UIcss/MonManager.module.css'
 function MonManager({player}) {
 
     const [focusedMon, setFocusedMon] = useState();
+    const [teamIndex, setTeamIndex] = useState();
     const [tab, setTab] = useState("mon");
 
    const test = () => {
@@ -30,7 +32,12 @@ function MonManager({player}) {
     };
 
     const setTeam = (mon) => {
-      player.setTeam(mon, 0);
+      player.setTeam(mon, teamIndex);
+    }
+
+    const getTeamMon = (i) => {
+        setFocusedMon(player.getTeam(i))
+        setTeamIndex(i);
     }
     
     return (
@@ -42,7 +49,7 @@ function MonManager({player}) {
               {player.getTeam() ? (
                 player.getTeam().map((mon, index) => (
                   
-                  <div className={styles.boxSlot}>
+                  <div onClick={() => getTeamMon(index)} className={`${styles.boxSlot} ${teamIndex === index ? "border border-red-100" : "border-s-red-100"}`}>
                    
                       <p>{mon.name} {mon.level}</p>
                       <img class="w-52 h-52" alt ={mon.name}src={mon.img}></img>
@@ -56,20 +63,9 @@ function MonManager({player}) {
               {focusedMon ? (
                 
                 <div>
-                <img></img>
-                {focusedMon.getImageElement("300px", "300px")}
-                <p>{focusedMon.name}</p>
-                <p>Level: {focusedMon.level}</p>
-                <p>Exp: {focusedMon.exp}/{focusedMon.nextLevel}</p>
-                <p>HP: {focusedMon.health}/{focusedMon.stats.maxHealth}</p>
-                <p>Defense: {focusedMon.defense}</p>
-                <p>Speed: {focusedMon.speed}</p>
-                <p>Type: {focusedMon.type}</p>
-                <p>Attacks: {focusedMon.attacks[0].name}</p>
-                {focusedMon.attacks.map((attack, index) =>(
-                  <li>{attack.name}</li>
-                ))}
-                <p>UID: {focusedMon.uid}</p>
+                <img class="w-52 h-52" alt ={focusedMon.name}src={focusedMon.img}></img>
+                <MonStats mon={focusedMon} />
+               
                 <button class="px-10"onClick={() => setTeam(focusedMon)} >get in Team</button>
                 <button onClick={() => setTab("item")}>equipment</button>
                 
@@ -83,9 +79,13 @@ function MonManager({player}) {
             {player.getMons() ? (
                 player.getMons().map((mon, index) => (
                   <div onClick={() => setFocus(mon)} className={styles.boxSlot}>
-                   
-                      <p>Lv {mon.level}</p>
-                      
+                      <header>
+                        <img className="!w-10 h-10" src={`/icons/type/${mon.element}.png`}></img>
+                        <h1> Lv. {mon.level}00</h1>
+                      </header>
+                      <i className={player.team.some(teamMon => teamMon.uid === mon.uid) ? "" : "hidden"}>
+                        deployed
+                      </i>
                       <img class="w-32 h-32" alt ={mon.name}src={mon.img}></img>
                       <span><ItemStars num={mon.tier}/></span>
                         <p>{mon.name} {mon.role}</p>

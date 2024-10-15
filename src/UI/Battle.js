@@ -24,7 +24,12 @@ function Battle({ player, fight }) {
   const digitUI = (mon) => {
     if (fight.dmgTracker[mon.uid]){
       return (
-        <div className={`${styles.damageIndicator} ${fight.dmgTracker[mon.uid] > 0 ? "!text-green-400" : ""}`}>
+        <div className={`
+        ${styles.damageIndicator}
+        ${fight.dmgTracker[mon.uid] > 0 ? "!text-green-400" : ""}
+        ${fight.currentAttacker.elementMultiplier === 1.5 ? "!text-2xl !text-red-300" : ""}
+         ${fight.currentAttacker.elementMultiplier === 0.5 ? "!text-2xl !text-gray-400" : ""}
+        ${fight.currentAttacker.attackCritted ? "!text-3xl !text-red-600" : ""}`}>
         {Math.round(fight.dmgTracker[mon.uid])}
       </div>
       )
@@ -173,11 +178,8 @@ function Battle({ player, fight }) {
         <p>{enemy.name} {enemy.level}</p>
         {hpBar(enemy)}
         
-        {fight.dmgTracker[enemy.uid] && (
-          <div className={styles.damageIndicator}>
-            {fight.dmgTracker[enemy.uid]}
-          </div>
-        )}
+        {digitUI(enemy)}
+
         <StatusEffect mon={enemy} />
         <img class="w-60 h-52" alt={enemy.name} src={enemy.img}></img>
       </div>
@@ -214,7 +216,7 @@ function Battle({ player, fight }) {
               <p key={index}>{battleLog}</p>
             ))}
           </div>
-          <Monstats mon={fight.attackTarget} />
+          {/* <Monstats mon={fight.attackTarget} /> */}
         </div>
       ) : (
         <p>No current Battle</p>

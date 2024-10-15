@@ -38,31 +38,64 @@
 .box{
     grid-area: "box";
     display:grid;
-    grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
     grid-template-rows: 1fr 1fr 1fr 1fr 1fr;
-    background: Linear-gradient(0deg, grey, #2b4b4b );
+    background: Linear-gradient(0deg, grey, #343434 );
     padding: 10px;
     
 }
 
 .boxSlot {
-    background-color: rgb(107, 107, 107);
+    background-color: rgb(0, 0, 0);
     color: white;
     align-items: center;
-    text-align: center;
+   
     align-content: center;
     margin: 10px;
     position: relative;
 
+    header {
+        display: flex;
+        justify-content: space-between;
+        z-index: 0;
+    }
+
+    i {
+        position: absolute;
+        width: 100%;
+        text-align: center;
+        z-index: 1;
+        background-color: rgba(255, 255, 255, 0.1);
+        margin-top: 20%;
+    }
+
+    b {
+        position: absolute;
+        width: 100px;
+        height: 10px;
+        background-color: gold;
+        transform: rotate(45deg);
+        z-index: 0;
+        
+    }
 
     img{
         width:100%;
         padding: 5px;
+        position: relative;
+        left: 0;
+      
     }
     p {
         position: relative;
-        background-color: black;
+        background-color: rgb(255, 255, 255);
+        color: black;
+        
        
+    }
+    h1 {
+        padding: 5px;
+        background-color: black;
     }
     
 }

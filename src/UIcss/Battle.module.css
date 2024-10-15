@@ -162,7 +162,7 @@
     
 .damageIndicator {
   position: absolute;
-  color: red;
+  color: rgb(252, 146, 6);
   font-size: 25px;
   animation: fadeOut 2s forwards; /* Fading out over 1 second */
   z-index: 10;

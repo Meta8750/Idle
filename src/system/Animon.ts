@@ -16,18 +16,19 @@ interface TempStats {
     dmgAmp: number;
 }
 
-const typeMatrix = {
+const elementMatrix = {
+            //    D    L    W    P    F    E    S    I
     "Dark":     [1.0, 1.5, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0],
     "Light":    [1.5, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0],
     "Water":    [1.0, 1.0, 1.0, 1.5, 0.5, 1.5, 0.0, 1.0],
     "Plant":    [1.0, 1.0, 0.5, 1.0, 1.5, 0.5, 0.0, 1.5],
-    "Fire":     [1.0, 1.0, 1.5, 0.5, 1.0, 1.0, 1.5, 0.5],
+    "Fire":     [1.0, 1.0, 1.5, 0.5, 0.5, 1.0, 1.5, 0.5],
     "Electro":  [1.0, 1.0, 0.0, 1.0, 1.0, 0.0, 1.5, 1.0],
     "Stone":    [1.0, 1.0, 1.5, 1.5, 0.5, 0.0, 1.0, 0.5],
     "Ice":      [1.0, 1.0, 1.0, 0.5, 1.5, 1.0, 1.5, 1.0]
 };
 
-const typeOrder = ["Dark", "Light", "Water", "Plant", "Fire", "Electro", "Stone", "Ice"];
+const elementOrder = ["Dark", "Light", "Water", "Plant", "Fire", "Electro", "Stone", "Ice"];
 
 
 export default class Animon {
@@ -82,6 +83,8 @@ export default class Animon {
     aggro: boolean;
     immune: boolean;
     boss: boolean;
+    attackCritted: boolean;
+    elementMultiplier: number;
     equipment: {
         chain: any,
         ring: any,
@@ -128,9 +131,9 @@ export default class Animon {
         this.dmg = 0
 
         this.ally = false
-        
         this.alive = true
-        this.kills = 0;  
+        
+       
 
         this.equipment = {
             chain: null,
@@ -157,6 +160,7 @@ export default class Animon {
             maxHealth: 0,
             dmgAmp: 0
         };
+        this.kills = 0;  
         this.heal = 0;
     }
     getImageElement(x: string, y: string) {
@@ -220,22 +224,24 @@ export default class Animon {
         }
     }
 
-    getEffectiveness(attackType: string, defenderType: string){
-        if (attackType === "normal" || defenderType === "normal"){
+    getEffectiveness(attackElement: string, defenderElement: string){
+        if (attackElement === "normal" || defenderElement === "normal"){
             return 1
         }
-        const attackerIndex = typeOrder.indexOf(attackType);
-        const defenderIndex = typeOrder.indexOf(defenderType);
+        const attackerIndex = elementOrder.indexOf(attackElement);
+        const defenderIndex = elementOrder.indexOf(defenderElement);
         
         if (attackerIndex === -1 || defenderIndex === -1) {
-            throw new Error("Ungültiger Typ");
+            throw new Error(`unvalid type ${attackElement} ${defenderElement} ${attackerIndex} ${defenderIndex}`);
         }
         
-        return typeMatrix[attackType][defenderIndex];
+        return elementMatrix[defenderElement][attackerIndex];
     }
     // attacker = this.mon and defender = enemy
     calculateDmg(attack: any, attacker: any, defender: any){
-        
+
+        this.attackCritted = false
+        this.elementMultiplier = 1
         let temp  = this.temp
         this.heal = 0
         let rng = Math.random()
@@ -269,10 +275,15 @@ export default class Animon {
             this.dmg = this.dmg - ( reduceDmg * this.dmg )
         }   
         
-        if (Math.random() <= attacker.stats.baseCritRate + temp.critRate) {   this.dmg *= (attacker.stats.baseCritDamage + temp.critDamage) }
+        if (Math.random() <= attacker.stats.baseCritRate + temp.critRate) {  
+             this.dmg *= (attacker.stats.baseCritDamage + temp.critDamage)
+             this.attackCritted = true
+        }
         this.dmg = this.dmg + (this.dmg * temp.dmgAmp)
 
-        this.dmg *= this.getEffectiveness(attack.type, defender.type)
+        this.elementMultiplier = this.getEffectiveness(attack.element, defender.element)
+
+        this.dmg *= this.elementMultiplier
 
         this.dmg = Math.round(this.dmg)
         

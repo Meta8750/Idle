@@ -84,10 +84,15 @@ function MonManager({player}) {
                 player.getMons().map((mon, index) => (
                   <div onClick={() => setFocus(mon)} className={styles.boxSlot}>
                    
-                      <p>{mon.name} {mon.level}</p>
+                      <p>Lv {mon.level}</p>
                       
                       <img class="w-32 h-32" alt ={mon.name}src={mon.img}></img>
-                     
+                      <span></span>
+                        <p>{mon.name} {mon.role}</p>
+                       
+                      
+                    
+                      
                   </div>    
               ))
             ) : (<p>none</p>)}

@@ -7,13 +7,14 @@
     grid-template-columns:  1fr 0.3fr;
     min-width: 100%;
     min-height: 100%;
+    background-color: black;
 }
 
 .team{
     grid-area: "team";
     display:flex;
     align-items: flex-start;
-    background-color: black;
+    background: Linear-gradient(45deg, grey, #000001 );
     margin-bottom: 10px;
 
     div {
@@ -22,30 +23,46 @@
     
 }
 
-.box{
-    grid-area: "box";
-    display:grid;
-    grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
-    grid-template-rows: 1fr 1fr 1fr 1fr 1fr;
-    background-color: black;
-    padding: 10px;
-}
+
 
 .stats{
     grid-area: "stats";
     display:grid;
     grid-row: span 2;
-    background-color: black;
+    background: Linear-gradient(45deg, grey, #000001 );
     margin: 0px 10px 0px 10px;
     color: white;
+
+}
+
+.box{
+    grid-area: "box";
+    display:grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
+    grid-template-rows: 1fr 1fr 1fr 1fr 1fr;
+    background: Linear-gradient(90deg, grey, #00d6da );
+    padding: 10px;
+    
 }
 
 .boxSlot {
-    background-color: rgb(63, 62, 62);
+    background-color: rgb(158, 156, 156);
     color: white;
     align-items: center;
     text-align: center;
     align-content: center;
     margin: 10px;
-    border-radius: 10px;
+    position: relative;
+
+
+    img{
+        width:100%;
+        padding: 5px;
+    }
+    p {
+        position: relative;
+        background-color: black;
+       
+    }
+    
 }

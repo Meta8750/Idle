@@ -128,7 +128,7 @@ class Player {
             }
             
         }
-        if (this.team.length > 5) {
+        if (this.team.length >= 5) {
             this.team.shift();  
         }
 

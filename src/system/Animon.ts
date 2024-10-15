@@ -225,7 +225,7 @@ export default class Animon {
     }
 
     getEffectiveness(attackElement: string, defenderElement: string){
-        if (attackElement === "normal" || defenderElement === "normal"){
+        if (attackElement === "Normal" || defenderElement === "Normal"){
             return 1
         }
         const attackerIndex = elementOrder.indexOf(attackElement);
@@ -329,15 +329,12 @@ export default class Animon {
         };
         this.status = []
         this.alive = true
-
-        
         
     }
   
 
     equipItem(item): void {
         const { slotType } = item;
-        
         
         if (this.equipment[slotType]) {
             this.removeItemStats()
@@ -350,22 +347,15 @@ export default class Animon {
                 item.equipped = true;
                 this.getItemStats()
             }
-        
         }
- 
-
-              
     }
 
     removeItem(slotType): void {
         const currentItem = this.equipment[slotType];
-       
         if (currentItem) {
             currentItem.equipped = false;
             this.equipment[slotType] = null;
         }
-       
-        
     }
     getItemStats(): void {
         // Iteriere über die ausgerüsteten Items
@@ -378,8 +368,7 @@ export default class Animon {
                   
                     if (this.stats[stat] !== undefined) {
                       
-                        
-                     if(Number.isInteger(this.temp[stat])){
+                    if(Number.isInteger(this.temp[stat])){
                           
                             this.stats[stat] *= item.temp[stat];
                            

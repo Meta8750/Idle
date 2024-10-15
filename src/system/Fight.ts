@@ -92,14 +92,14 @@ export default class Fight{
     checkPassive(){
         
         if (this.currentAttack != null){
-            if (this.currentAttack.effect){
-                this.currentAttack.effect.passive(this.currentAttacker, this.battleState)
+            if (this.currentAttack.passive){
+                this.currentAttack.passive.effect(this.currentAttacker, this.battleState)
             } 
            
         }
         if (this.currentAttacker != null){
-            if (this.currentAttacker.effect){
-                this.currentAttacker.effect.passive(this.currentAttacker,  this.battleState)
+            if (this.currentAttacker.passive){
+                this.currentAttacker.passive.effect(this.currentAttacker,  this.battleState)
             }
         }
         

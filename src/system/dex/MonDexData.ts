@@ -91,50 +91,33 @@ export const fetchMonData = async () => {
 fetchMonData();
 
 const newMon = {
-  name: "Malphite",
-  id: 10095,
+  name: "World Ender",
+  id: 20021,
   level: 1,
-  rarity: "SSR",
-  tier: 3,
-  type: "Dark",
-  role: "Tank",  
-  stats: {
-    maxHealth: 1000,
-    baseAD: 5,
-    baseAP: 0,
-    baseArmour: 50,
-    baseMR: 50,
-    baseMS: 250,  
-    baseCritRate: 0.05,
-    baseCritDamage: 0.15,
-    maxMana: 100,
-    armourPen: 0,
-    mrPen: 0,
-    maxHealthDmg: 0,
-    currentHealthDmg: 0,
-  },
-  ADGrowth: 1.5,
-  APGrowth: 0.5,
-  healthGrowth: 40,
-  armourGrowth: 3,
-  MRGrowth: 2,
-  MSGrowth: 5,
-  manaGrowth: 10,
-  lifeSteal: 0.0,
-  statusChance: 0.5,
-  attacks: [22000, 22000, 21000, 20004],
+  type: "AD",
+  element: "Dark",
+  baseDMG: 200,
+  adScaling: 1,
+  apScaling: 0,
+  manaCost: 10,
+  armorPen:0,
+  mrPen:0,
+  heal: false,
+  aoe:false,
+  passiveID: 50002
+  
 }
 
   const addMonToFirestore = async () => {
     try {
-      const docRef = await addDoc(collection(db, "MonDex"), newMon);
+      const docRef = await addDoc(collection(db, "AttackDex"), newMon);
       console.log("Document written with ID: ", docRef.id);
     } catch (e) {
       console.error("Error adding document: ", e);
     }
   };
   
-   // addMonToFirestore(); 
+   //addMonToFirestore(); 
 /*
   name: "Vagabund",
   id: 10000,
@@ -173,6 +156,7 @@ const newMon = {
   id: 20999,
   level: 1,
   type: "AD",
+  element: "Dark",
   baseDMG: 10,
   adScaling: 1,
   apScaling: 0,

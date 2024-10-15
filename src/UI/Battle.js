@@ -119,6 +119,7 @@ function Battle({ player, fight }) {
   const handleAttackSelection = (num) =>{
     if (fight.currentAttacker){
       fight.handleAttack(fight.currentAttacker.attacks[num - 1], fight.currentAttacker)
+      
     }
   }
 

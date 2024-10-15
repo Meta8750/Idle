@@ -90,14 +90,19 @@ export default class Fight{
     }
 
     checkPassive(){
+        
         if (this.currentAttack != null){
-            if (this.currentAttack.passive){
-                this.currentAttack.passive.passive(this.currentAttacker, this.battleState)
+            if (this.currentAttack.effect){
+                this.currentAttack.effect.passive(this.currentAttacker, this.battleState)
             } 
-            if (this.currentAttacker.passive){
-                this.currentAttacker.passive.passive(this.currentAttacker,  this.battleState)
+           
+        }
+        if (this.currentAttacker != null){
+            if (this.currentAttacker.effect){
+                this.currentAttacker.effect.passive(this.currentAttacker,  this.battleState)
             }
         }
+        
     }
 
     autoBattleAi(){
@@ -142,7 +147,7 @@ export default class Fight{
 
 
     handleAttack(attack: any, mon: any){
-
+        this.currentAttack = attack
         //check if attack is even alive
         if (!this.currentAttacker.alive) {
             this.advanceTurn();

@@ -60,7 +60,6 @@ class Player {
         this.section = 1;
         this.zone = 1;
         
-        
     }
 
     calculateNextLevel(level: number) {
@@ -92,10 +91,8 @@ class Player {
                 this.activity.prozess()
                 
                 return true
-               
             }
         }
-        
         return false;
     }
     
@@ -126,7 +123,6 @@ class Player {
             } else{
                 this.team.push(mon);  
             }
-            
         }
         if (this.team.length >= 5) {
             this.team.shift();  

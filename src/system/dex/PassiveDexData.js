@@ -17,9 +17,9 @@ export const passiveData = [
         effect: (mon, phase) => {
            
             if(phase === "End phase"){
-                mon.temp.armour += 10
-                mon.temp.MR += 10
-               
+                mon.stats.armour += 10
+                mon.stats.MR += 10
+                
                 mon.status =  {
                     aggro: 3
                 }
@@ -31,9 +31,10 @@ export const passiveData = [
         id:50002,
         effect: (mon, phase) => {
             if(phase === "End phase"){
-                mon.temp.armour += 10
-                mon.temp.MR += 10
-                mon.temp.AD += mon.stats.maxHealth * 0.01
+                mon.stats.armour += 10
+                mon.stats.MR += 10
+                mon.stats.baseAmour += mon.stats.maxHealth * 0.01
+                mon.stats.maxHealth *= 2.5
                
                 mon.status =  {
                     aggro: 2

@@ -23,12 +23,10 @@ function Raid({player}){
                     enemy.exp = enemy.nextLevel 
                     enemy.levelProgess(enemy.level)
                 }
-
                 if (enemy.boss === true){
                     console.log(enemy)
                     enemy.stats.maxHealth *= 10
                     enemy.health = enemy.stats.maxHealth
-                    
                 }
                 }
             }
@@ -37,9 +35,8 @@ function Raid({player}){
         
             <div>
                 <div className={enemyCreated ? "hidden" : "flex"}>
-                    <button onClick={()=> startRaid([[10001, 10044, 10001]], 10)}>startw</button>
+                    <button onClick={()=> startRaid([[10001, 10044, 10001]], 10)}>Raid 1</button>
                 </div> 
-                <button className={fight.result === "won" ? "flex" : "hidden"} >Next</button>
                 <Battle player={player} fight={fight}/>
             </div>
         )

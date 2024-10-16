@@ -85,6 +85,7 @@ export default class Animon {
     boss: boolean;
     attackCritted: boolean;
     elementMultiplier: number;
+    dmgAmp: number;
     equipment: {
         chain: any,
         ring: any,
@@ -129,6 +130,7 @@ export default class Animon {
         this.uid = uuidv4()
         this.dmgDealt = 0
         this.dmg = 0
+        this.dmgAmp = 0;
 
         this.ally = false
         this.alive = true
@@ -145,21 +147,7 @@ export default class Animon {
 
         this.status = []
 
-        this.temp = {
-            AD: 0,
-            AP: 0,
-            armour: 0,
-            MR: 0,
-            MS: 0,
-            critRate: 0,
-            critDamage: 0,
-            armourPen: 0,
-            mrPen: 0,
-            mana: 0,
-            health: 0,
-            maxHealth: 0,
-            dmgAmp: 0
-        };
+    
         this.kills = 0;  
         this.heal = 0;
     }
@@ -212,7 +200,6 @@ export default class Animon {
                 }
                 if (status === "aggro"){
                     this.aggro = true
-                    
                 }
                 this.status[status] -= 1;
                 // Entferne den Status, wenn die Dauer 0 erreicht hat
@@ -242,7 +229,6 @@ export default class Animon {
 
         this.attackCritted = false
         this.elementMultiplier = 1
-        let temp  = this.temp
         this.heal = 0
         let rng = Math.random()
        
@@ -254,9 +240,9 @@ export default class Animon {
             }
         }
 
-        this.dmg = attack.baseDMG + ((attacker.stats.baseAD + temp.AD) * attack.adScaling) 
+        this.dmg = attack.baseDMG + (attacker.stats.baseAD * attack.adScaling) 
         
-        this.dmg += ((attacker.stats.baseAP + temp.AP) * attack.apScaling)
+        this.dmg += (attacker.stats.baseAP  * attack.apScaling)
         
         if(attack.heal){
             defender.setHealth(this.dmg)
@@ -264,27 +250,30 @@ export default class Animon {
         }
         
         if (attack.type == "AD"){
-            let reduceDmg = this.calculateDmgReduction((this.stats.armourPen + temp.armourPen) * (defender.stats.baseArmour + defender.temp.armour))
+            console.log(this.ADReduction)
+            console.log(this.stats.armourPen)
+            console.log(defender.stats.baseArmour)
+        
+            let reduceDmg = this.calculateDmgReduction(this.stats.armourPen *  defender.stats.baseArmour  - defender.stats.baseArmour)
+            console.log(reduceDmg)
             this.dmg = this.dmg - ( reduceDmg * this.dmg )
            
         }
         
         if (attack.type == "AP"){
-            let reduceDmg = this.calculateDmgReduction((this.stats.mrPen + temp.mrPen ) * (defender.stats.baseMR + defender.temp.MR))
+            let reduceDmg = this.calculateDmgReduction(this.stats.mrPen *  defender.stats.baseMR - defender.stats.baseMR)
 
             this.dmg = this.dmg - ( reduceDmg * this.dmg )
         }   
         
-        if (Math.random() <= attacker.stats.baseCritRate + temp.critRate) {  
-             this.dmg *= (attacker.stats.baseCritDamage + temp.critDamage)
+        if (Math.random() <= attacker.stats.baseCritRate) {  
+             this.dmg *= (attacker.stats.baseCritDamage)
              this.attackCritted = true
         }
-        this.dmg = this.dmg + (this.dmg * temp.dmgAmp)
-
+       
         this.elementMultiplier = this.getEffectiveness(attack.element, defender.element)
-
         this.dmg *= this.elementMultiplier
-
+        this.dmg = this.dmg + (this.dmg * this.dmgAmp)
         this.dmg = Math.round(this.dmg)
         
         defender.health -= this.dmg
@@ -309,26 +298,6 @@ export default class Animon {
 
 
     resetTempStats() {
-        this.stats.maxHealth -= this.temp.maxHealth
-        this.stats.baseMS -= this.temp.MS
-        this.health = this.stats.maxHealth
-        this.temp = {
-            AD: 0,
-            AP: 0,
-            armour: 0,
-            MR: 0,
-            MS: 0,
-            critRate: 0,
-            critDamage: 0,
-            armourPen: 0,
-            mrPen: 0,
-            mana: 0,
-            health: 0,
-            maxHealth: 0,
-            dmgAmp: 0
-        };
-        this.status = []
-        this.alive = true
         
     }
   

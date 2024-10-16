@@ -40,7 +40,7 @@ function Battle({ player, fight }) {
     return (
       <div className={styles.hpBar}>
         <div className={styles.hpUnder} style={hpBarCalc(mon)}></div>
-        <div className={styles.hpFill} style={hpBarCalc(mon)}>{mon.stats.maxHealth}\{mon.health}</div>
+        <div className={styles.hpFill} style={hpBarCalc(mon)}>{mon.health}\{mon.stats.maxHealth}</div>
       </div>
     )
     
@@ -135,7 +135,7 @@ function Battle({ player, fight }) {
   }
 
   const renderTeam = () => {
-    return player.getTeam().map((mon, index) => (
+    return fight.team.map((mon, index) => (
       <div 
         key={index}
         className={`${styles.mon}  ${borderUI(mon)}`}

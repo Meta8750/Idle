@@ -34,15 +34,13 @@ export const passiveData = [
                 mon.stats.armour += 10
                 mon.stats.MR += 10
                 mon.stats.baseAmour += mon.stats.maxHealth * 0.01
-                mon.stats.maxHealth *= 2.5
+                mon.stats.maxHealth += 5
                
                 mon.status =  {
-                    aggro: 2
+                    aggro: 1
                 }
             }
-            }
-           
+        }
     },
-    
 ]
 

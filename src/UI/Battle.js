@@ -4,6 +4,7 @@ import styles from '../UIcss/Battle.module.css'
 import Monstats from './MonStats.js'
 import Fight from "../system/Fight.ts";
 import StatusEffect from "./components/StatusEffects.tsx";
+import FightStats from "./components/FightStats.tsx"
 
 const battleLogs = []
 
@@ -148,13 +149,13 @@ function Battle({ player, fight }) {
 
         <img onClick={() => fight.handleTarget(mon)}  class="w-60 h-52" alt={mon.name} src={mon.img}></img>
 
-        <ul class={fight.currentAttacker === mon ? "" : "hidden"}>
+        <ul class={fight.currentAttacker === mon ? "" : ""}>
           {mon.attacks.map((attack, attackIndex) => (
             <li
               onClick={() => fight.handleAttack(attack, mon)}
               className={styles.attackOption}
             >
-              {attack.name}
+              {attack.name} {attack.currentCD > 0 ? attack.currentCD : ""} {attack.element}
             </li>
           ))}
         </ul>
@@ -203,9 +204,10 @@ function Battle({ player, fight }) {
             {renderTeam()}
           </div>
 
+          <p>Round: {fight.round}</p>
           <div class={styles.order}>{fight.attackOrder.map((mon, index) => (
             <span className={`${styles.orderTab} ${fight.attackOrder[fight.currentAttackerIndex] === mon ? styles.activeOrder : ""} ${fight.attackTarget === mon ? styles.target : ""}`}>
-              {mon.ally ? (<i></i>) : ""} {mon.name}{mon.stats.baseMS}
+              {mon.ally ? (<i></i>) : ""} {mon.name}
               {mon.alive ? "" : (<p>: dead</p>)}
             </span>
           ))}</div>
@@ -221,11 +223,18 @@ function Battle({ player, fight }) {
       ) : (
         <p>No current Battle</p>
       )}
+       {console.log(fight.getHighestStats())}
+      <div className="flex">
+      {fight.arena ? (
+        fight.team.map((mon, index) => (
+            <span className="p-5"><FightStats mon={mon}/></span>
+        ))) : (<p></p>)}
+      </div>
 
       <div className={fight.result === "won" || fight.result === "lost" ? styles.visible : styles.hidden}>
         <p>{fight.result}</p>
         <button onClick={() => playAgain()}>Again?</button>
-
+       
         <p>{fight.drop ? (Object.entries(fight.drop).map(([name, drop]) => {
           return <p>{name} {drop}</p>
         })) : (<p></p>)}</p>

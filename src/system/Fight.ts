@@ -29,6 +29,7 @@ export default class Fight{
     aggro: boolean
     battleState:string;
     currentAttack:any;
+    round: number;
     
     constructor(){
         this.state = "outOfCombat"
@@ -49,11 +50,10 @@ startFight = async (player: any, batch: number[],drop: number) => {
     console.log(player.team)
     this.team = _.cloneDeep(player.getTeam());
     console.log(this.team);
-
+    
     this.currentBatchIndex = 0;
     this.currentAttackerIndex = 0;
 
-    
     this.currentBatch = this.arena.enemys[0];
     this.combinedUnits = [...this.team, ...this.currentBatch];
     await this.initializeUnits();
@@ -63,6 +63,7 @@ startFight = async (player: any, batch: number[],drop: number) => {
     this.attackTarget = this.attackOrder[this.currentAttackerIndex]; //just to fill
     this.currentAttacker = this.attackOrder[this.currentAttackerIndex];
 
+    this.round = 0;
     this.state = "Combat"
     this.battleState = "battle start"
     this.result = ""
@@ -72,6 +73,7 @@ startFight = async (player: any, batch: number[],drop: number) => {
     this.battleLogs.push("Battle Started");
     this.advanceTurn()
 }
+
 
 initializeUnits = async () => {
     while (!this.combinedUnits.every(unit => unit.stats.baseMS != null)) {
@@ -149,6 +151,9 @@ enemyAi = () => {
 
 
 handleAttack(attack: any, mon: any){
+    if (attack.currentCD > 0 || mon != this.currentAttacker) {
+        return;
+    }
     this.currentAttack = attack
     //check if attack is even alive
     if (!this.currentAttacker.alive) {
@@ -186,9 +191,8 @@ handleAttack(attack: any, mon: any){
 //function to choose next attacker
 advanceTurn = () => {
     setTimeout(() => {
-        console.log(this.team)
-        console.log(this.player.team)
         this.checkAndAdvanceBatch()
+        this.round++
         this.attackOrder = [...this.attackOrder].sort((a, b) => b.stats.baseMS - a.stats.baseMS);
         //choose next attacker
         let nextIndex = (this.currentAttackerIndex + 1) % this.attackOrder.length;
@@ -285,12 +289,26 @@ advanceTurn = () => {
         this.dmgTracker = {
             ...this.dmgTracker,
             [monId]: damageAmount}
-        setTimeout(() => {this.dmgTracker = {[monId]: null}},2500)
+        setTimeout(() => {this.dmgTracker = {[monId]: null}},1500)
             
     }
-
+    getHighestStats() {
+        let highestStats = []
+        if (this.team){
+           
+        } else {
+            return
+        }
+        highestStats.push(this.team.filter(mon => mon.dmgDealt >= 0).sort((a, b) => b.dmgDealt - a.dmgDealt)[0].dmgDealt);
+        highestStats.push(this.team.filter(mon => mon.dmgTaken >= 0).sort((a, b) => b.dmgTaken - a.dmgTaken)[0].dmgTaken);
+        highestStats.push(this.team.filter(mon => mon.healingDone >= 0).sort((a, b) => b.healingDone - a.healingDone)[0].healingDone);
+        
+        return highestStats; 
+    }
 
     };
+
+
 class Arena {
 dex: dex
 enemyList: any[]
@@ -320,8 +338,10 @@ genEnemys(){
         this.enemys.push(this.enemyStageList)
         this.enemyStageList = []
     return this.enemys
-});
+})};
 
-}
+
+
+
 }
 

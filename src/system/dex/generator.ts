@@ -27,6 +27,9 @@ export default class Dex{
             monInfo = this.genAttacks(monInfo)
             newAssign = new Animon({ ...monInfo })
             let passiveID = newAssign.passiveID
+            newAssign.status = []
+            newAssign.kills = 0
+            newAssign.heal = 0
             if (passiveID){
                 newAssign.passive = passiveData.find(passive => passive.id === passiveID);
             }
@@ -34,6 +37,9 @@ export default class Dex{
         if (attackInfo){
             newAssign = new assign({...attackInfo})
             let passiveID = newAssign.passiveID
+            
+            newAssign.isOnCD = false;
+            newAssign.currentCD = 0;
             
             if (Number.isInteger(passiveID)){
                 newAssign.passive = passiveData.find(passive => passive.id === passiveID);

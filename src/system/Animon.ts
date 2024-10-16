@@ -85,7 +85,9 @@ export default class Animon {
     boss: boolean;
     attackCritted: boolean;
     elementMultiplier: number;
-    dmgAmp: number;
+    dmgAmp: number; 
+    dmgTaken: number; 
+    healingDone: number;
     equipment: {
         chain: any,
         ring: any,
@@ -128,15 +130,17 @@ export default class Animon {
         this.id = monData.id
         this.img = `/animon/${this.id}.gif`
         this.uid = uuidv4()
-        this.dmgDealt = 0
+      
         this.dmg = 0
         this.dmgAmp = 0;
 
+        this.dmgDealt = 0;   
+        this.dmgTaken = 0;  
+        this.healingDone = 0;
+
         this.ally = false
         this.alive = true
-        
        
-
         this.equipment = {
             chain: null,
             ring: null,
@@ -145,19 +149,12 @@ export default class Animon {
             book: null,
         }
 
-        this.status = []
+    }
 
+    monStats(){
+       
+    }
     
-        this.kills = 0;  
-        this.heal = 0;
-    }
-    getImageElement(x: string, y: string) {
-        const style = {
-            width: x || "100px",
-            height: y || "100px",
-            objectFit: "cover",
-        };
-    }
     levelProgess(level?) :void{
         if (!level){
             level = 1
@@ -183,6 +180,14 @@ export default class Animon {
     }
     calculateNextLevel(){
         return Math.round(Math.pow(1.16, this.level) + 10 * this.level * (this.level / 2) + 4);
+    }
+
+    cdHandle(){
+        for(const attack of this.attacks){
+            if (attack.currentCD > 0){
+                attack.currentCD--;
+            }
+        }
     }
     
     calcStatus(){
@@ -246,22 +251,20 @@ export default class Animon {
         
         if(attack.heal){
             defender.setHealth(this.dmg)
+            this.healingDone += this.dmg
             return Math.round(this.dmg)
         }
         
         if (attack.type == "AD"){
-            console.log(this.ADReduction)
-            console.log(this.stats.armourPen)
-            console.log(defender.stats.baseArmour)
         
-            let reduceDmg = this.calculateDmgReduction(this.stats.armourPen *  defender.stats.baseArmour  - defender.stats.baseArmour)
+            let reduceDmg = this.calculateDmgReduction(defender.stats.baseArmour - (this.stats.armourPen *  defender.stats.baseArmour)) / 100
             console.log(reduceDmg)
             this.dmg = this.dmg - ( reduceDmg * this.dmg )
            
         }
         
         if (attack.type == "AP"){
-            let reduceDmg = this.calculateDmgReduction(this.stats.mrPen *  defender.stats.baseMR - defender.stats.baseMR)
+            let reduceDmg = this.calculateDmgReduction( defender.stats.baseMR  - (this.stats.mrPen * defender.stats.baseMR)) / 100
 
             this.dmg = this.dmg - ( reduceDmg * this.dmg )
         }   
@@ -275,6 +278,9 @@ export default class Animon {
         this.dmg *= this.elementMultiplier
         this.dmg = this.dmg + (this.dmg * this.dmgAmp)
         this.dmg = Math.round(this.dmg)
+
+        this.dmgDealt += this.dmg
+        this.dmgTaken += this.dmg
         
         defender.health -= this.dmg
         if (defender.alive){
@@ -287,7 +293,11 @@ export default class Animon {
             defender.alive = false
             this.kills++
 
-        } //check if defender is alive
+        } 
+        this.cdHandle()
+        if(attack.cd !== undefined){
+            attack.currentCD = attack.cd
+        }
             
         return Math.round(this.dmg)
     }
@@ -295,13 +305,7 @@ export default class Animon {
     calculateDmgReduction(defense: number): number{
         return Math.round(100 * (defense / (defense + 100)))
     }
-
-
-    resetTempStats() {
-        
-    }
-  
-
+    
     equipItem(item): void {
         const { slotType } = item;
         
@@ -332,54 +336,54 @@ export default class Animon {
         for (const slot in this.equipment) {
             const item = this.equipment[slot]; // Hole das ausgerüstete Item für jeden Slot
            
-            if (item && item.temp) { // Prüfen, ob ein Item vorhanden ist und temp-Stats hat
-                for (const stat in item.temp) {
+            if (item && item.stats) { // Prüfen, ob ein Item vorhanden ist und temp-Stats hat
+                for (const stat in item.stats) {
                   
                     if (this.stats[stat] !== undefined) {
                       
-                    if(Number.isInteger(this.temp[stat])){
+                    if(Number.isInteger(this.stats[stat])){
                           
-                            this.stats[stat] *= item.temp[stat];
+                            this.stats[stat] *= item.stats[stat];
                            
                         } else {
                         
-                            this.stats[stat] += item.temp[stat]; // Addiere die Stats
+                            this.stats[stat] += item.stats[stat]; // Addiere die Stats
                            
                         }
                         
                     } else {
-                        this.stats[stat] = item.temp[stat]; // Initialisiere, falls der Stat nicht existiert
+                        this.stats[stat] = item.stats[stat]; // Initialisiere, falls der Stat nicht existiert
         }}}}}
 
-        removeItemStats(): void {
-            // Iteriere über die ausgerüsteten Items
-            for (const slot in this.equipment) {
-                const item = this.equipment[slot]; // Hole das ausgerüstete Item für jeden Slot
-        
-                if (item && item.temp) { // Prüfen, ob ein Item vorhanden ist und temp-Stats hat
-                    for (const stat in item.temp) {
-                        if (this.stats[stat] !== undefined) {
-                            if(Number.isInteger(this.temp[stat])){
-                                this.stats[stat] /= item.temp[stat];
-                              
-                            } else {
-                                this.stats[stat] -= item.temp[stat]; // Addiere die Stats
-                               
-                            }
+    removeItemStats(): void {
+        // Iteriere über die ausgerüsteten Items
+        for (const slot in this.equipment) {
+            const item = this.equipment[slot]; // Hole das ausgerüstete Item für jeden Slot
+    
+            if (item && item.stats) { // Prüfen, ob ein Item vorhanden ist und temp-Stats hat
+                for (const stat in item.stats) {
+                    if (this.stats[stat] !== undefined) {
+                        if(Number.isInteger(this.stats[stat])){
+                            this.stats[stat] /= item.stats[stat];
                             
                         } else {
-                            this.stats[stat] = item.temp[stat]; // Initialisiere, falls der Stat nicht existiert
-        }}}}}
-           
-        setHealth(health){
-            if (health.isInteger){
-                this.health *= health;
-            } else {
-                this.health += health;
-            }
-            
-            if (this.health > this.stats.maxHealth){
-                this.health = this.stats.maxHealth;
-            }
+                            this.stats[stat] -= item.stats[stat]; // Addiere die Stats
+                            
+                        }
+                        
+                    } else {
+                        this.stats[stat] = item.stats[stat]; // Initialisiere, falls der Stat nicht existiert
+    }}}}}
+        
+    setHealth(health){
+        if (health.isInteger){
+            this.health *= health;
+        } else {
+            this.health += health;
         }
+        
+        if (this.health > this.stats.maxHealth){
+            this.health = this.stats.maxHealth;
+        }
+    }
 }

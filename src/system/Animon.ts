@@ -196,7 +196,7 @@ export default class Animon {
                     this.health *= 0.9
                 }
                 if (status === "poised"){
-                    this.health -= this.temp.maxHealth * 0.95
+                    this.health -= this.stats.maxHealth * 0.95
                 }
                 if (status === "burning"){
                     

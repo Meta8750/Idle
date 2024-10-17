@@ -110,10 +110,15 @@ class Player {
     setActiveTab(tab: string){
         this.activeTab = tab;
     }
-    setMons(id: number){
-        this.mons.push(this.dex.generate(id));
-        this.mons[this.mons.length - 1].ally = true;
-    }
+    setMons = async (id: number) => {
+        const mon = await this.dex.generate(id); 
+        if (mon) {
+            this.mons.push(mon);
+            this.mons[this.mons.length - 1].ally = true;
+        } else {
+            console.error(`Mon für ID ${id} konnte nicht erstellt werden.`);
+        }
+    };
 
     setTeam(mon: any, slot: number) {
        

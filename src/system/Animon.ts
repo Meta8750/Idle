@@ -36,7 +36,6 @@ export default class Animon {
     level: number;
     maxLevel: number;
     rarity: string;
-    type: string;
     role: string;
     attacks: any[];
     healthGrowth: number;
@@ -71,7 +70,6 @@ export default class Animon {
     dmg: number;
     alive: boolean;
     uid: string;
-    temp: TempStats;
     ADReduction:number;
     APReduction:number;
     itemSlot: any[];
@@ -256,9 +254,7 @@ export default class Animon {
         }
         
         if (attack.type == "AD"){
-        
             let reduceDmg = this.calculateDmgReduction(defender.stats.baseArmour - (this.stats.armourPen *  defender.stats.baseArmour)) / 100
-            console.log(reduceDmg)
             this.dmg = this.dmg - ( reduceDmg * this.dmg )
            
         }
@@ -280,7 +276,7 @@ export default class Animon {
         this.dmg = Math.round(this.dmg)
 
         this.dmgDealt += this.dmg
-        this.dmgTaken += this.dmg
+        defender.dmgTaken += this.dmg
         
         defender.health -= this.dmg
         if (defender.alive){
@@ -376,10 +372,16 @@ export default class Animon {
     }}}}}
         
     setHealth(health){
+        let BHealing = this.health;
         if (health.isInteger){
             this.health *= health;
         } else {
             this.health += health;
+        }
+        if (health > 0){
+            this.healingDone += (this.health - BHealing);
+        } else {
+            this.dmgTaken += (this.health - BHealing)
         }
         
         if (this.health > this.stats.maxHealth){

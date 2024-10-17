@@ -16,9 +16,9 @@
     display:grid;
     grid-template-areas:
     "enemy  order "
-    "team  order";
+    "team  stats";
     grid-template-rows: auto 1fr;
-    grid-template-columns:  1fr 0.1fr 0.5fr;
+    grid-template-columns:  1fr 0.2fr;
     min-width: 100%;
     min-height: 100%;
     border: solid 2px aqua;

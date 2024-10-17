@@ -15,18 +15,21 @@ function MonManager({player}) {
     const [teamIndex, setTeamIndex] = useState();
     const [tab, setTab] = useState("mon");
 
-   const test = () => {
+   const test = async () => {
     player.setMons(10000)
     player.setMons(10003)
     player.setMons(10005)
     player.setMons(10044)
     player.setMons(10074)
     player.setMons(10095)
+
+   }
+   const test2 = () => {
+  
     player.setTeam(player.getMons(0), 0)  
     player.setTeam(player.getMons(1), 0) 
     player.setTeam(player.getMons(2), 0)  
-    player.setTeam(player.getMons(3), 0)  
-
+    player.setTeam(player.getMons(3), 0) 
    }
     const setFocus = (mon) => {
         setFocusedMon(mon);
@@ -47,6 +50,7 @@ function MonManager({player}) {
           <div  className={tab === "mon" ? styles.MonManager : ' hidden'}>
           <div className={styles.team}>
             <button class="" onClick={() => test()}></button>
+            <button class="" onClick={() => test2()}></button>
               {player.getTeam() ? (
                 player.getTeam().map((mon, index) => (
                   

@@ -14,6 +14,7 @@ function Battle({ player, fight }) {
   const [battleLog, setBattleLog] = useState(false)
 
   const borderUI = (mon) => {
+    
     if (fight.attackOrder[fight.currentAttackerIndex] === mon){
       return styles.activeMon
     }
@@ -203,8 +204,13 @@ function Battle({ player, fight }) {
           <div className={styles.teamContainer}>
             {renderTeam()}
           </div>
-
-          <p>Round: {fight.round}</p>
+          <div className="flex flex-col grid-area:'stats">
+        {fight.arena ? (
+          fight.team.map((mon, index) => (
+              <FightStats mon={mon} stats={fight.getHighestStats()}/>
+          ))) : (<p></p>)}
+        </div>
+        <p>Round: {fight.round}</p>
           <div class={styles.order}>{fight.attackOrder.map((mon, index) => (
             <span className={`${styles.orderTab} ${fight.attackOrder[fight.currentAttackerIndex] === mon ? styles.activeOrder : ""} ${fight.attackTarget === mon ? styles.target : ""}`}>
               {mon.ally ? (<i></i>) : ""} {mon.name}
@@ -223,13 +229,8 @@ function Battle({ player, fight }) {
       ) : (
         <p>No current Battle</p>
       )}
-       {console.log(fight.getHighestStats())}
-      <div className="flex">
-      {fight.arena ? (
-        fight.team.map((mon, index) => (
-            <span className="p-5"><FightStats mon={mon}/></span>
-        ))) : (<p></p>)}
-      </div>
+      
+      
 
       <div className={fight.result === "won" || fight.result === "lost" ? styles.visible : styles.hidden}>
         <p>{fight.result}</p>

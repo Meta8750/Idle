@@ -6,7 +6,7 @@ export const monItemDex = [
         rarity: 1,
         stars: 1,
         value: 100,
-        temp: {
+        stats: {
             baseAD: 10000,
             baseAP: 10000,
             maxHealth: 1.1,

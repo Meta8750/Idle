@@ -1,10 +1,23 @@
 import { descData } from "./AttackDexData.tsx";
-import { monData, attackData } from "./MonDexData.ts";
+import { monData, attackData , fetchMonDataById} from "./fetchData.ts";
 import { monItemDex } from "./ItemDexData.ts";
 import { dropTable } from "./dropTableDex.ts";
 import { passiveData } from "./PassiveDexData.js";
 import Animon from "../Animon.ts";
 import artifacts from '../artifacts.ts'
+
+
+
+function checkFirstDigit(id) {
+    const idString = id.toString();
+    const firstDigit = idString.charAt(0);
+    if (!isNaN(firstDigit)) {
+      return parseInt(firstDigit, 10); 
+    } else {
+      console.log("Die ID beginnt nicht mit einer Zahl.");
+      return null;
+    }
+  }
 
 //use assign if no class behind
 class assign{
@@ -13,17 +26,17 @@ class assign{
     }
 }
 export default class Dex{
-    generate(id: number){
-        // console.log(id)
+    generate  = (id: number) =>{
+        let typeID = checkFirstDigit(id)
         try {
-            let monInfo = monData.find(mon => mon.id === id);
+        
             let attackInfo =  attackData.find(attack => attack.id === id);
             let monItemInfo = monItemDex.find(item => item.id === id);
             let dropTableInfo = dropTable.find(drop => drop.id === id);
-            
-            let newAssign: any
+            let newAssign: any;
 
-        if (monInfo){
+        if (typeID === 1){
+            let monInfo = monData.find(mon => mon.id === id);
             monInfo = this.genAttacks(monInfo)
             newAssign = new Animon({ ...monInfo })
             let passiveID = newAssign.passiveID
@@ -32,8 +45,10 @@ export default class Dex{
             newAssign.heal = 0
             if (passiveID){
                 newAssign.passive = passiveData.find(passive => passive.id === passiveID);
+                delete newAssign.passiveID;
             }
         }
+       
         if (attackInfo){
             newAssign = new assign({...attackInfo})
             let passiveID = newAssign.passiveID
@@ -43,20 +58,24 @@ export default class Dex{
             
             if (Number.isInteger(passiveID)){
                 newAssign.passive = passiveData.find(passive => passive.id === passiveID);
+                delete newAssign.passiveID;
             }
         }
+       
         if (monItemInfo){
             newAssign = new artifacts({...monItemInfo})
+           
         }
+       
         if (dropTableInfo){
             newAssign = new assign({...dropTableInfo})
         }
 
-   
+        
         return newAssign
         }
         catch (error) {
-            console.error(error.message);
+            console.error(`cannot Create${id} ${error.message}`);
             return null;
         }
     }

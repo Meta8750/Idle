@@ -1,5 +1,5 @@
 import dex from './generator.ts'
-import { getDocs, collection, addDoc } from "firebase/firestore";
+import { getDocs, getDoc, collection, addDoc , doc} from "firebase/firestore";
 import  {db}  from '../../firebaseConfig.js';
 
 
@@ -60,11 +60,11 @@ type AttackData = {
   description?: (animon: any, attack: AttackData) => JSX.Element;
   
 }
-
+let cache: { [key: string]: any } = {};
 export const monData: MonData[] = [];
 export const attackData: AttackData[] = [];
 
-// Funktion, um die Daten aus Firestore abzurufen
+
 export const fetchMonData = async () => {
   try {
     let querySnapshot = await getDocs(collection(db, "MonDex"));
@@ -86,9 +86,59 @@ export const fetchMonData = async () => {
     console.error("Error fetching mon data: ", e);
   }
 };
+fetchMonData()
 
+const idMapping = {
+  10000: "m5GUTFdvuqDwgqKO9UTk",
+  10001:"w61j3EYq5E01sGe05V9Y",
+  10003: "UkuosbAO0Eut6tzEUM8i",
+  10005: "VSIeXi8aJGJV7eGsjm4D",
+  10044: "apGQd7Cq1E2owGSYRhpZ",
+  10074: "TLxNd9iFKBTNjvv0xG1U",
+  10095: "gTVA5x32HJPYngrsv0MW",
+  
+  20000: "2qN4xYRY0qL09gBFhdfl",
+  20001: "kBW4eIZMPkQJkXOQ4VMH",
+  20002: "ttgSfMl2Wy6CImOPOPzR",
+  20003: "4aeerP8FkE8pW83WYW1B",
+  20004: "vFGlX8nTJPeiwvSaHMCg",
+  20005: "ArZHaCdYo9FHXugGjP8N",
+  20021: "VKFkBkhJrmfvC1Vl0n7g",
+  20022: "i0Gv1Z4hvXCwj0f7tisQ",
+  20023: "C73lYfJyZDunA56TSQrL",
+  20024: "FKixtkwBEfNWG5bWXjLu",
+  21000: "ouqB3Ksr7TDXlm4TuVQE",
+  22000: "8fqsIX5x8n24xmmYR331",
 
-fetchMonData();
+};
+
+export const fetchMonDataById = async (id, table) => {
+  
+  if (cache[id]) {
+    return cache[id];
+  }
+  try {
+    id = idMapping[id]; 
+    // Hole ein spezifisches Mon anhand der ID
+    const monDocRef = doc(db, table, id);
+    const monDocSnap = await getDoc(monDocRef);
+
+    if (monDocSnap.exists()) {
+    
+      const monData = { id: monDocSnap.id, ...monDocSnap.data() };
+     
+      cache[id] = monData; 
+      return monData;
+    } else {
+   
+      console.log("No such document!");
+      return null;
+    }
+  } catch (e) {
+    console.error("Error fetching mon data: ", e);
+    return null;
+  }
+}
 
 const newMon = {
   name: "World Ender",

@@ -175,11 +175,19 @@ handleAttack(attack: any, mon: any){
         this.battleState = "End phase"
         this.checkPassive()
 
-        this.advanceTurn()
+        
         this.updateDamage(mon.uid, mon.heal);
         this.battleLogs.push(`${this.currentAttacker.name} uses ${attack.name} and dealt ${this.dmgAmount}`)
     
         this.attackTarget = "none"
+        console.log(this.currentAttacker.roundReset)
+        console.log(this.currentAttacker.kills)
+        if (this.currentAttacker.roundReset > 0){
+            this.currentAttacker.roundReset--
+            this.currentAttacker.kills--
+          return;  
+        }
+        this.advanceTurn()
         setTimeout(()=> {this.checkAndAdvanceBatch()}, 1100)
         
     }
@@ -245,7 +253,6 @@ advanceTurn = () => {
             this.player.inventory.updateItem(Dex.generate(this.drop.dropID)) //this.drop for postScreen  
             this.player.team.map((mon) =>{
                 
-                mon.resetTempStats()
                 mon.exp += this.drop.exp
                 mon.levelProgess()
                 

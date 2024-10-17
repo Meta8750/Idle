@@ -86,6 +86,7 @@ export default class Animon {
     dmgAmp: number; 
     dmgTaken: number; 
     healingDone: number;
+    roundReset: number;
     equipment: {
         chain: any,
         ring: any,
@@ -138,6 +139,7 @@ export default class Animon {
 
         this.ally = false
         this.alive = true
+        this.roundReset = 0;
        
         this.equipment = {
             chain: null,
@@ -293,7 +295,7 @@ export default class Animon {
         }
 
         if (this.health <= 0){ this.alive = false } //check if animon is dead
-        if (defender.health <= 0){ 
+        if (defender.health <= 0 && defender.alive === true){ 
             defender.alive = false
             this.kills++
 

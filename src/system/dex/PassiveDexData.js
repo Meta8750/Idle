@@ -6,6 +6,9 @@ export const passiveData = [
         effect: (mon, phase, defender) => {
             if (phase === "End phase"){
                 mon.setHealth(10)
+                if(mon.kills > 0){
+                    mon.roundReset = 1 // use = to make sure its not a stacking effect
+                }
             }
         }
     },
@@ -16,7 +19,6 @@ export const passiveData = [
             if(phase === "End phase"){
                 mon.stats.armour += 10
                 mon.stats.MR += 10
-                
                 mon.status =  {
                     aggro: 3
                 }
@@ -31,7 +33,6 @@ export const passiveData = [
                 mon.stats.MR += 10
                 mon.stats.baseAmour += mon.stats.maxHealth * 0.01
                 mon.stats.maxHealth += 5
-               
                 mon.status =  {
                     aggro: 1
                 }

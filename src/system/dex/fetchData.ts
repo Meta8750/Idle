@@ -147,14 +147,15 @@ const newMon = {
   type: "AP",
   element: "Dark",
   baseDMG: 50,
-  adScaling: 1,
-  apScaling: 1,
+  adScaling: 0.5,
+  apScaling: 0.5,
   manaCost: 10,
   armorPen:0,
   mrPen:0,
   heal: false,
   aoe:true,
   cd: 2,
+  passive: 50003,
   
 }
 
@@ -167,7 +168,7 @@ const newMon = {
     }
   };
   
-   // addMonToFirestore(); 
+  // addMonToFirestore(); 
 /*
   name: "Vagabund",
   id: 10000,

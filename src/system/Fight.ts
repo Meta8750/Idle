@@ -55,12 +55,10 @@ startFight = async (player: any, batch: number[],drop: number) => {
     this.currentAttackerIndex = 0;
 
     this.currentBatch = this.arena.enemys[0];
-    console.log(this.currentBatch)
     this.combinedUnits = [...this.team, ...this.currentBatch];
-    console.log(this.combinedUnits)
     await this.initializeUnits();
     this.attackOrder= [...this.combinedUnits].sort((a, b) => b.stats.baseMS - a.stats.baseMS);
-    console.log(this.attackOrder)
+  
     this.attacker = null;
     this.attackTarget = this.attackOrder[this.currentAttackerIndex]; //just to fill
     this.currentAttacker = this.attackOrder[this.currentAttackerIndex];
@@ -90,22 +88,20 @@ reset(result: string): void{
     this.state = "outOfCombat"
     this.lastFight = this.arena
     this.arena = null
-    /* this.team.map((mon) => {
-        mon.resetTempStats()
-    }) */
+  
 }
 
 checkPassive(){
     
     if (this.currentAttack != null){
         if (this.currentAttack.passive){
-            this.currentAttack.passive.effect(this.currentAttacker, this.battleState)
+            this.currentAttack.passive.effect(this.currentAttacker, this.battleState, this.attackTarget)
         } 
         
     }
     if (this.currentAttacker != null){
         if (this.currentAttacker.passive){
-            this.currentAttacker.passive.effect(this.currentAttacker,  this.battleState)
+            this.currentAttacker.passive.effect(this.currentAttacker,  this.battleState, this.attackTarget)
         }
     }
     
@@ -227,6 +223,9 @@ advanceTurn = () => {
 }
 
     checkAndAdvanceBatch = () => {
+        this.drop = this.getDropRarity()   
+            this.player.inventory.updateItem(Dex.generate(this.drop.dropID)) //this.drop for postScreen  
+                 
         if (!this.arena || !this.arena.enemys) return;
         let allDefeated = this.currentBatch.every(enemy => !enemy.alive);
         if (allDefeated) {
@@ -244,7 +243,6 @@ advanceTurn = () => {
             // code below if player win the battle
             this.drop = this.getDropRarity()   
             this.player.inventory.updateItem(Dex.generate(this.drop.dropID)) //this.drop for postScreen  
-            // this.drop.name = Dex.generate(this.drop.dropID).name       
             this.player.team.map((mon) =>{
                 
                 mon.resetTempStats()

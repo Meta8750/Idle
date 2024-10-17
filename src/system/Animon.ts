@@ -248,9 +248,10 @@ export default class Animon {
         this.dmg += (attacker.stats.baseAP  * attack.apScaling)
         
         if(attack.heal){
+            this.dmg = Math.round(this.dmg)
             defender.setHealth(this.dmg)
             this.healingDone += this.dmg
-            return Math.round(this.dmg)
+            return this.dmg
         }
         
         if (attack.type == "AD"){
@@ -269,6 +270,13 @@ export default class Animon {
              this.dmg *= (attacker.stats.baseCritDamage)
              this.attackCritted = true
         }
+        if (attack.maxHealthDmg){
+             this.dmg += defender.stats.maxHealth * attack.maxHealthDmg
+        }
+        if (attack.currentHealthDmg){
+            this.dmg += defender.health * attack.currentHealthDmg    
+        }
+        
        
         this.elementMultiplier = this.getEffectiveness(attack.element, defender.element)
         this.dmg *= this.elementMultiplier

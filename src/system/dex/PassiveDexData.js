@@ -3,13 +3,10 @@
 export const passiveData = [
     {
         id:50000,
-        effect: (mon, phase) => {
+        effect: (mon, phase, defender) => {
             if (phase === "End phase"){
                 mon.setHealth(10)
-                
             }
-           
-           
         }
     },
     {
@@ -24,8 +21,7 @@ export const passiveData = [
                     aggro: 3
                 }
             }
-            }
-           
+        }
     },
     {
         id:50002,
@@ -42,5 +38,16 @@ export const passiveData = [
             }
         }
     },
+    {
+        id:50003,
+        effect: (mon, phase, defender) => {
+            if(phase === "End phase"){
+                if (defender.status.bleeding > 0){
+                    defender.health -= mon.dmg / 0.4
+                 }
+            }
+        }
+    },
+    
 ]
 

@@ -1,5 +1,5 @@
 import { descData } from "./AttackDexData.tsx";
-import { monData, attackData , fetchMonDataById} from "./fetchData.ts";
+import { monData, attackData , fetchDataById} from "./fetchData.ts";
 import { monItemDex } from "./ItemDexData.ts";
 import { dropTable } from "./dropTableDex.ts";
 import { passiveData } from "./PassiveDexData.js";

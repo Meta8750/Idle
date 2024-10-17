@@ -112,7 +112,7 @@ const idMapping = {
 
 };
 
-export const fetchMonDataById = async (id, table) => {
+export const fetchDataById = async (id, table) => {
   
   if (cache[id]) {
     return cache[id];
@@ -141,20 +141,20 @@ export const fetchMonDataById = async (id, table) => {
 }
 
 const newMon = {
-  name: "World Ender",
-  id: 20021,
+  name: "Voracity",
+  id: 20025,
   level: 1,
-  type: "AD",
+  type: "AP",
   element: "Dark",
-  baseDMG: 200,
+  baseDMG: 50,
   adScaling: 1,
-  apScaling: 0,
+  apScaling: 1,
   manaCost: 10,
   armorPen:0,
   mrPen:0,
   heal: false,
-  aoe:false,
-  passiveID: 50002
+  aoe:true,
+  cd: 2,
   
 }
 
@@ -167,7 +167,7 @@ const newMon = {
     }
   };
   
-   //addMonToFirestore(); 
+   // addMonToFirestore(); 
 /*
   name: "Vagabund",
   id: 10000,

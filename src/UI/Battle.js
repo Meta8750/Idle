@@ -224,7 +224,6 @@ function Battle({ player, fight }) {
               <p key={index}>{battleLog}</p>
             ))}
           </div>
-          {/* <Monstats mon={fight.attackTarget} /> */}
         </div>
       ) : (
         <p>No current Battle</p>

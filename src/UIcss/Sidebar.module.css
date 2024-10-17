@@ -3,6 +3,8 @@
     text-align: left;
     align-items: left;
     height:96vh;
+    transition: 2s;
+    padding: 15px;
 
 }
 .list {
@@ -10,6 +12,7 @@
     padding: 0px;
     margin: 0px;
     display: grid;
+
     
     li {
         text-decoration: none;
@@ -35,3 +38,21 @@
     
 }
 
+
+@media (max-width: 768px) {
+    .sidebar {
+       display: none;
+       
+    }
+    .list {
+        width: 0vh;
+    }
+    span:hover{
+        .sidebar {
+            display:block !important;
+        }
+        .list {
+            width: 10vh!important;
+        }
+    }
+}

@@ -5,15 +5,21 @@ import styles from '../UIcss/Sidebar.module.css'
 
 function Sidebar({player}) {
 
-  
+   
     
     const tabs = ["Hub", "Story","Rifts","Raid","Tower", "MonManager","Summoning","Inventory","Shop","Crafting", "Gambling", "Settings", "Logout"];
 
     return (
+        <div>
+            <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&icon_names=menu" />
+            <span class="material-symbols-outlined" >menu</span>
+
+
         <div className={styles.sidebar}>
-            <div>
-                <h1>My Sidebar</h1>
-            </div>
+    
+
+
+            
             <ul className={styles.list}>
                 {tabs.map((tab, index) => (
                     <li
@@ -26,6 +32,7 @@ function Sidebar({player}) {
                     ))}
                 
             </ul>
+        </div>
         </div>
     )
 }

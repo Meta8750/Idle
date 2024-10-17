@@ -279,13 +279,12 @@ export default class Animon {
             this.dmg += defender.health * attack.currentHealthDmg    
         }
         
-       
         this.elementMultiplier = this.getEffectiveness(attack.element, defender.element)
         this.dmg *= this.elementMultiplier
         this.dmg = this.dmg + (this.dmg * this.dmgAmp)
         this.dmg = Math.round(this.dmg)
-
         this.dmgDealt += this.dmg
+        
         defender.dmgTaken += this.dmg
         
         defender.health -= this.dmg

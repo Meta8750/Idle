@@ -3,8 +3,8 @@
     grid-template-areas:
       "aside header header"
       "aside main main";
-    grid-template-rows: 0.006fr 1fr;
-    grid-template-columns: 0.8fr 6fr;
+    grid-template-rows: 0.06fr 1fr;
+    grid-template-columns: 0.6fr 6fr;
     height: auto;
     overflow: auto; 
     -ms-overflow-style: none; 
@@ -27,7 +27,7 @@
   aside {
     grid-area: aside;
     background-color: #1c1c1d;
-    padding: 1rem;
+   
   }
   
   main {
@@ -42,3 +42,12 @@
     padding: 1rem;
   }
 
+ @media (max-width: 768px) {
+    .App{
+      grid-template-areas:
+      "header header header"
+      "aside main main";
+      grid-template-columns: 0fr 1fr !important;
+    }
+    
+}

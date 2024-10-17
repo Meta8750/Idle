@@ -47,9 +47,8 @@ startFight = async (player: any, batch: number[],drop: number) => {
     this.arena = new Arena(batch,drop);
     this.arena.genEnemys();
     this.player = player
-    console.log(player.team)
-    this.team = _.cloneDeep(player.getTeam());
-    console.log(this.team);
+
+    this.team = _.cloneDeep(player.getTeam())
     
     this.currentBatchIndex = 0;
     this.currentAttackerIndex = 0;
@@ -139,7 +138,7 @@ enemyAi = () => {
     }
     
     const target = aliveTeam[Math.floor(Math.random() * aliveTeam.length)];
-    this.battleLogs.push(`${this.currentAttacker.name} uses ${ this.currentAttack.name} and dealt ${target.calculateDmg( this.currentAttack, this.currentAttacker, target)}`)
+    this.battleLogs.push(`${this.currentAttacker.name} uses ${ this.currentAttack.name} and dealt ${this.currentAttacker.calculateDmg( this.currentAttack, this.currentAttacker, target)}`)
     this.battleState = "End phase"
     this.checkPassive()
     this.attackOrder = [...this.attackOrder].sort((a, b) => b.stats.baseMS - a.stats.baseMS);
@@ -180,8 +179,6 @@ handleAttack(attack: any, mon: any){
         this.battleLogs.push(`${this.currentAttacker.name} uses ${attack.name} and dealt ${this.dmgAmount}`)
     
         this.attackTarget = "none"
-        console.log(this.currentAttacker.roundReset)
-        console.log(this.currentAttacker.kills)
         if (this.currentAttacker.roundReset > 0){
             this.currentAttacker.roundReset--
             this.currentAttacker.kills--
@@ -300,11 +297,8 @@ advanceTurn = () => {
     }
     getHighestStats() {
         let highestStats: any = []
-        if (this.team){
-           
-        } else {
-            return
-        }
+        if (this.team){} else {return}
+          
         highestStats.push(this.team.filter(mon => mon.dmgDealt >= 0).sort((a, b) => b.dmgDealt - a.dmgDealt)[0].dmgDealt);
         highestStats.push(this.team.filter(mon => mon.dmgTaken >= 0).sort((a, b) => b.dmgTaken - a.dmgTaken)[0].dmgTaken);
         highestStats.push(this.team.filter(mon => mon.healingDone >= 0).sort((a, b) => b.healingDone - a.healingDone)[0].healingDone);

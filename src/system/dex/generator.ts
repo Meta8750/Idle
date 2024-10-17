@@ -43,6 +43,7 @@ export default class Dex{
             newAssign.status = []
             newAssign.kills = 0
             newAssign.heal = 0
+            newAssign.ally = false;
             if (passiveID){
                 newAssign.passive = passiveData.find(passive => passive.id === passiveID);
                 delete newAssign.passiveID;
@@ -64,7 +65,7 @@ export default class Dex{
        
         if (monItemInfo){
             newAssign = new artifacts({...monItemInfo})
-           
+            
         }
        
         if (dropTableInfo){

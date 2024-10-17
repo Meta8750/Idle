@@ -8,9 +8,9 @@
 
     p { 
         min-width: 0%;
-        font-size: 12px;
+        font-size: 1.3vh;
         margin: 5px 0px 5px 0px;
-        height: 14px;
+        height: 1.5vh;
         transition: width 1.5s;
     }
 }

@@ -37,6 +37,7 @@ function ItemManager({player, mon, setTab})  {
   }
 
   const focusingItem = (item) => {
+    console.log(item)
       setFocusedItem(item);
   }
   
@@ -111,12 +112,12 @@ function ItemManager({player, mon, setTab})  {
 
               {focusedItem ? (
                 <div >
-                <p>{focusedItem.name}</p>
+                <p>{focusedItem.name} Level: {focusedItem.level}/{focusedItem.maxLevel}</p>
                 <p>{focusedItem.quantity}</p>
                 <p>{focusedItem.value}</p>
                 
                 <button onClick={()=> focusedItem.randomStats()}>upgrade</button>
-                {Object.entries(focusedItem.temp).map(([stat, value]) => {
+                {Object.entries(focusedItem.stats).map(([stat, value]) => {
                 return <p>{stat} {value}</p> })}
                  
                 <img class="px-35"src={focusedItem.img}></img>

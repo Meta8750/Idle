@@ -4,6 +4,7 @@ import { useState } from "react";
 import ItemManager  from "./ItemManager.js";
 import ItemStars from "./components/ItemStars.tsx";
 import MonStats from "./components/MonStats.tsx";
+import { AttackUI } from "./components/AttackUI.tsx";
 
 import styles from '../UIcss/Laboratory.module.css'
 
@@ -13,8 +14,10 @@ function Laboratory({player}) {
 
     const [focusedMon, setFocusedMon] = useState();
     const [teamIndex, setTeamIndex] = useState();
-    const [tab, setTab] = useState("mon");
-    const [attack, setAttack] = useState()
+    const [tab, setTab] = useState("monManager");
+    const [attack, setAttack] = useState([null, null])
+  
+    const [newAttack, setNewAttack] = useState()
 
   
     const setFocus = (mon) => {
@@ -27,9 +30,10 @@ function Laboratory({player}) {
         setFocusedMon(null)
     }
     const extractAttack = (mon) => {
-        player.inventory.updateItem(attack)
+        player.inventory.updateItem(attack[0])
         player.deleteMon(mon.uid)
         setAttack(null)
+        
     }
     const tierUpgrade = (mon) => {
         mon.upgradeTier()
@@ -38,10 +42,18 @@ function Laboratory({player}) {
         }
     }
 
+    const applyNewAttack = () => {
+        focusedMon.attacks[attack[1]] = newAttack
+    }
+
+    const switchTab = (newTab) => {
+        setTab(newTab)
+        setFocusedMon(null)
+    }
    
 
     return (
-        <div  className={tab === "mon" ? styles.MonManager : ' hidden'}>
+        <div  className={styles.MonManager}>
           <div className={styles.stats}>
               {focusedMon ? (
                 
@@ -53,14 +65,16 @@ function Laboratory({player}) {
                 <button class="px-10" onClick={() => extract(focusedMon)}>extract cell</button>
                 <button class="px-10" onClick={() => tierUpgrade(focusedMon)}>tier+</button>
                 <button class="px-10" onClick={() => extractAttack(focusedMon)}>extract attack</button>
+                <button class="px-10" onClick={() => setTab("attackManager")}>Attack Manager</button>
+                
                 <div className={styles.attacks}>
                 {focusedMon.attacks.map((attack, attackIndex) => (
-                <p
-                    onClick={() => setAttack(attack)}
-                    className={styles.attackOption}
+                <div
+                    onClick={() => setAttack([attack, attackIndex])}
+                    className={styles.attacks}
                     >
                     {attack.name} {attack.currentCD > 0 ? attack.currentCD : ""} {attack.element}
-                    </p> ))}
+                    </div> ))}
                 </div>
                 
                 </div>
@@ -68,9 +82,28 @@ function Laboratory({player}) {
             ) : (<p>none</p>)}
 
           </div>
-         
+          <div className={`${styles.attackManager} ${tab === "attackManager" ? "" : "!hidden" }`}>
+            <div className={styles.monAttacks}>
+            {focusedMon ? (
+                  focusedMon.attacks.map((attack, attackIndex) => (
+                  <p
+                      onClick={() => setAttack([attack, attackIndex]) }
+                      className={styles.attacks}
+                      >
+                      {attack.name} {attack.currentCD > 0 ? attack.currentCD : ""} {attack.element}
+                      </p> ))) : (<p></p>)}
+              </div>
+              <button onClick={() => applyNewAttack()} >apply</button>
+              <div className={styles.items}>
+                {player.inventory.getAttacks().map((item, index) => (
+                  <div  className={styles.attacks} onClick={() => setNewAttack(item)}>
+                      <AttackUI attack={item} />
+                  </div>
+                ))}
+              </div>
+          </div>
           
-          <div className={styles.box}>
+          <div className={`${styles.box} ${tab === "monManager" ? "" : "!hidden" }`}>
             {player.getMons() ? (
                 player.getMons().map((mon, index) => (
                   <div onClick={() => setFocus(mon)} className={`${styles.boxSlot} ${focusedMon === mon ? styles.focusedBox :  ""}` }>

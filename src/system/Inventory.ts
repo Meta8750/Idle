@@ -15,6 +15,8 @@ interface Item {
     equipped?: boolean;
     uid?: number;
 
+    adScaling?: number;
+
 }
 
 export default class Inventory {
@@ -70,6 +72,9 @@ export default class Inventory {
     }
     getArtifacts(){
         return this.inventory.filter(i => i.uid !== undefined)
+    }
+    getAttacks(){
+        return this.inventory.filter(i => i.adScaling !==  undefined)
     }
     getEquippedItems() {
         return this.inventory.filter(item => item.equipped);

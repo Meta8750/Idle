@@ -12,16 +12,39 @@
 }
 
 .attacks{
-    p{
+
+    div{
         color: white;
-        border: solid 1px aqua
+    
+    }
+    p{
+       
 
     }
+}
+
+.attackManager {
+    grid-area: mon;
+    display: grid;
+    grid-template-areas: 
+    "monAttacks fusion inventory"
+    "monAttacks fusion inventory";
+    grid-template-rows: 0.1fr 1fr;
+    grid-template-columns: 1fr 0.4fr 1fr;
+}
+
+.items{
+    grid-area: inventory;
+}
+
+.monAttacks{
+    grid-area: monAttacks;
 }
 
 .focusedBox{
     border: solid 1px red ;
 }
+
 
 .box{
     grid-area: mon;

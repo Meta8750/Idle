@@ -25,7 +25,7 @@ const ItemStars: React.FC<{ item: Item }> = ({ num }) => {
       <div className={` ${ Object.keys(tierStyles).find(key => tierStyles[key]) }`}>
         
          {Array(num).fill('').map((_, index) => (
-          <span key={index + num.stars} >★</span>
+          <span >★</span>
         ))} 
       </div>
     </div>

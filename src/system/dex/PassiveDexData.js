@@ -46,7 +46,7 @@ export const passiveData = [
         id:50003,
         effect: (mon, phase, defender) => {
             if(phase === "End phase"){
-                if (defender.status.bleeding != undefined ){
+                if ((defender.status.bleeding || 0) > 0 ){
                     defender.health -= mon.dmg / 0.4
                  }
             }

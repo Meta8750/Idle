@@ -19,6 +19,7 @@ import ItemManager from './UI/ItemManager.js'
 import Summoning from './UI/Summoning.js';
 import Story from './UI/Story.js'
 import Raid from './UI/Raid.js'
+import Laboratory from './UI/Laboratory.js';
 
 import Player from './system/Player.ts';
 import Logout from './system/Logout.js';
@@ -71,9 +72,11 @@ function App() {
             <Raid  time={time} player={player}/>
           </div>
          
-         
           <div  className={activeTab === 'MonManager' ? styles.visible : styles.hidden}>
             <MonManager player={player}/>
+          </div>
+          <div  className={activeTab === 'Laboratory' ? styles.visible : styles.hidden}>
+            <Laboratory player={player}/>
           </div>
           <div  className={activeTab === 'Summoning' ? styles.visible : styles.hidden}>
             <Summoning player={player}/>

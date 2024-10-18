@@ -1,0 +1,73 @@
+.MonManager{
+    display: grid;
+    grid-template-areas: 
+    "mon focusedMon"
+    "mon funktions";
+    grid-row: 1fr 1fr;
+    grid-column: 0.1fr 1fr;
+}
+
+.stats{
+    grid-area: focusedMon;
+}
+
+.focusedBox{
+    border: solid 1px red ;
+}
+
+.box{
+    grid-area: mon;
+    grid-row: span 2;
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    grid-template-rows: repeat(10, 1fr);
+   
+}
+
+.boxSlot{
+    background-color: rgb(0, 0, 0);
+    color: white;
+    align-items: center;
+   
+    align-content: center;
+    margin: 10px;
+    position: relative;
+
+    header {
+        display: flex;
+        justify-content: space-between;
+        z-index: 0;
+    }
+
+    i {
+        position: absolute;
+        width: 100%;
+        text-align: center;
+        z-index: 1;
+        background-color: rgba(255, 255, 255, 0.1);
+        margin-top: 20%;
+    }
+
+
+    img{
+        width:100%;
+        padding: 5px;
+        position: relative;
+        left: 0;
+      
+    }
+    p {
+        position: relative;
+        background-color: rgb(255, 255, 255);
+        color: black;
+        
+       
+    }
+    h1 {
+        padding: 5px;
+        background-color: black;
+    }
+    span {
+        
+    }
+}

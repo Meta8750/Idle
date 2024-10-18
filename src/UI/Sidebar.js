@@ -7,7 +7,7 @@ function Sidebar({player}) {
 
    
     
-    const tabs = ["Hub", "Story","Rifts","Raid","Tower", "MonManager","Summoning","Inventory","Shop","Crafting", "Gambling", "Settings", "Logout"];
+    const tabs = ["Hub", "Story","Rifts","Raid","Tower", "MonManager","Laboratory","Summoning","Inventory","Shop","Crafting", "Gambling", "Settings", "Logout"];
 
     return (
         <div>
@@ -17,8 +17,6 @@ function Sidebar({player}) {
 
         <div className={styles.sidebar}>
     
-
-
             
             <ul className={styles.list}>
                 {tabs.map((tab, index) => (

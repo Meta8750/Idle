@@ -88,6 +88,9 @@ export default class Animon {
     healingDone: number;
     roundReset: number;
     shield: number;
+    nextTier: number;
+    tier: number;
+    reqCells:number;
     equipment: {
         chain: any,
         ring: any,
@@ -141,6 +144,8 @@ export default class Animon {
         this.ally = false
         this.alive = true
         this.roundReset = 0;
+        this.nextTier = monData.tier + 1;
+        this.reqCells = 5
        
         this.equipment = {
             chain: null,
@@ -155,22 +160,41 @@ export default class Animon {
     monStats(){
        
     }
+    upgradeTier(){
+        let level = this.level - 1
+        let tierMultiplier = 0.5 // per extra tier growth stats are 50% increased
+
+        this.tier++
+        this.stats.baseAD +=     this.ADGrowth * tierMultiplier * level 
+        this.stats.baseAP +=     this.APGrowth * tierMultiplier * level
+        this.stats.baseArmour += this.armourGrowth * tierMultiplier * level
+        this.stats.baseMR +=     this.MRGrowth * tierMultiplier * level
+        this.stats.baseMS +=     this.MSGrowth * tierMultiplier * level
+        this.stats.maxHealth +=  this.healthGrowth * tierMultiplier * level
+        this.stats.maxMana +=    this.manaGrowth * tierMultiplier * level
+        this.health = this.stats.maxHealth
+        this.ADReduction = this.calculateDmgReduction(this.stats.baseArmour)
+        this.APReduction = this.calculateDmgReduction(this.stats.baseMR)
+        this.reqCells += 5
+    }
     
     levelProgess(level?) :void{
+        let tier = this.tier * 0.5 + 1 // per extra tier growth stats are 50% increased
+        
         if (!level){
             level = 1
         }
         if (this.level <= this.maxLevel){
             if (this.exp >= this.nextLevel){
                 this.level++
-                this.stats.baseAD += this.ADGrowth * level
-                this.stats.baseAP += this.APGrowth * level
-                this.stats.baseArmour += this.armourGrowth * level
-                this.stats.baseMR += this.MRGrowth * level
-                this.stats.baseMS += this.MSGrowth * level
-                this.stats.maxHealth += this.healthGrowth * level
+                this.stats.baseAD += this.ADGrowth * tier * level 
+                this.stats.baseAP += this.APGrowth * tier * level
+                this.stats.baseArmour += this.armourGrowth * tier * level
+                this.stats.baseMR += this.MRGrowth * tier * level
+                this.stats.baseMS += this.MSGrowth * tier * level
+                this.stats.maxHealth += this.healthGrowth * tier * level
                 this.health = this.stats.maxHealth
-                this.stats.maxMana += this.manaGrowth * level
+                this.stats.maxMana += this.manaGrowth * tier * level
                 this.nextLevel = this.calculateNextLevel()
                 this.ADReduction = this.calculateDmgReduction(this.stats.baseArmour)
                 this.APReduction = this.calculateDmgReduction(this.stats.baseMR)
@@ -181,6 +205,13 @@ export default class Animon {
     }
     calculateNextLevel(){
         return Math.round(Math.pow(1.16, this.level) + 10 * this.level * (this.level / 2) + 4);
+    }
+    ammountForNextTier(){
+        let cells = 5
+        
+
+
+        return cells
     }
 
     cdHandle(){

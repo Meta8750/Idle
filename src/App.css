@@ -3,7 +3,7 @@
     grid-template-areas:
       "aside header header"
       "aside main main";
-    grid-template-rows: 0.06fr 1fr;
+    grid-template-rows: auto 1fr;
     grid-template-columns: 0.6fr 6fr;
     height: auto;
     overflow: auto; 

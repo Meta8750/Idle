@@ -110,6 +110,10 @@ class Player {
     setActiveTab(tab: string){
         this.activeTab = tab;
     }
+    deleteMon(uid: string){
+        this.mons = this.mons.filter(mon => mon.uid != uid)
+        
+    }
     setMons = async (id: number) => {
         const mon = await this.dex.generate(id); 
         if (mon) {
@@ -181,6 +185,7 @@ class Player {
         } 
         return this.team;
     }
+    
 }
 
 // Klasse exportieren

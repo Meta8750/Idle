@@ -22,4 +22,5 @@ function MonStats({mon}){
     )
 }
 
+
 export default MonStats;

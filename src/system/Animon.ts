@@ -178,7 +178,7 @@ export default class Animon {
         this.reqCells += 5
     }
     
-    levelProgess(level?) :void{
+    levelProgess(level? : number) :void{
         let tier = this.tier * 0.5 + 1 // per extra tier growth stats are 50% increased
         
         if (!level){

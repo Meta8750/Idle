@@ -3,12 +3,20 @@
     grid-template-areas: 
     "mon focusedMon"
     "mon funktions";
-    grid-row: 1fr 1fr;
-    grid-column: 0.1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+    grid-template-columns: 1fr 0.4fr;
 }
 
 .stats{
     grid-area: focusedMon;
+}
+
+.attacks{
+    p{
+        color: white;
+        border: solid 1px aqua
+
+    }
 }
 
 .focusedBox{

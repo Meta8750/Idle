@@ -1,5 +1,5 @@
 import React from 'react';
-import styles from '../../UIcss/components/ItemStars.module.css'
+import styles from '../../UIcss/components/TextColor.module.css'
 
 interface Item {
   name: string;
@@ -10,18 +10,23 @@ interface Item {
 const ItemStars: React.FC<{ item: Item }> = ({ num }) => {
  
   const starArray = Array(num).fill('★');
- 
+  
+  const tierStyles = {
+    [styles.tier1]: num === 1,
+    [styles.tier2]: num === 2,
+    [styles.tier3]: num === 3,
+    [styles.tier4]: num === 4,
+    [styles.rainbowText]: num >= 5,
+  };
 
   return (
     <div>
       
-      <div className="stars">
-        {starArray.map((_, index) => (
-          <span key={index} >★</span>
-        ))}
-        {/* {Array(item.stars).fill('').map((_, index) => (
-          <span key={index + item.stars} className={styles.rainbowText}>★</span>
-        ))} */}
+      <div className={` ${ Object.keys(tierStyles).find(key => tierStyles[key]) }`}>
+        
+         {Array(num).fill('').map((_, index) => (
+          <span key={index + num.stars} >★</span>
+        ))} 
       </div>
     </div>
   );

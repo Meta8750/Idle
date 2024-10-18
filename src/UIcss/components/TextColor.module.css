@@ -1,0 +1,51 @@
+@keyframes rainbowText {
+    0% { color: red; }
+    20% { color: orange; }
+    40% { color: yellow; }
+    60% { color: green; }
+    80% { color: blue; }
+    100% { color: violet; }
+  }
+
+  @keyframes rainbow {
+    0% {
+        background-position: 0% 50%
+    }
+
+    50% {
+        background-position: 100% 25%
+    }
+
+    100% {
+        background-position: 0% 50%
+    }
+}
+
+  .tier1{
+   color: rgb(165, 165, 165);
+  }
+  .tier2{
+    color: rgb(35, 201, 13);
+  }
+  .tier3{
+    color: rgb(45, 85, 229);
+  }
+  .tier4{
+    color: red;
+  }
+
+  
+  .rainbowText {
+    font-size: 40px;
+    font-weight: bold;
+    animation: rainbowText 7s infinite;
+  }
+  .rainbowText {
+    font-size: 1.2rem;
+    background-image: repeating-linear-gradient(45deg, violet, indigo, blue, green, yellow, orange, red, violet);
+    background-size: 400% 400%;
+
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: rainbow 7s ease infinite;
+  }

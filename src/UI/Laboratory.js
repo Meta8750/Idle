@@ -14,6 +14,7 @@ function Laboratory({player}) {
     const [focusedMon, setFocusedMon] = useState();
     const [teamIndex, setTeamIndex] = useState();
     const [tab, setTab] = useState("mon");
+    const [attack, setAttack] = useState()
 
   
     const setFocus = (mon) => {
@@ -25,7 +26,13 @@ function Laboratory({player}) {
         player.deleteMon(mon.uid)
         setFocusedMon(null)
     }
+    const extractAttack = (mon) => {
+        player.inventory.updateItem(attack)
+        player.deleteMon(mon.uid)
+        setAttack(null)
+    }
     const tierUpgrade = (mon) => {
+        mon.upgradeTier()
         if ((player.inventory.findItem(`${mon.name}cell`)?.quantity || 0) >= mon.reqCells){
             mon.upgradeTier()
         }
@@ -45,11 +52,23 @@ function Laboratory({player}) {
                 <button class="px-10" >get in Team</button>
                 <button class="px-10" onClick={() => extract(focusedMon)}>extract cell</button>
                 <button class="px-10" onClick={() => tierUpgrade(focusedMon)}>tier+</button>
+                <button class="px-10" onClick={() => extractAttack(focusedMon)}>extract attack</button>
+                <div className={styles.attacks}>
+                {focusedMon.attacks.map((attack, attackIndex) => (
+                <p
+                    onClick={() => setAttack(attack)}
+                    className={styles.attackOption}
+                    >
+                    {attack.name} {attack.currentCD > 0 ? attack.currentCD : ""} {attack.element}
+                    </p> ))}
+                </div>
+                
                 </div>
             
             ) : (<p>none</p>)}
 
           </div>
+         
           
           <div className={styles.box}>
             {player.getMons() ? (

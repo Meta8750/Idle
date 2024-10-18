@@ -87,6 +87,7 @@ export default class Animon {
     dmgTaken: number; 
     healingDone: number;
     roundReset: number;
+    shield: number;
     equipment: {
         chain: any,
         ring: any,
@@ -125,7 +126,7 @@ export default class Animon {
         this.exp = 0
         this.nextLevel = this.calculateNextLevel()
         this.itemSlot = [];
-        
+        this.shield = 0;
         this.id = monData.id
         this.img = `/animon/${this.id}.gif`
         this.uid = uuidv4()
@@ -283,10 +284,21 @@ export default class Animon {
         this.dmg *= this.elementMultiplier
         this.dmg = this.dmg + (this.dmg * this.dmgAmp)
         this.dmg = Math.round(this.dmg)
+        
         this.dmgDealt += this.dmg
-        
         defender.dmgTaken += this.dmg
-        
+
+        if (defender.shield > 0){
+            let shieldDmg = this.dmg - defender.shield
+            defender.shield -= this.dmg
+           
+            if (defender.shield > 0){
+                return Math.round(this.dmg)
+            }
+            this.dmg -= shieldDmg
+            defender.shield = 0
+            
+        }
         defender.health -= this.dmg
         if (defender.alive){
             this.heal = this.dmg * this.lifeSteal
@@ -346,7 +358,7 @@ export default class Animon {
                   
                     if (this.stats[stat] !== undefined) {
                       
-                    if(Number.isInteger(this.stats[stat])){
+                    if(Number.isInteger(item.stats[stat])){
                           
                             this.stats[stat] *= item.stats[stat];
                            

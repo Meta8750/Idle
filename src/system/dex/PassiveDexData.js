@@ -6,8 +6,11 @@ export const passiveData = [
         effect: (mon, phase, defender) => {
             if (phase === "End phase"){
                 mon.setHealth(10)
+                mon.shield += 10
+             
                 if(mon.kills > 0){
                     mon.roundReset = 1 // use = to make sure its not a stacking effect
+                    mon.kills = 0
                 }
             }
         }
@@ -43,7 +46,7 @@ export const passiveData = [
         id:50003,
         effect: (mon, phase, defender) => {
             if(phase === "End phase"){
-                if (defender.status.bleeding > 0){
+                if (defender.status.bleeding != undefined ){
                     defender.health -= mon.dmg / 0.4
                  }
             }

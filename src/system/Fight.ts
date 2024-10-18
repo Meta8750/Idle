@@ -229,7 +229,7 @@ advanceTurn = () => {
 
     checkAndAdvanceBatch = () => {
         this.drop = this.getDropRarity()   
-            this.player.inventory.updateItem(Dex.generate(this.drop.dropID)) //this.drop for postScreen  
+        this.player.inventory.updateItem(Dex.generate(this.drop.dropID)) //this.drop for postScreen  
                  
         if (!this.arena || !this.arena.enemys) return;
         let allDefeated = this.currentBatch.every(enemy => !enemy.alive);

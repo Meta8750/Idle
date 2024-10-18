@@ -51,17 +51,32 @@
 .hpBar {
     background-color: grey;
     border: 1px solid black;
-    height: 20px;
+    height: 2vh;
     width: 95%; /* Full width as a container */
     position: relative;
     max-width: 100%;
-    
+      span {
+        position: absolute;
+        z-index: 1;
+      }
+      
   }
+
+  .shieldBar{
+    background-color: rgb(187, 187, 187);
+    width: 0;
+    min-width: 0%;
+    height: 100%;
+    transition: width 0.9s ease;
+    position: absolute;
+  }
+
   
   .hpFill {
     background-color: green;
     height: 100%;
     transition: width 0.9s ease;
+    min-width: 0%;
     position:absolute;
     
   }

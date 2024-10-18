@@ -26,8 +26,9 @@ export default class artifacts{
             const rStat = this.randomBaseStats[Math.floor(rng * this.randomBaseStats.length)];
             let rDigit  = rng * (0.3 - 0.01) + 0.01;
             
-            if (rng >= 0.5 || Number.isInteger(this.stats[rStat]) && rStat !== "baseCritDamage" && rStat !== "baseCritRate"){
+            if (rng >= 0.5 && Number.isInteger(this.stats[rStat]) && rStat !== "baseCritDamage" && rStat !== "baseCritRate"){
                 rDigit = Math.round(Math.floor(rng * (50 - 1 + 1)) + 1);
+              
             }
 
             if (this.stats[rStat] != undefined){

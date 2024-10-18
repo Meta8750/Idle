@@ -8,6 +8,7 @@
 
     p { 
         min-width: 0%;
+        width: 0;
         font-size: 1.3vh;
         margin: 5px 0px 5px 0px;
         height: 1.5vh;

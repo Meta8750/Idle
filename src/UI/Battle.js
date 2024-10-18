@@ -41,9 +41,11 @@ function Battle({ player, fight }) {
   const hpBar = (mon) => {
     return (
       <div className={styles.hpBar}>
+        <span>{mon.health}\{mon.stats.maxHealth} {mon.shield ? ` + ${mon.shield}` : ""}</span>
         <div className={styles.hpUnder} style={hpBarCalc(mon)}></div>
-        <div className={styles.hpFill} style={hpBarCalc(mon)}>{mon.health}\{mon.stats.maxHealth}</div>
-      </div>
+        <div className={styles.hpFill} style={hpBarCalc(mon)}></div>
+        <div className={styles.shieldBar} style={shieldBarCalc(mon)}></div>
+    </div>
     )
     
   }
@@ -67,7 +69,13 @@ function Battle({ player, fight }) {
   const ff = () => {
     fight.reset("lost")
   }
-
+  const shieldBarCalc = (mon) => {
+    if (mon.shield > 0){
+      return {
+        width:  `${(mon.shield / mon.stats.maxHealth) * 100}%`,
+      };
+    } 
+  }
   const hpBarCalc = (mon) => {
     let pWidth = `${(mon.health / mon.stats.maxHealth) * 100}%`;
     if (mon.health <= 0) {

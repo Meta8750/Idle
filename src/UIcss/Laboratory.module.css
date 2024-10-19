@@ -12,9 +12,11 @@
 }
 
 .attacks{
-
+    display: grid;
+  
     div{
         color: white;
+        
     
     }
     p{
@@ -23,18 +25,41 @@
     }
 }
 
+.funtions {
+    grid-area: buttons;
+    input {
+        background-color: black;
+        color: grey;
+       
+        width: 15vw;
+        height: 2vh;
+    }
+    bottom {
+        height: 2vh !important;
+        
+    }
+}
+
 .attackManager {
     grid-area: mon;
     display: grid;
     grid-template-areas: 
-    "monAttacks fusion inventory"
-    "monAttacks fusion inventory";
-    grid-template-rows: 0.1fr 1fr;
-    grid-template-columns: 1fr 0.4fr 1fr;
+    "buttons  buttons"
+    "monAttacks  inventory";
+    grid-template-rows: 4vh 1fr;
+    grid-template-columns:  0.4fr 1fr;
+   
 }
 
 .items{
     grid-area: inventory;
+    display: grid;
+    grid-template-rows: min-content  min-content min-content min-content min-content min-content min-content min-content;
+    grid-template-columns:  1fr 1fr 1fr ;
+    height: auto;
+
+  
+
 }
 
 .monAttacks{

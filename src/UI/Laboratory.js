@@ -15,9 +15,11 @@ function Laboratory({player}) {
     const [focusedMon, setFocusedMon] = useState();
     const [teamIndex, setTeamIndex] = useState();
     const [tab, setTab] = useState("monManager");
-    const [attack, setAttack] = useState([null, null])
+    const [fAttack, setFAttack] = useState([null, 5])
   
     const [newAttack, setNewAttack] = useState()
+
+    const [searchTerm, setSearchTerm] = useState('');
 
   
     const setFocus = (mon) => {
@@ -30,10 +32,12 @@ function Laboratory({player}) {
         setFocusedMon(null)
     }
     const extractAttack = (mon) => {
-        player.inventory.updateItem(attack[0])
-        player.deleteMon(mon.uid)
-        setAttack(null)
-        
+        if (fAttack[0] != null) {
+          player.inventory.updateItem(fAttack[0])
+          player.deleteMon(mon.uid)
+          setFAttack([null, 5])
+          setFocusedMon(null)
+        }
     }
     const tierUpgrade = (mon) => {
         mon.upgradeTier()
@@ -43,7 +47,7 @@ function Laboratory({player}) {
     }
 
     const applyNewAttack = () => {
-        focusedMon.attacks[attack[1]] = newAttack
+        focusedMon.attacks[fAttack[1]] = newAttack
     }
 
     const switchTab = (newTab) => {
@@ -69,16 +73,13 @@ function Laboratory({player}) {
                 
                 <div className={styles.attacks}>
                 {focusedMon.attacks.map((attack, attackIndex) => (
-                <div
-                    onClick={() => setAttack([attack, attackIndex])}
-                    className={styles.attacks}
-                    >
-                    {attack.name} {attack.currentCD > 0 ? attack.currentCD : ""} {attack.element}
+                <div  onClick={() => setFAttack([attack, attackIndex])}    className={fAttack[1]  === attackIndex ? "!border-red-500 border-s-8" : ""}>                   
+                     <AttackUI   attack={attack} />
                     </div> ))}
                 </div>
                 
                 </div>
-            
+             
             ) : (<p>none</p>)}
 
           </div>
@@ -86,18 +87,34 @@ function Laboratory({player}) {
             <div className={styles.monAttacks}>
             {focusedMon ? (
                   focusedMon.attacks.map((attack, attackIndex) => (
-                  <p
-                      onClick={() => setAttack([attack, attackIndex]) }
-                      className={styles.attacks}
-                      >
-                      {attack.name} {attack.currentCD > 0 ? attack.currentCD : ""} {attack.element}
-                      </p> ))) : (<p></p>)}
+                   
+                      <div onClick={() => setFAttack([attack, attackIndex])} className={fAttack[1]  === attackIndex ? "!border-red-500 border-s-8" : ""}>
+                           
+                        <AttackUI   attack={attack} />
+                      </div>
+                       ))) : (<p></p>)}
               </div>
-              <button onClick={() => applyNewAttack()} >apply</button>
+
+                <div className={styles.funtions}>
+                    <button onClick={() => applyNewAttack()} >apply</button>
+                
+                <input
+                  type="text"
+                  placeholder="Search items..."
+                  value={searchTerm}
+                  onChange={e => setSearchTerm(e.target.value)} // Setzt den Suchterm
+                />
+
+                <button onClick={() => setTab("monManager")}>X</button>
+                </div>
+                
+        
               <div className={styles.items}>
-                {player.inventory.getAttacks().map((item, index) => (
+                {player.inventory.filteredItems(searchTerm).map((item, index) => (
                   <div  className={styles.attacks} onClick={() => setNewAttack(item)}>
+                    <div  className={newAttack  === item ? "!border-red-500 border-s-8" : ""}>
                       <AttackUI attack={item} />
+                      </div>
                   </div>
                 ))}
               </div>

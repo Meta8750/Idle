@@ -53,6 +53,10 @@ export default class Inventory {
 
     }
 
+    filteredItems(searchTerm: string) {
+        return this.inventory.filter(item =>  item.name.toLowerCase().includes(searchTerm.toLowerCase()));
+      }
+
     adjustItem(item: Item, ammount: number){
         // reduce the Item quantity based on the ammount
         const existingItemIndex = this.inventory.findIndex(i => i.name === item.name)

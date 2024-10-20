@@ -55,6 +55,31 @@ function Laboratory({ player }) {
     setFocusedMon(null)
   }
 
+  const upgrade = (mon) => {
+    if (player.essence === 0){
+      alert("no essence")
+    }
+    if (player.essence >= mon.nextLevel) {
+        mon.exp += mon.nextLevel
+        player.essence -= mon.nextLevel
+    } else {
+      mon.exp += player.essence
+      player.essence = 0
+    }
+    
+    mon.levelProgess()
+  }
+
+  const expBar = (mon) => {
+    let pWidth = `${(mon.exp / mon.nextLevel) * 100}%`;
+    if (mon.exp <= 0) {
+      pWidth = '0%'
+    }
+    return {
+      width: pWidth,
+    };
+  }
+
 
   return (
     <div className={styles.MonManager}>
@@ -145,13 +170,19 @@ function Laboratory({ player }) {
             <div className={styles.mon}>
             <img class="w-28 h-28" alt={focusedMon.name} src={focusedMon.img}></img>
               <p>{focusedMon.level}</p>
+              <div className={styles.expBar}>
+                
+                <p className={styles.expBarFill} style={expBar(focusedMon)}>{focusedMon.exp}/{focusedMon.nextLevel}</p>
+              </div>
             </div>
+            
             <div className={styles.cost}>
               <p>{focusedMon.level}</p>
             </div>
+            
             <div className={styles.upgrade}>
               <p>{focusedMon.level}</p>
-              <button></button>
+              <button onClick={()=> upgrade(focusedMon)}>upgrade</button>
             </div>
       
       </div>

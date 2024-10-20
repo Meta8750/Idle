@@ -141,21 +141,21 @@ export const fetchDataById = async (id, table) => {
 }
 
 const newMon = {
-  name: "Voracity",
-  id: 20025,
+  name: "Healing Plants",
+  id: 20028,
   level: 1,
   type: "AP",
-  element: "Dark",
-  baseDMG: 50,
-  adScaling: 0.5,
+  element: "Plant",
+  baseDMG: 5,
+  adScaling: 0,
   apScaling: 0.5,
   manaCost: 10,
   armorPen:0,
   mrPen:0,
-  heal: false,
-  aoe:true,
-  cd: 2,
-  passive: 50003,
+  heal: true,
+  aoe: true,
+ 
+
   
 }
 

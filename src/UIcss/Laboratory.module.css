@@ -4,7 +4,7 @@
     "mon focusedMon"
     "mon funktions";
     grid-template-rows: 1fr 1fr;
-    grid-template-columns: 1fr 0.4fr;
+    grid-template-columns: 1fr 0.3fr;
 }
 
 .stats{
@@ -15,8 +15,8 @@
     display: grid;
   
     div{
-        color: white;
-        
+        color: rgba(130, 100, 100, 0.5);
+        color: #693434;
     
     }
     p{
@@ -39,6 +39,36 @@
         
     }
 }
+
+/* levelManager */
+
+
+.levelManager {
+    grid-area: mon;
+    display: grid;
+    grid-template-areas: 
+    "cost  mon NA"
+    "cost upgrade NA";
+    grid-template-rows: 1fr 1fr ;
+    grid-template-columns:  1fr 1fr 1fr;
+   
+}
+
+.mon {
+    grid-area: mon;
+}
+
+.cost {
+    grid-area: cost;
+}
+
+.upgrade {
+    grid-area: upgrade;
+}
+
+
+
+/* attackManager */
 
 .attackManager {
     grid-area: mon;
@@ -65,6 +95,9 @@
 .monAttacks{
     grid-area: monAttacks;
 }
+
+
+/* monManager */
 
 .focusedBox{
     border: solid 1px red ;

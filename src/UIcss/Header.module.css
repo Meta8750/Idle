@@ -9,6 +9,13 @@
 .p {
     padding: 0px;
     margin: 0px;
+   
+}
+
+.dataBar{
+    display: flex;
+    justify-content: space-between;
+
 }
 
 .progessInfo {

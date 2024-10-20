@@ -33,11 +33,13 @@ class Player {
     team: any[];
     section: number;
     zone: number;
+    name: string;
     
     constructor() {
         
         this.inventory = new Inventory();
         this.dex = new dex();
+        this.name = 'Meta';
         this.score = 0;
         this.level = 1;
         this.coins = 100;

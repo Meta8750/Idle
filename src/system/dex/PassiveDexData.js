@@ -76,8 +76,7 @@ export const passiveData = [
     {
         id:50006,
         effect: (mon, phase, defender) => {
-           
-               if (mon.alive === false && mon.id === 10115){
+               if (mon.alive === false && mon.id === 10115 && phase === "End phase"){
                 mon.alive = true
                 mon.img = `/animon/10116.gif`
                 mon.stats.maxHealth *= 1.3

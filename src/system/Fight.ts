@@ -144,10 +144,10 @@ enemyAi = () => {
     this.currentAttack = this.currentAttacker.attacks[Math.floor(Math.random() * 3)];
     let aliveTeam = this.team.filter(unit => unit.alive)
     
-    if (aliveTeam.filter(mon => mon.aggro === true).length > 0){
-        aliveTeam = aliveTeam.filter(mon => mon.aggro === true)
+    if (aliveTeam.filter(mon => mon.aggro).length > 0){
+        aliveTeam = aliveTeam.filter(mon => mon.aggro)
     }
-    
+   
     this.attackTarget = aliveTeam[Math.floor(Math.random() * aliveTeam.length)];
     this.battleLogs.push(`${this.currentAttacker.name} uses ${ this.currentAttack.name} and dealt ${this.currentAttacker.calculateDmg( this.currentAttack, this.currentAttacker, this.attackTarget)}`)
     this.battleState = "End phase"
@@ -242,9 +242,7 @@ advanceTurn = () => {
 }
 
     checkAndAdvanceBatch = () => {
-        this.drop = this.getDropRarity()   
-        this.player.inventory.updateItem(Dex.generate(this.drop.dropID)) //this.drop for postScreen  
-                 
+        
         if (!this.arena || !this.arena.enemys) return;
         let allDefeated = this.currentBatch.every(enemy => !enemy.alive);
         if (allDefeated) {
@@ -258,17 +256,17 @@ advanceTurn = () => {
                 this.currentAttackerIndex = 0;
                 this.currentAttacker = this.attackOrder[this.currentAttackerIndex];
             } else {
-            
-            // code below if player win the battle
-            this.drop = this.getDropRarity()   
-            this.player.inventory.updateItem(Dex.generate(this.drop.dropID)) //this.drop for postScreen  
-            this.player.team.map((mon) =>{
-                
-                mon.exp += this.drop.exp
-                mon.levelProgess()
-                
-            })
-            
+            if (this.result === "won"){
+                 // code below if player win the battle
+                this.drop = this.getDropRarity()   
+                this.player.inventory.updateItem(Dex.generate(this.drop.dropID)) //this.drop for postScreen  
+                this.player.team.map((mon) =>{
+                    mon.exp += this.drop.exp
+                    mon.levelProgess()
+                    
+                })
+            }
+           
             this.reset("won")
             if (this.type === "Story"){
                 this.player.coins += 100

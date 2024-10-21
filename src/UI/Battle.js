@@ -199,7 +199,7 @@ function Battle({ player, fight }) {
 
   return (
     <div>
-      <div>
+      <div className={fight.state === "Combat" ? "": "hidden"}>
         <button onClick={() => autoBattler()}>Auto Battle</button>
         <button onClick={() => ff()}>FF</button>
         <button onClick={() => setBattleLog(true)}>Battelog</button>

@@ -78,6 +78,7 @@ export default class Animon {
     status:{};
     ally: boolean;
     heal:number;
+    stunned: boolean;
     aggro: boolean;
     immune: boolean;
     boss: boolean;
@@ -239,10 +240,14 @@ export default class Animon {
                 if (status === "aggro"){
                     this.aggro = true
                 }
+                if (status === "stunned"){
+                    this.stunned = true
+                }
                 this.status[status] -= 1;
                 // Entferne den Status, wenn die Dauer 0 erreicht hat
                 if (this.status[status] <= 0) {
                     if (status === "aggro"){ this.aggro = false }
+                    if (status === "stunned"){ this.stunned = false }
                     delete this.status[status];
                 }
             }

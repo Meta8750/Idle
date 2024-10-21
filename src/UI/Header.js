@@ -17,7 +17,7 @@ function Header({player}) {
             <div className={styles.dataBar}>
                 <p>{player.name} Lv. {player.level}</p>
                 <p className={styles.p}>{player.getActiveTab()}</p>
-                <p>coins: {player.coins} | essence: {player.essence} | gems: {player.gems} </p>
+                <p>coins: {player.coins} | essence: {player.essence} <img src="/icons/symbols/be.png"></img> | gems: {player.gems} </p>
             </div>
             <div className={styles.ProgressBar}>
                 <i style={progressBarStyle} className={styles.i}></i>

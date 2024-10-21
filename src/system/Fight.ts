@@ -93,7 +93,7 @@ reset(result: string): void{
 checkPassive(){
     
     if (this.currentAttack != null){
-        if (this.currentAttack.passive){
+        if (this.currentAttack.passive ){
             this.currentAttack.passive.effect(this.currentAttacker, this.battleState, this.attackTarget)
         } 
         
@@ -101,6 +101,17 @@ checkPassive(){
     if (this.currentAttacker != null){
         if (this.currentAttacker.passive){
             this.currentAttacker.passive.effect(this.currentAttacker,  this.battleState, this.attackTarget)
+        }
+    }
+    if (this.attackTarget != null){
+        if (this.attackTarget.passive ){
+            this.attackTarget.passive.effect(this.attackTarget, this.battleState, this.currentAttacker)
+        } 
+        
+    }
+    if (this.attackTarget != null){
+        if (this.attackTarget.passive){
+            this.attackTarget.passive.effect(this.attackTarget,  this.battleState, this.currentAttacker)
         }
     }
     
@@ -137,8 +148,8 @@ enemyAi = () => {
         aliveTeam = aliveTeam.filter(mon => mon.aggro === true)
     }
     
-    const target = aliveTeam[Math.floor(Math.random() * aliveTeam.length)];
-    this.battleLogs.push(`${this.currentAttacker.name} uses ${ this.currentAttack.name} and dealt ${this.currentAttacker.calculateDmg( this.currentAttack, this.currentAttacker, target)}`)
+    this.attackTarget = aliveTeam[Math.floor(Math.random() * aliveTeam.length)];
+    this.battleLogs.push(`${this.currentAttacker.name} uses ${ this.currentAttack.name} and dealt ${this.currentAttacker.calculateDmg( this.currentAttack, this.currentAttacker, this.attackTarget)}`)
     this.battleState = "End phase"
     this.checkPassive()
     this.attackOrder = [...this.attackOrder].sort((a, b) => b.stats.baseMS - a.stats.baseMS);
@@ -208,6 +219,9 @@ advanceTurn = () => {
             this.currentAttackerIndex = nextIndex
             this.currentAttacker = this.attackOrder[this.currentAttackerIndex];
             this.currentAttacker.calcStatus()
+            if (this.currentAttacker.stunned === true){
+                this.advanceTurn()
+            }
         }
         
         if (this.currentAttacker && this.arena && this.arena.enemys.flat().includes(this.currentAttacker)) {
@@ -223,7 +237,7 @@ advanceTurn = () => {
         this.battleState = "Main Phase"
         this.checkPassive()
         
-    }, 1100)
+    }, 1000)
     
 }
 

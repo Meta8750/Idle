@@ -141,27 +141,43 @@ export const fetchDataById = async (id, table) => {
 }
 
 const newMon = {
-  name: "Healing Plants",
-  id: 20028,
+  name: "Largon Unleashed",
+  id: 10117,
   level: 1,
-  type: "AP",
-  element: "Plant",
-  baseDMG: 5,
-  adScaling: 0,
-  apScaling: 0.5,
-  manaCost: 10,
-  armorPen:0,
-  mrPen:0,
-  heal: true,
-  aoe: true,
- 
+  rarity: "SSR",
+  tier: 4,
+  type: "Fire",
+  role: "DD",  
+  stats: {
+    maxHealth: 300,
+    baseAD: 30,
+    baseAP: 0,
+    baseArmour: 2,
+    baseMR: 2,
+    baseMS: 400,  
+    baseCritRate: 1.0,
+    baseCritDamage: 1.5,
+    armourPen: 0.5,
+    currentHealthDmg: 0.1,
+  },
+  ADGrowth: 5,
+  APGrowth: 0,
+  healthGrowth: 10,
+  armourGrowth: 1,
+  MRGrowth: 1,
+  MSGrowth: 5,
+  lifeSteal: 0.3,
+  statusChance: 0.3,
+  attacks: [20033, 20031, 20034, 20035],
+  passiveID: 50006,
+  
 
   
 }
 
   const addMonToFirestore = async () => {
     try {
-      const docRef = await addDoc(collection(db, "AttackDex"), newMon);
+      const docRef = await addDoc(collection(db, "MonDex"), newMon);
       console.log("Document written with ID: ", docRef.id);
     } catch (e) {
       console.error("Error adding document: ", e);
@@ -175,7 +191,7 @@ const newMon = {
   level: 1,
   rarity: "common",
   tier: 1,
-  type: "Fire",
+  element: "Fire",
   role: "DD",  
   stats: {
     maxHealth: 100,
@@ -186,11 +202,6 @@ const newMon = {
     baseMS: 300,  
     baseCritRate: 0.05,
     baseCritDamage: 0.2,
-    maxMana: 100,
-    armourPen: 0,
-    mrPen: 0,
-    maxHealthDmg: 0,
-    currentHealthDmg: 0,
   },
   ADGrowth: 1.5,
   APGrowth: 0.5,

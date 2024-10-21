@@ -16,9 +16,7 @@ function Laboratory({ player }) {
   const [teamIndex, setTeamIndex] = useState();
   const [tab, setTab] = useState("monManager");
   const [fAttack, setFAttack] = useState([null, 5])
-
   const [newAttack, setNewAttack] = useState()
-
   const [searchTerm, setSearchTerm] = useState('');
 
 
@@ -59,6 +57,9 @@ function Laboratory({ player }) {
     if (player.essence === 0){
       alert("no essence")
     }
+    if (mon.exp >= mon.nextLevel || mon.level >= mon.maxLevel){
+      return
+    }
     if (player.essence >= mon.nextLevel) {
         mon.exp += mon.nextLevel
         player.essence -= mon.nextLevel
@@ -66,8 +67,8 @@ function Laboratory({ player }) {
       mon.exp += player.essence
       player.essence = 0
     }
-    
     mon.levelProgess()
+    
   }
 
   const expBar = (mon) => {
@@ -109,42 +110,6 @@ function Laboratory({ player }) {
         ) : (<p>none</p>)}
 
       </div>
-      <div className={`${styles.attackManager} ${tab === "attackManager" ? "" : "!hidden"}`}>
-        <div className={styles.monAttacks}>
-          {focusedMon ? (
-            focusedMon.attacks.map((attack, attackIndex) => (
-
-              <div onClick={() => setFAttack([attack, attackIndex])} className={fAttack[1] === attackIndex ? "!border-red-500 border-s-8" : ""}>
-
-                <AttackUI attack={attack} />
-              </div>
-            ))) : (<p></p>)}
-        </div>
-
-        <div className={styles.funtions}>
-          <button onClick={() => applyNewAttack()} >apply</button>
-
-          <input
-            type="text"
-            placeholder="Search items..."
-            value={searchTerm}
-            onChange={e => setSearchTerm(e.target.value)} // Setzt den Suchterm
-          />
-
-          <button onClick={() => setTab("monManager")}>X</button>
-        </div>
-
-
-        <div className={styles.items}>
-          {player.inventory.filteredItems(searchTerm).map((item, index) => (
-            <div className={styles.attacks} onClick={() => setNewAttack(item)}>
-              <div className={newAttack === item ? "!border-red-500 border-s-8" : ""}>
-                <AttackUI attack={item} />
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
 
       <div className={`${styles.box} ${tab === "monManager" ? "" : "!hidden"}`}>
         {player.getMons() ? (
@@ -164,17 +129,20 @@ function Laboratory({ player }) {
           ))
         ) : (<p>none</p>)}
       </div>
+
       {focusedMon ? (
         <div className={`${styles.levelManager} ${tab === "levelManager" ? "" : "!hidden"}`}>
           
             <div className={styles.mon}>
-            <img class="w-28 h-28" alt={focusedMon.name} src={focusedMon.img}></img>
+            <img class="w-35 h-35" alt={focusedMon.name} src={focusedMon.img}></img>
               <p>{focusedMon.level}</p>
               <div className={styles.expBar}>
                 
                 <p className={styles.expBarFill} style={expBar(focusedMon)}>{focusedMon.exp}/{focusedMon.nextLevel}</p>
               </div>
             </div>
+
+            <button className="" onClick={()=> setTab("monManager")}>X</button>
             
             <div className={styles.cost}>
               <p>{focusedMon.level}</p>
@@ -187,6 +155,47 @@ function Laboratory({ player }) {
       
       </div>
     ) : (<p></p>)}
+
+      <div className={`${styles.attackManager} ${tab === "attackManager" ? "" : "!hidden"}`}>
+        <div className={styles.monAttacks}>
+          {focusedMon ? (
+            focusedMon.attacks.map((attack, attackIndex) => (
+
+              <div onClick={() => setFAttack([attack, attackIndex])} className={fAttack[1] === attackIndex ? "!border-red-500 border-s-8" : ""}>
+
+                <AttackUI attack={attack} />
+              </div>
+            ))) : (<p></p>)}
+        </div>
+
+        <div className={styles.funtions}>
+          <button className="m-1" onClick={() => setTab("monManager")}>X</button>
+          <button onClick={() => applyNewAttack()} >apply</button>
+         
+
+          <input
+            type="text"
+            placeholder="Search items..."
+            value={searchTerm}
+            onChange={e => setSearchTerm(e.target.value)} // Setzt den Suchterm
+          />
+
+        
+        </div>
+
+
+        <div className={styles.items}>
+          {player.inventory.filteredItems(searchTerm).map((item, index) => (
+            <div className={styles.attacks} onClick={() => setNewAttack(item)}>
+              <div className={newAttack === item ? "!border-red-500 border-s-8" : ""}>
+                <AttackUI attack={item} />
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+     
     </div>
   )
 }

@@ -44,7 +44,7 @@ class Player {
         this.level = 1;
         this.coins = 100;
         this.gems = 100;
-        this.essence = 1000;
+        this.essence = 9999999 * 9999999;
         this.health = 100;
         // exp muliplicatoren
         // global stats buffs

@@ -91,6 +91,7 @@ export default class Animon {
     nextTier: number;
     tier: number;
     reqCells:number;
+    statusChance: number;
     equipment: {
         chain: any,
         ring: any,
@@ -176,6 +177,7 @@ export default class Animon {
         this.ADReduction = this.calculateDmgReduction(this.stats.baseArmour)
         this.APReduction = this.calculateDmgReduction(this.stats.baseMR)
         this.reqCells += 5
+        this.maxLevel += 5
     }
     
     levelProgess(level? : number) :void{
@@ -184,6 +186,7 @@ export default class Animon {
         if (!level){
             level = 1
         }
+       
         if (this.level <= this.maxLevel){
             if (this.exp >= this.nextLevel){
                 this.level++
@@ -208,9 +211,6 @@ export default class Animon {
     }
     ammountForNextTier(){
         let cells = 5
-        
-
-
         return cells
     }
 
@@ -233,7 +233,8 @@ export default class Animon {
                     this.health -= this.stats.maxHealth * 0.95
                 }
                 if (status === "burning"){
-                    
+                    this.stats.baseArmour *= 0.9
+                    this.stats.baseMR *= 0.9
                 }
                 if (status === "aggro"){
                     this.aggro = true
@@ -271,15 +272,16 @@ export default class Animon {
        
         if (attack.status){
             for (const status in attack.status){
-                if (rng <= 0.5){
+                if (rng <= this.statusChance){
                     defender.status[status] = attack.status[status]; 
                 }
             }
         }
 
-        this.dmg = attack.baseDMG + (attacker.stats.baseAD * attack.adScaling) 
-        
-        this.dmg += (attacker.stats.baseAP  * attack.apScaling)
+        this.dmg = attack.baseDMG + (attacker.stats.baseAD * attack.adScaling  || 0) 
+        this.dmg += (attacker.stats.baseAP  * attack.apScaling  || 0)
+        this.dmg += (attacker.stats.baseArmour * attack.armourScaling || 0)
+        this.dmg += (attacker.stats.baseMR * attack.MRScaling  || 0)
         
         if(attack.heal){
             this.dmg = Math.round(this.dmg)
@@ -289,13 +291,13 @@ export default class Animon {
         }
         
         if (attack.type == "AD"){
-            let reduceDmg = this.calculateDmgReduction(defender.stats.baseArmour - (this.stats.armourPen *  defender.stats.baseArmour)) / 100
+            let reduceDmg = this.calculateDmgReduction(defender.stats.baseArmour - (this.stats.armourPen  || 0 *  defender.stats.baseArmour)) / 100
             this.dmg = this.dmg - ( reduceDmg * this.dmg )
            
         }
         
         if (attack.type == "AP"){
-            let reduceDmg = this.calculateDmgReduction( defender.stats.baseMR  - (this.stats.mrPen * defender.stats.baseMR)) / 100
+            let reduceDmg = this.calculateDmgReduction( defender.stats.baseMR  - (this.stats.mrPen  || 0 * defender.stats.baseMR)) / 100
 
             this.dmg = this.dmg - ( reduceDmg * this.dmg )
         }   
@@ -304,12 +306,12 @@ export default class Animon {
              this.dmg *= (attacker.stats.baseCritDamage)
              this.attackCritted = true
         }
-        if (attack.maxHealthDmg){
-             this.dmg += defender.stats.maxHealth * attack.maxHealthDmg
-        }
-        if (attack.currentHealthDmg){
-            this.dmg += defender.health * attack.currentHealthDmg    
-        }
+      
+             this.dmg += defender.stats.maxHealth * attack.maxHealthDmg  || 0
+        
+   
+            this.dmg += defender.health * attack.currentHealthDmg  || 0    
+        
         
         this.elementMultiplier = this.getEffectiveness(attack.element, defender.element)
         this.dmg *= this.elementMultiplier

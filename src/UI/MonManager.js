@@ -22,6 +22,7 @@ function MonManager({player}) {
     player.setMons(10044)
     player.setMons(10074)
     player.setMons(10095)
+    player.setMons(10115)
 
    }
    const test2 = () => {
@@ -79,14 +80,13 @@ function MonManager({player}) {
             ) : (<p>none</p>)}
 
           </div>
-          
           <div className={styles.box}>
             {player.getMons() ? (
                 player.getMons().map((mon, index) => (
                   <div onClick={() => setFocus(mon)} className={styles.boxSlot}>
                       <header>
                         <img className="!w-10 h-10" src={`/icons/element/${mon.element}.png`}></img>
-                        <h1> Lv. {mon.level}00</h1>
+                        <h1> Lv. {mon.level}</h1>
                       </header>
                       <i className={player.team.some(teamMon => teamMon.uid === mon.uid) ? "" : "hidden"}>
                         deployed
@@ -94,10 +94,6 @@ function MonManager({player}) {
                       <img class="w-32 h-32" alt ={mon.name}src={mon.img}></img>
                       <span><ItemStars num={mon.tier}/></span>
                         <p>{mon.name} {mon.role}</p>
-                       
-                      
-                    
-                      
                   </div>    
               ))
             ) : (<p>none</p>)}

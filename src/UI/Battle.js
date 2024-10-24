@@ -57,7 +57,7 @@ function Battle({ player, fight }) {
   
 
   const playAgain = () => {
-    fight.startFight(player, fight.lastFight.enemyList, fight.lastFight.dropID)
+    fight.startFight(player, fight.lastFight.enemyList, fight.lastFight.dropID, fight.lastFight.lv)
 
   }
 

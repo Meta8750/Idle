@@ -42,9 +42,9 @@ export default class Fight{
 
     
 
-startFight = async (player: any, batch: number[],drop: number) => {
+startFight = async (player: any, batch: number[],drop: number, lv?: number) => {
         
-    this.arena = new Arena(batch,drop);
+    this.arena = new Arena(batch,drop, lv);
     this.arena.genEnemys();
     this.player = player
 
@@ -61,7 +61,6 @@ startFight = async (player: any, batch: number[],drop: number) => {
     this.attacker = null;
     this.attackTarget = this.attackOrder[this.currentAttackerIndex]; //just to fill
     this.currentAttacker = this.attackOrder[this.currentAttackerIndex];
-
     this.round = 0;
     this.state = "Combat"
     this.battleState = "battle start"
@@ -71,6 +70,26 @@ startFight = async (player: any, batch: number[],drop: number) => {
     this.battleLogs = [];
     this.battleLogs.push("Battle Started");
     this.advanceTurn()
+
+    if(lv){
+        if (this.type === "Raid") {
+            this.currentBatch[1].boss = true;
+        }
+        for(const enemy of  this.currentBatch){
+            enemy.level = lv - 1
+
+            if (enemy.level != 1){
+                enemy.exp = enemy.nextLevel 
+                enemy.levelProgess(enemy.level)
+            }
+            if (enemy.boss === true){
+                console.log(enemy)
+                enemy.stats.maxHealth *= 10
+                enemy.health = enemy.stats.maxHealth
+            }
+        }
+        
+    }
 }
 
 
@@ -336,14 +355,16 @@ expDrop: number
 enemyMons: any
 drop: any;
 dropID:number;
+number: number;
 
-constructor(enemyList: number[], id: number) {
+constructor(enemyList: number[], id: number, lv?:number) {
     this.dropID = id;
     this.dex = new dex();
     this.enemyList = enemyList || [[10000,10000,10000],[10000,10001,10000]]
     this.enemys = []
     this.enemyStageList = []
     this.drop =  this.dex.generate(id)
+    this.lv = lv
     
 }
 genEnemys(){

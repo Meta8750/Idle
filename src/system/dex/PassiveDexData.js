@@ -103,7 +103,7 @@ export const passiveData = [
         id:50008,
         effect: (mon, phase, defender) => {
             if(phase === "End phase"){
-                mon.shield += defender.health * 0.05
+                mon.shield += mon.stats.baseAD * 0.1
             }
         }
     },

@@ -1,10 +1,12 @@
 .sidebar{
-    color: white;
+    background: Linear-gradient(45deg, rgb(19, 19, 19), #4705a4b0 );
     text-align: left;
     align-items: left;
     height:96vh;
     transition: 2s;
     padding: 15px;
+    color: white;
+    font-size: 1.2em;
 
 }
 .list {
@@ -17,21 +19,22 @@
     li {
         text-decoration: none;
         width: 100%;
-        background-color: rgb(0, 0, 0);
-        border-top: solid 1px black;
-        padding: 10px 0px 10px 0px;
-        border-top: 1.5px solid gray;
-        border-bottom: 1px solid gray;
-
+        padding: 10px 0px 10px 10%;
+        margin: 5px 0px 5px 0px;
+     
     }
     
     li:hover {
-        background-color: rgb(97, 97, 97);
+        background-color: rgb(53, 76, 87);
+        color: white;
+        border-radius: 10px;
     }
 
     li.active {
-        background-color: #262626;
-            color: white;
+        background-color: rgb(0, 174, 255);
+        color: white;
+        border-radius: 10px;
+        
     }
     
 

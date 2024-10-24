@@ -181,7 +181,17 @@
   font-size: 25px;
   animation: fadeOut 2s forwards; /* Fading out over 1 second */
   z-index: 10;
-  padding-left: 1%;
+  padding-left: 2%;
+  display: flex;
+  align-items: center;
+  width: min-content;
+  height: min-content;
+  
+
+  img{
+    margin-left: -24%;
+    height: 36px;
+  }
   
 }
 

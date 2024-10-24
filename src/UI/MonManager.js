@@ -23,7 +23,7 @@ function MonManager({player}) {
     player.setMons(10074)
     player.setMons(10095)
     player.setMons(10115)
-
+    player.setMons(10117)
    }
    const test2 = () => {
   
@@ -50,8 +50,8 @@ function MonManager({player}) {
         <p className={tab === "item"  ? 'block' : ' hidden'} ><ItemManager player={player} mon={focusedMon} setTab={setTab}/></p>
           <div  className={tab === "mon" ? styles.MonManager : ' hidden'}>
           <div className={styles.team}>
-            <button class="" onClick={() => test()}></button>
-            <button class="" onClick={() => test2()}></button>
+          <button class="" onClick={() => test()}></button>
+          <button class="" onClick={() => test2()}></button>
               {player.getTeam() ? (
                 player.getTeam().map((mon, index) => (
                   

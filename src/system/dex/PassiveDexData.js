@@ -91,6 +91,64 @@ export const passiveData = [
             }
         }
     },
+    {
+        id:50007,
+        effect: (mon, phase, defender) => {
+            if ((defender.status.burning || 0) > 0 ){
+                defender.health -= mon.dmg / 0.3
+             }
+        }
+    },
+    {
+        id:50008,
+        effect: (mon, phase, defender) => {
+            if(phase === "End phase"){
+                mon.shield += defender.health *= 0.05
+            }
+        }
+    },
+    {
+        id:50009,
+        effect: (mon, phase, defender) => {
+            if(phase === "End phase"){
+                mon.stats.baseAD += 30
+            }
+           
+        }
+    },
+    {
+        id:50010,
+        effect: (mon, phase, defender) => {
+            if ((defender.status.burning || 0) > 0 ){
+                defender.health -= mon.dmg 
+            }  
+        }
+    },
+
+    {
+        id:50011,
+        effect: (mon, phase, defender) => {
+            if (mon.kills > 0 && mon.id === 10117 && phase === "End phase"){
+                mon.alive = true
+                mon.img = `/animon/10118.gif`
+                mon.stats.maxHealth += 100
+                mon.health = mon.stats.maxHealth
+                mon.stats.baseArmour += 20
+                mon.stats.baseMR += 20
+                mon.stats.baseAP -= mon.stats.baseAD
+                mon.stats.baseAD += mon.stats.baseAP
+                mon.lifeSteal += 0.1
+                mon.id++
+                mon.element = "Fire"
+                mon.attacks.push()
+                mon.kills = 0
+            }
+            if (mon.kills > 0){
+                mon.stats.baseAD *= 1.3
+                mon.kills--
+            }
+        }
+    },
     
 ]
 

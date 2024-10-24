@@ -1,10 +1,9 @@
 import React from "react";
 import { useState, useEffect } from "react";
 import styles from '../UIcss/Battle.module.css'
-import Monstats from './MonStats.js'
-import Fight from "../system/Fight.ts";
 import StatusEffect from "./components/StatusEffects.tsx";
 import FightStats from "./components/FightStats.tsx"
+import Statscomp from "./components/Statscomp.tsx"
 
 const battleLogs = []
 
@@ -24,15 +23,20 @@ function Battle({ player, fight }) {
   }
 
   const digitUI = (mon) => {
-    if (fight.dmgTracker[mon.uid]){
+    let filteredDmg = fight.dmgTracker.filter(dmg => dmg.monUID === mon.uid);
+
+    if (filteredDmg.length > 0){
+      console.log()
+      let num = filteredDmg[0].damage
       return (
         <div className={`
         ${styles.damageIndicator}
-        ${fight.dmgTracker[mon.uid] > 0 ? "!text-green-400" : ""}
+        ${num > 0 ? "!text-green-400" : ""}
         ${fight.currentAttacker.elementMultiplier === 1.5 ? "!text-2xl !text-red-300" : ""}
-         ${fight.currentAttacker.elementMultiplier === 0.5 ? "!text-2xl !text-gray-400" : ""}
-        ${fight.currentAttacker.attackCritted ? "!text-3xl !text-red-600" : ""}`}>
-        {Math.round(fight.dmgTracker[mon.uid])}
+        ${fight.currentAttacker.elementMultiplier === 0.5 ? "!text-2xl !text-gray-400" : ""}
+        ${fight.currentAttacker.attackCritted ? "!text-xl !text-red-600"  : ""}`}>
+           {num}
+          <img className={fight.currentAttacker.attackCritted ? "" : "hidden"} src="/icons/symbols/Crit.png"></img>
       </div>
       )
     }
@@ -64,6 +68,9 @@ function Battle({ player, fight }) {
       fight.autoBattle = true
       fight.advanceTurn()
     }
+  }
+  const showDetails = () => {
+
   }
 
   const ff = () => {
@@ -203,7 +210,9 @@ function Battle({ player, fight }) {
         <button onClick={() => autoBattler()}>Auto Battle</button>
         <button onClick={() => ff()}>FF</button>
         <button onClick={() => setBattleLog(true)}>Battelog</button>
+        <button onClick={() => showDetails()}>Details</button>
       </div>
+      
       {fight.arena ? (
         <div className={styles.arena}>
           <div className={styles.enemyContainer}>
@@ -218,7 +227,7 @@ function Battle({ player, fight }) {
               <FightStats mon={mon} stats={fight.getHighestStats()}/>
           ))) : (<p></p>)}
         </div>
-        <p>Round: {fight.round}</p>
+        <p>Round: {fight.round}  Wave: {fight.currentBatchIndex + 1}/{fight.arena.enemys.length}</p>
           <div class={styles.order}>{fight.attackOrder.map((mon, index) => (
             <span className={`${styles.orderTab} ${fight.attackOrder[fight.currentAttackerIndex] === mon ? styles.activeOrder : ""} ${fight.attackTarget === mon ? styles.target : ""}`}>
               {mon.ally ? (<i></i>) : ""} {mon.name}
@@ -237,7 +246,12 @@ function Battle({ player, fight }) {
         <p>No current Battle</p>
       )}
       
-      
+      {fight.attackTarget && fight.attackTarget != "none" ? (<div>
+        
+        <Statscomp mon={fight.attackTarget} prev={}/>
+
+
+      </div>) : (<p></p>)}
 
       <div className={fight.result === "won" || fight.result === "lost" ? styles.visible : styles.hidden}>
         <p>{fight.result}</p>

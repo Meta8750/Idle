@@ -14,11 +14,17 @@
     grid-area: "team";
     display:flex;
     align-items: flex-start;
-    background: Linear-gradient(45deg, grey, #000001 );
+    background: Linear-gradient(45deg, rgb(8, 172, 186), #4705a4b0 );
     margin-bottom: 10px;
+    padding: 0px 2vw 0px 2vw;
+    
+    img {
+        
+    }
 
     div {
         padding: 0px 15px 0px 15px;
+        width: 100%;
     }
     
 }

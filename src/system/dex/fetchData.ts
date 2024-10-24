@@ -141,13 +141,14 @@ export const fetchDataById = async (id, table) => {
 }
 
 const newMon = {
-  name: "Largon Unleashed",
+  name: "Slave Azel",
   id: 10117,
   level: 1,
   rarity: "SSR",
   tier: 4,
   type: "Fire",
   role: "DD",  
+  
   stats: {
     maxHealth: 300,
     baseAD: 30,
@@ -166,11 +167,10 @@ const newMon = {
   armourGrowth: 1,
   MRGrowth: 1,
   MSGrowth: 5,
-  lifeSteal: 0.3,
-  statusChance: 0.3,
-  attacks: [20033, 20031, 20034, 20035],
-  passiveID: 50006,
-  
+  lifeSteal: 0.0,
+  statusChance: 0.2,
+  attacks: [20037, 20038, 20039, 20040],
+  passiveID: 50011,
 
   
 }
@@ -213,6 +213,9 @@ const newMon = {
   lifeSteal: 0.0,
   statusChance: 0.5,
   attacks: [21000, 21000, 21000, 20000],
+  
+  
+  
 
    name: "Ammagedon",
   id: 20999,

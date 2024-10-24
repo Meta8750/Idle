@@ -35,7 +35,7 @@ export default class Fight{
         this.state = "outOfCombat"
         this.dmgAmount = 0;
         this.autoBattle = false;
-        this.dmgTracker = {};
+        this.dmgTracker = [];
         this.type = "unknown";
         this.currentAttack = null;
     }
@@ -300,13 +300,7 @@ advanceTurn = () => {
         }
         
     }
-    updateDamage(monId, damageAmount) {
-        this.dmgTracker = {
-            ...this.dmgTracker,
-            [monId]: damageAmount}
-        setTimeout(() => {this.dmgTracker = {[monId]: null}},1500)
-            
-    }
+  
     getHighestStats() {
         let highestStats: any = []
         if (this.team){} else {return}
@@ -316,6 +310,18 @@ advanceTurn = () => {
         highestStats.push(this.team.filter(mon => mon.healingDone >= 0).sort((a, b) => b.healingDone - a.healingDone)[0].healingDone);
         
         return highestStats; 
+    }
+
+    updateDamage(monId, damageAmount) {
+        setTimeout(() => {
+            this.dmgTracker.push({monUID: monId, damage: damageAmount, id: Date.now() });
+        }, 1)
+        
+      
+        setTimeout(() => {
+            this.dmgTracker.filter(num => num.id !== Date.now())
+        },3000)
+            
     }
 
     };

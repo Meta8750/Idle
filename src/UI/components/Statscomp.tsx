@@ -1,6 +1,7 @@
 import React from "react";
 
 function Statscomp({mon}){
+    
     return(
         <div>
             <p className="text-white">  Level: {mon.level}/{mon.maxLevel}</p>

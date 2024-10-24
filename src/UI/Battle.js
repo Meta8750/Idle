@@ -4,6 +4,7 @@ import styles from '../UIcss/Battle.module.css'
 import StatusEffect from "./components/StatusEffects.tsx";
 import FightStats from "./components/FightStats.tsx"
 import Statscomp from "./components/Statscomp.tsx"
+import {monData} from "../system/dex/fetchData.ts"
 
 const battleLogs = []
 
@@ -248,7 +249,7 @@ function Battle({ player, fight }) {
       
       {fight.attackTarget && fight.attackTarget != "none" ? (<div>
         
-        <Statscomp mon={fight.attackTarget} prev={}/>
+        <Statscomp mon={fight.attackTarget} prev={monData.filter(mon => mon.id === fight.attackTarget.id)[0]}/>
 
 
       </div>) : (<p></p>)}

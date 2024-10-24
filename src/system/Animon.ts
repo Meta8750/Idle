@@ -106,13 +106,13 @@ export default class Animon {
 
         this.maxLevel = 100
         this.stats = {
-            maxMana:    monData.stats.maxMana + (this.manaGrowth * this.level),
-            maxHealth:  monData.stats.maxHealth + (this.healthGrowth * this.level),
-            baseAD:     monData.stats.baseAD + (this.ADGrowth * this.level),
-            baseAP:     monData.stats.baseAP + (this.APGrowth * this.level),
-            baseArmour: monData.stats.baseArmour + (this.armourGrowth * this.level),
-            baseMR:     monData.stats.baseMR + (this.MRGrowth * this.level),
-            baseMS:     monData.stats.baseMS + (this.MSGrowth * this.level),
+            maxMana:    monData.stats.maxMana,
+            maxHealth:  monData.stats.maxHealth,
+            baseAD:     monData.stats.baseAD,
+            baseAP:     monData.stats.baseAP,
+            baseArmour: monData.stats.baseArmour,
+            baseMR:     monData.stats.baseMR,
+            baseMS:     monData.stats.baseMS,
             baseCritDamage: monData.stats.baseCritDamage,
             baseCritRate:  monData.stats.baseCritRate,
             armourPen: monData.stats.armourPen,

@@ -34,7 +34,7 @@ export const passiveData = [
             if(phase === "End phase"){
                 mon.stats.armour += 10
                 mon.stats.MR += 10
-                mon.stats.baseAmour += mon.stats.maxHealth * 0.01
+                mon.stats.baseAD += mon.stats.maxHealth * 0.01
                 mon.stats.maxHealth += 5
                 mon.status =  {
                     aggro: 1
@@ -103,7 +103,7 @@ export const passiveData = [
         id:50008,
         effect: (mon, phase, defender) => {
             if(phase === "End phase"){
-                mon.shield += defender.health *= 0.05
+                mon.shield += defender.health * 0.05
             }
         }
     },
@@ -128,7 +128,7 @@ export const passiveData = [
     {
         id:50011,
         effect: (mon, phase, defender) => {
-            if (mon.kills > 0 && mon.id === 10117 && phase === "End phase"){
+            if (mon.kills > 0 &&  mon.img != `/animon/10118.gif` && phase === "End phase"){
                 mon.alive = true
                 mon.img = `/animon/10118.gif`
                 mon.stats.maxHealth += 100
@@ -138,9 +138,7 @@ export const passiveData = [
                 mon.stats.baseAP -= mon.stats.baseAD
                 mon.stats.baseAD += mon.stats.baseAP
                 mon.lifeSteal += 0.1
-                mon.id++
                 mon.element = "Fire"
-                mon.attacks.push()
                 mon.kills = 0
             }
             if (mon.kills > 0){

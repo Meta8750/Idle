@@ -1,9 +1,10 @@
 .mainContainer {
     display:grid;
     grid-template-areas:
-    "mon item stats"
-    "mon item stats";
-    grid-template-rows: 1fr 1fr;
+    "mon equipment stats"
+    "sort sort sort"
+    "item item item";
+    grid-template-rows: 0.5fr 0.1fr 0.5fr;
     grid-template-columns:  1fr  2fr 1fr;
     min-width: 100%;
     min-height: 100%;
@@ -30,16 +31,21 @@
     flex-direction: column;
     align-items: flex-start;
     border: solid 1px aqua;
-
-
-    img{
-        border: solid 1px aqua;
-        
-      
-
-    }
     
     
+    
+}
+.equipment{
+    grid-area: equipment;
+    display:grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+    border: solid 1px aqua;
+    padding: 3% 4% 3% 4%
+
+}
+.emptySlot{
+    border: solid 1px gray
     
 }
 
@@ -58,6 +64,7 @@
     grid-template-rows: repeat(10, 1fr);
     overflow: auto;
     max-height: 800px;
+    
 }
 
 /* design for the idividual item */

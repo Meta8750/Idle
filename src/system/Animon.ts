@@ -374,8 +374,10 @@ export default class Animon {
     }
 
     removeItem(item): void {
-        this.equipment.splice(item)
+        console.log(item)
+        this.equipment = this.equipment.filter(equipItem => equipItem.uid !== item.uid);
         item.equipped = false;
+        console.log(this.equipment)
 
     }
     getItemStats(item): void {

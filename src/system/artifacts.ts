@@ -15,10 +15,19 @@ export default class artifacts{
         this.stats = JSON.parse(JSON.stringify(monItemInfo.stats));
         this.uid = uuidv4()
         this.level = 0
-        this.maxLevel = 5
+        this.maxLevel = 10
         this.randomBaseStats = ["baseAD","baseAP","maxHealth","baseCritDamage","baseCritRate","baseArmour","baseMR"] // list for every possbible random statS
 
     }
+
+    upgradeStats(): void {
+        if (this.maxLevel != this.level) {
+            for (const stat in this.stats){
+                this.stats[stat] *= 1.1
+            }
+        }
+    }
+
     randomStats(): void{
         if (this.maxLevel != this.level) {
             

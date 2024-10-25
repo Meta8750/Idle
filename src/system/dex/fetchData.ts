@@ -108,13 +108,13 @@ const addMonToFirestore = async () => {
 
 const newMon = {
   
-    name: "Ruby Crystal",
-    id: 30000,
+    name: "Boots",
+    id: 30004,
     stars: 1,
     value: 100,
     capacity: 1,
     stats: {
-        maxHealth: 1.1,
+        baseMS: 20
     },
 
 
@@ -122,7 +122,7 @@ const newMon = {
 
 
 
-  //addMonToFirestore(); 
+  // addMonToFirestore(); 
 
   
   

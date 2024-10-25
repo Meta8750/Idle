@@ -279,10 +279,13 @@ advanceTurn = () => {
                  // code below if player win the battle
                 this.drop = this.getDropRarity()   
                 this.player.inventory.updateItem(Dex.generate(this.drop.dropID))
+
                 this.player.inventory.updateItem(Dex.generate(30001)) 
                 this.player.inventory.updateItem(Dex.generate(30002)) 
                 this.player.inventory.updateItem(Dex.generate(30003)) 
-                this.player.inventory.updateItem(Dex.generate(30004))  //this.drop for postScreen  
+                this.player.inventory.updateItem(Dex.generate(30004))
+                this.player.inventory.updateItem(Dex.generate(30005))
+                
                 this.player.team.map((mon) =>{
                     mon.exp += this.drop.exp
                     mon.levelProgess()

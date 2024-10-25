@@ -27,7 +27,7 @@ function ItemManager({player, mon, setTab})  {
   const equipItem = () => {
     
     if (focusedItem.equipped === true){
-      player.removeItemFromMon(focusedItem.slotType, focusedItem.uid)
+      player.removeItemFromMon(focusedItem.uid)
       
     } else {
       mon.equipItem(focusedItem);
@@ -67,6 +67,7 @@ function ItemManager({player, mon, setTab})  {
                       <p>{mon.name}</p>
 
                       <img class="w-52 h-52" alt ={mon.name}src={mon.img}></img>
+                      <p>{mon.capacity} / {mon.usedCapacity}</p>
                       <MonStats mon={mon} />
                       
                   
@@ -75,11 +76,11 @@ function ItemManager({player, mon, setTab})  {
             
             <div className={styles.stats}>
               <div class="flex">
-                <button className={styles.itemSelection} onClick={() => setItemTab("chain")}>chain</button>
-                <button className={styles.itemSelection} onClick={() => setItemTab("ring")}>ring</button>
-                <button className={styles.itemSelection} onClick={() => setItemTab("necklace")}>necklace</button>
-                <button className={styles.itemSelection} onClick={() => setItemTab("head")}>head</button>
-                <button className={styles.itemSelection} onClick={() => setItemTab("book")}>book</button>
+                <button className={styles.itemSelection} onClick={() => setItemTab("0")}>chain</button>
+                <button className={styles.itemSelection} onClick={() => setItemTab("1")}>ring</button>
+                <button className={styles.itemSelection} onClick={() => setItemTab("2")}>necklace</button>
+                <button className={styles.itemSelection} onClick={() => setItemTab("3")}>head</button>
+                <button className={styles.itemSelection} onClick={() => setItemTab("4")}>head</button>
               </div>
              
 

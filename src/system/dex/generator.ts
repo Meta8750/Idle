@@ -1,5 +1,5 @@
 import { descData } from "./AttackDexData.tsx";
-import { monData, attackData , fetchDataById} from "./fetchData.ts";
+import { monData, attackData, itemData, fetchDataById} from "./fetchData.ts";
 import { monItemDex } from "./ItemDexData.ts";
 import { dropTable } from "./dropTableDex.ts";
 import { passiveData } from "./PassiveDexData.js";
@@ -31,7 +31,7 @@ export default class Dex{
         try {
         
             let attackInfo =  attackData.find(attack => attack.id === id);
-            let monItemInfo = monItemDex.find(item => item.id === id);
+            let monItemInfo = itemData.find(item => item.id === id);
             let dropTableInfo = dropTable.find(drop => drop.id === id);
             let newAssign: any;
 
@@ -65,6 +65,7 @@ export default class Dex{
        
         if (monItemInfo){
             newAssign = new artifacts({...monItemInfo})
+            newAssign.equipped = false;
             
         }
        

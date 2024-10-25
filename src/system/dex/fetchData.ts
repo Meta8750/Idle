@@ -63,6 +63,7 @@ type AttackData = {
 let cache: { [key: string]: any } = {};
 export const monData: MonData[] = [];
 export const attackData: AttackData[] = [];
+export const itemData: AttackData[] = [];
 
 
 export const fetchMonData = async () => {
@@ -79,6 +80,12 @@ export const fetchMonData = async () => {
       attackData.push({ id: doc.id, ...doc.data()});
     });
 
+    querySnapshot = await getDocs(collection(db, "ItemDex"));
+    querySnapshot.forEach((doc) => {
+      // Füge jedes Dokument zur monData-Array hinzu
+      itemData.push({ id: doc.id, ...doc.data()});
+    });
+
 
     console.log("Mon data fetched: ", monData);
     console.log("Attack data fetched: ", attackData);
@@ -88,103 +95,37 @@ export const fetchMonData = async () => {
 };
 fetchMonData()
 
-const idMapping = {
-  10000: "m5GUTFdvuqDwgqKO9UTk",
-  10001:"w61j3EYq5E01sGe05V9Y",
-  10003: "UkuosbAO0Eut6tzEUM8i",
-  10005: "VSIeXi8aJGJV7eGsjm4D",
-  10044: "apGQd7Cq1E2owGSYRhpZ",
-  10074: "TLxNd9iFKBTNjvv0xG1U",
-  10095: "gTVA5x32HJPYngrsv0MW",
-  
-  20000: "2qN4xYRY0qL09gBFhdfl",
-  20001: "kBW4eIZMPkQJkXOQ4VMH",
-  20002: "ttgSfMl2Wy6CImOPOPzR",
-  20003: "4aeerP8FkE8pW83WYW1B",
-  20004: "vFGlX8nTJPeiwvSaHMCg",
-  20005: "ArZHaCdYo9FHXugGjP8N",
-  20021: "VKFkBkhJrmfvC1Vl0n7g",
-  20022: "i0Gv1Z4hvXCwj0f7tisQ",
-  20023: "C73lYfJyZDunA56TSQrL",
-  20024: "FKixtkwBEfNWG5bWXjLu",
-  21000: "ouqB3Ksr7TDXlm4TuVQE",
-  22000: "8fqsIX5x8n24xmmYR331",
 
+const addMonToFirestore = async () => {
+  try {
+    const docRef = await addDoc(collection(db, "ItemDex"), newMon);
+    console.log("Document written with ID: ", docRef.id);
+  } catch (e) {
+    console.error("Error adding document: ", e);
+  }
 };
 
-export const fetchDataById = async (id, table) => {
-  
-  if (cache[id]) {
-    return cache[id];
-  }
-  try {
-    id = idMapping[id]; 
-    // Hole ein spezifisches Mon anhand der ID
-    const monDocRef = doc(db, table, id);
-    const monDocSnap = await getDoc(monDocRef);
-
-    if (monDocSnap.exists()) {
-    
-      const monData = { id: monDocSnap.id, ...monDocSnap.data() };
-     
-      cache[id] = monData; 
-      return monData;
-    } else {
-   
-      console.log("No such document!");
-      return null;
-    }
-  } catch (e) {
-    console.error("Error fetching mon data: ", e);
-    return null;
-  }
-}
 
 const newMon = {
-  name: "Slave Azel",
-  id: 10117,
-  level: 1,
-  rarity: "SSR",
-  tier: 4,
-  type: "Fire",
-  role: "DD",  
   
-  stats: {
-    maxHealth: 300,
-    baseAD: 30,
-    baseAP: 0,
-    baseArmour: 2,
-    baseMR: 2,
-    baseMS: 400,  
-    baseCritRate: 1.0,
-    baseCritDamage: 1.5,
-    armourPen: 0.5,
-    currentHealthDmg: 0.1,
-  },
-  ADGrowth: 5,
-  APGrowth: 0,
-  healthGrowth: 10,
-  armourGrowth: 1,
-  MRGrowth: 1,
-  MSGrowth: 5,
-  lifeSteal: 0.0,
-  statusChance: 0.2,
-  attacks: [20037, 20038, 20039, 20040],
-  passiveID: 50011,
+    name: "Ruby Crystal",
+    id: 30000,
+    stars: 1,
+    value: 100,
+    capacity: 1,
+    stats: {
+        maxHealth: 1.1,
+    },
 
-  
+
 }
 
-  const addMonToFirestore = async () => {
-    try {
-      const docRef = await addDoc(collection(db, "MonDex"), newMon);
-      console.log("Document written with ID: ", docRef.id);
-    } catch (e) {
-      console.error("Error adding document: ", e);
-    }
-  };
+
+
+  //addMonToFirestore(); 
+
   
-  // addMonToFirestore(); 
+  
 /*
   name: "Vagabund",
   id: 10000,
@@ -215,8 +156,6 @@ const newMon = {
   attacks: [21000, 21000, 21000, 20000],
   
   
-  
-
    name: "Ammagedon",
   id: 20999,
   level: 1,

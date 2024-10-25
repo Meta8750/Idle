@@ -275,7 +275,7 @@ advanceTurn = () => {
                 this.currentAttackerIndex = 0;
                 this.currentAttacker = this.attackOrder[this.currentAttackerIndex];
             } else {
-            if (this.result === "won"){
+           
                  // code below if player win the battle
                 this.drop = this.getDropRarity()   
                 this.player.inventory.updateItem(Dex.generate(this.drop.dropID)) //this.drop for postScreen  
@@ -284,7 +284,7 @@ advanceTurn = () => {
                     mon.levelProgess()
                     
                 })
-            }
+            
            
             this.reset("won")
             if (this.type === "Story"){

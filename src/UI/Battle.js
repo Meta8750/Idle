@@ -27,7 +27,6 @@ function Battle({ player, fight }) {
     let filteredDmg = fight.dmgTracker.filter(dmg => dmg.monUID === mon.uid);
 
     if (filteredDmg.length > 0){
-      console.log()
       let num = filteredDmg[0].damage
       return (
         <div className={`

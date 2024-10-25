@@ -25,7 +25,7 @@ class Player {
     coins: number;
     gems: number;
     essence: number;
-    health: number;
+    capacity: number;
     skills: Skills;
     activity: any;
     activeTab: string;
@@ -45,7 +45,7 @@ class Player {
         this.coins = 100;
         this.gems = 100;
         this.essence = 9999999 * 9999999;
-        this.health = 100;
+        this.capacity = 1
         // exp muliplicatoren
         // global stats buffs
         this.skills = {
@@ -141,22 +141,15 @@ class Player {
         }
 
     }
-    removeItemFromMon(slotType: string, uid: number): void {
+    removeItemFromMon(uid: number): void {
         // Iteriere durch die Mons-Sammlung
         for (const mon of this.mons) {
-            if (mon.equipment[slotType] === null) continue
-              
-                
-                if (mon.equipment[slotType].uid === uid) {
-                    // Item gefunden, entferne es
-                    mon.equipItem(mon.equipment[slotType])
-                    mon.equipment[slotType] = null;
+            if (mon.equipment.length > 0) {
+                let item = mon.equipment.filter(item => item.uid === uid)[0]
+                if (item) {
+                    mon.equipItem(item)
                     return;
-                
-            }
-        }
-      
-    }
+        }}}}
     getSkills(skill: any) { //return the hole obj
         return this.skills[skill]
     }

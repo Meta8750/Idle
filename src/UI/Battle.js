@@ -248,7 +248,7 @@ function Battle({ player, fight }) {
       
       {fight.attackTarget && fight.attackTarget != "none" ? (<div>
         
-        <Statscomp mon={fight.attackTarget} prev={monData.filter(mon => mon.id === fight.attackTarget.id)[0]}/>
+        <Statscomp mon={fight.attackTarget} prev={fight.copyCombindeUnits.filter(mon => mon.id === fight.attackTarget.id)[0]}/>
 
 
       </div>) : (<p></p>)}

@@ -57,7 +57,7 @@ startFight = async (player: any, batch: number[],drop: number, lv?: number) => {
     this.combinedUnits = [...this.team, ...this.currentBatch];
     await this.initializeUnits();
     this.attackOrder= [...this.combinedUnits].sort((a, b) => b.stats.baseMS - a.stats.baseMS);
-  
+    this.copyCombindeUnits = _.cloneDeep(this.combinedUnits)
     this.attacker = null;
     this.attackTarget = this.attackOrder[this.currentAttackerIndex]; //just to fill
     this.currentAttacker = this.attackOrder[this.currentAttackerIndex];

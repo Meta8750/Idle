@@ -6,5 +6,24 @@
     width: 90%;
     padding: 0px 5px 0px 5px;
     cursor: pointer;
+
+    position: relative;
+    div {
+        display: none;
+        
+       
+    }
+   
+}
+
+.attackBox:hover div {
+    display:block !important;
+    position:absolute !important;
+    background-color: rgb(36, 36, 36);
+    border:solid 1px;
+    border-color: rgb(84, 84, 84);
+    top: -100%;
+    left:50%;
+    width: 100%;
 }
 

@@ -22,7 +22,6 @@ export default class Fight{
     autoBattle: boolean;
     updateDamageCallback: any;
     dmgAmount: number;
-    drop: any;
     state: string;
     dmgTracker: any;
     type: string;
@@ -66,7 +65,6 @@ startFight = async (player: any, batch: number[],drop: number, lv?: number) => {
     this.battleState = "battle start"
     this.result = ""
     this.lastFight = null;
-    this.drop = null;
     this.battleLogs = [];
     this.battleLogs.push("Battle Started");
     this.advanceTurn()
@@ -277,17 +275,17 @@ advanceTurn = () => {
             } else {
            
                  // code below if player win the battle
-                this.drop = this.getDropRarity()   
-                this.player.inventory.updateItem(Dex.generate(this.drop.dropID))
+                console.log(this.arena.drop.dropID.openRelict())
+                this.player.inventory.updateItem(Dex.generate(this.arena.drop.dropID.openRelict()))
 
-                this.player.inventory.updateItem(Dex.generate(30001)) 
+                /* this.player.inventory.updateItem(Dex.generate(30001)) 
                 this.player.inventory.updateItem(Dex.generate(30002)) 
                 this.player.inventory.updateItem(Dex.generate(30003)) 
                 this.player.inventory.updateItem(Dex.generate(30004))
-                this.player.inventory.updateItem(Dex.generate(30005))
+                this.player.inventory.updateItem(Dex.generate(30005)) */
                 
                 this.player.team.map((mon) =>{
-                    mon.exp += this.drop.exp
+                    mon.exp += this.arena.drop.exp
                     mon.levelProgess()
                     
                 })
@@ -312,20 +310,7 @@ advanceTurn = () => {
         this.attackTarget = target
     }
 
-    getDropRarity(){
-        const rng = Math.random()
-        
-        if (rng >= 0.3){
-            return  this.arena.drop.common
-        }
-        if (rng <= 0.3 && rng >= 0.02){
-            return  this.arena.drop.rare
-        }
-        if (rng <= 0.02){
-            return this.arena.drop.legendary
-        }
-        
-    }
+  
   
     getHighestStats() {
         let highestStats: any = []
@@ -339,14 +324,14 @@ advanceTurn = () => {
     }
 
     updateDamage(monId, damageAmount) {
-        setTimeout(() => {
-            this.dmgTracker.push({monUID: monId, damage: damageAmount, id: Date.now() });
-        }, 1)
         
+        this.dmgTracker.push({monUID: monId, damage: damageAmount, id: Date.now() });
+       
       
         setTimeout(() => {
-            this.dmgTracker.filter(num => num.id !== Date.now())
-        },3000)
+            this.dmgTracker = this.dmgTracker.filter(num => num.id === Date.now());
+           console.log(this.dmgTracker)
+        },2000)
             
     }
 

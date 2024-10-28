@@ -70,14 +70,16 @@ export default class Dex{
         }
        
         if (dropTableInfo){
+          
             newAssign = new assign({...dropTableInfo})
+          
         }
 
         
         return newAssign
         }
         catch (error) {
-            console.error(`cannot Create${id} ${error.message}`);
+            console.error(`cannot Create ${id} ${error.message}`);
             return null;
         }
     }

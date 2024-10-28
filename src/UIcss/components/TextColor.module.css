@@ -41,7 +41,7 @@
     animation: rainbowText 7s infinite;
   }
   .rainbowText {
-    font-size: 1.2rem;
+    font-size: 1.0rem;
     background-image: repeating-linear-gradient(45deg, violet, indigo, blue, green, yellow, orange, red, violet);
     background-size: 400% 400%;
 

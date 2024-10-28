@@ -100,7 +100,7 @@ export default class Animon {
     constructor(monData: any) {
         Object.assign(this, monData)
 
-        this.maxLevel = 100
+        this.maxLevel = 85 + this.tier * 5
         this.stats = {
             maxMana: monData.stats.maxMana,
             maxHealth: monData.stats.maxHealth,
@@ -115,7 +115,6 @@ export default class Animon {
             mrPen: monData.stats.mrPen,
             currentHealthDmg: monData.stats.currentHealthDmg,
             maxHealthDmg: monData.stats.maxHealthDmg,
-
 
         }
 
@@ -156,6 +155,8 @@ export default class Animon {
 
     }
     upgradeTier() {
+        if (this.tier === 10) { return }
+        
         let level = this.level - 1
         let tierMultiplier = 0.5 // per extra tier growth stats are 50% increased
 
@@ -312,6 +313,11 @@ export default class Animon {
 
 
         this.elementMultiplier = this.getEffectiveness(attack.element, defender.element)
+        
+        if (this.stats.hasOwnProperty(`${attack.element.toLowerCase()}Dmg`)){
+            this.dmg *= this.stats[`${attack.element.toLowerCase()}Dmg`]
+        }
+   
         this.dmg *= this.elementMultiplier
         this.dmg = this.dmg + (this.dmg * this.dmgAmp)
         this.dmg = Math.round(this.dmg)

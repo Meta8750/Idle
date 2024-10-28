@@ -11,20 +11,23 @@
 }
 
 .team{
-    grid-area: "team";
+    grid-area: team;
     display:flex;
-    align-items: flex-start;
-    background: Linear-gradient(45deg, rgb(8, 172, 186), #4705a4b0 );
-    margin-bottom: 10px;
-    padding: 0px 2vw 0px 2vw;
-    
+    flex-wrap: wrap;
+    background: Linear-gradient(0deg, rgb(51, 51, 51), rgb(34, 34, 34) );
+    padding: 1vh 2vw 0px 2vw;
+    border-top-right-radius: 12px;
+    border-top-left-radius: 12px;
+    margin: 10px 0px 0px 10px;
     img {
         
     }
 
     div {
+        flex-grow: 1;
+        flex-basis: 200;
         padding: 0px 15px 0px 15px;
-        width: 100%;
+
     }
     
 }
@@ -35,9 +38,12 @@
     grid-area: "stats";
     display:grid;
     grid-row: span 2;
-    background: Linear-gradient(45deg, grey, #000001 );
-    margin: 0px 10px 0px 10px;
+    background: Linear-gradient(45deg, rgb(51, 51, 51), rgb(18, 18, 18) );
+    margin:10px 10px 0px 10px;
+    border-top-right-radius: 12px;
+    border-top-left-radius: 12px;
     color: white;
+    
 
 }
 
@@ -46,8 +52,9 @@
     display:grid;
     grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
     grid-template-rows: 1fr 1fr 1fr 1fr 1fr;
-    background: Linear-gradient(0deg, grey, #343434 );
+    background: Linear-gradient(180deg, rgb(51, 51, 51), rgb(18, 18, 18) );
     padding: 10px;
+    margin: 0px 0px 0px 10px;
     
 }
 
@@ -59,6 +66,7 @@
     align-content: center;
     margin: 10px;
     position: relative;
+    border-radius: 8px;
 
     header {
         display: flex;
@@ -94,8 +102,8 @@
     }
     p {
         position: relative;
-        background-color: rgb(255, 255, 255);
-        color: black;
+        background-color: rgb(103, 103, 103);
+        color: rgb(255, 255, 255);
         
        
     }

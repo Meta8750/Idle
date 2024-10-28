@@ -108,13 +108,15 @@ const addMonToFirestore = async () => {
 
 const newMon = {
   
-    name: "Boots",
-    id: 30004,
-    stars: 1,
+    name: "Stattik Shiv",
+    id: 30005,
+    stars: 3,
     value: 100,
-    capacity: 1,
+    capacity: 3,
     stats: {
-        baseMS: 20
+        electroDmg: 0.1,
+        baseAD: 15,
+        baseAP: 15,
     },
 
 

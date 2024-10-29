@@ -29,6 +29,17 @@ export default class Fight{
     battleState:string;
     currentAttack:any;
     round: number;
+    copyCombindeUnits: any;
+    dex: dex
+    enemyList: any[]
+    enemys: any;
+    enemyStageList: any[]
+    expDrop: number
+    enemyMons: any
+    drop: any;
+    dropID:number;
+    number: number;
+    dropTable: any;
     
     constructor(){
         this.state = "outOfCombat"
@@ -37,28 +48,31 @@ export default class Fight{
         this.dmgTracker = [];
         this.type = "unknown";
         this.currentAttack = null;
+        this.dex = new dex();
     }
 
     
 
 startFight = async (player: any, batch: number[],drop: number, lv?: number) => {
         
-    this.arena = new Arena(batch,drop, lv);
-    this.arena.genEnemys();
+    this.enemyList = batch
+    this.dropID = drop
+    this.genEnemys();
     this.player = player
 
+    
     this.team = _.cloneDeep(player.getTeam())
     
     this.currentBatchIndex = 0;
     this.currentAttackerIndex = 0;
 
-    this.currentBatch = this.arena.enemys[0];
+    this.currentBatch = this.enemys[0];
     this.combinedUnits = [...this.team, ...this.currentBatch];
     await this.initializeUnits();
     this.attackOrder= [...this.combinedUnits].sort((a, b) => b.stats.baseMS - a.stats.baseMS);
     this.copyCombindeUnits = _.cloneDeep(this.combinedUnits)
     this.attacker = null;
-    this.attackTarget = this.attackOrder[this.currentAttackerIndex]; //just to fill
+    this.attackTarget = this.attackOrder[this.currentAttackerIndex]; 
     this.currentAttacker = this.attackOrder[this.currentAttackerIndex];
     this.round = 0;
     this.state = "Combat"
@@ -102,8 +116,10 @@ initializeUnits = async () => {
 reset(result: string): void{
     this.result = result
     this.state = "outOfCombat"
-    this.lastFight = this.arena
-    this.arena = null
+    this.lastFight = { ...this }
+    this.enemys = null
+    
+    
   
 }
 
@@ -189,7 +205,7 @@ handleAttack(attack: any, mon: any){
         if (this.attackTarget != "none") {
         // Apply damage, buffs, debuffs, etc.
         if (attack.aoe){
-                this.arena.enemys[this.currentBatchIndex].map((enemy) =>{
+                this.enemys[this.currentBatchIndex].map((enemy) =>{
                 this.dmgAmount = mon.calculateDmg(attack, mon, enemy);
                 this.updateDamage(enemy.uid, -this.dmgAmount);
             })
@@ -225,9 +241,10 @@ advanceTurn = () => {
         this.checkAndAdvanceBatch()
         this.round++
         this.attackOrder = [...this.attackOrder].sort((a, b) => b.stats.baseMS - a.stats.baseMS);
-        //choose next attacker
+       
         let nextIndex = (this.currentAttackerIndex + 1) % this.attackOrder.length;
-        //check if alive
+        this.currentAttacker = this.attackOrder[this.currentAttackerIndex];
+      
         while (!this.attackOrder[nextIndex].alive) {
             nextIndex = (nextIndex + 1) % this.attackOrder.length;
             // this.attackOrder = this.attackOrder.filter(unit => unit.alive);
@@ -240,7 +257,7 @@ advanceTurn = () => {
                 this.advanceTurn()
             }
         }
-        
+      
         if (this.currentAttacker && this.arena && this.arena.enemys.flat().includes(this.currentAttacker)) {
             this.enemyAi();
             
@@ -260,32 +277,33 @@ advanceTurn = () => {
 
     checkAndAdvanceBatch = () => {
         
-        if (!this.arena || !this.arena.enemys) return;
+        if (!this.enemys) return;
         let allDefeated = this.currentBatch.every(enemy => !enemy.alive);
         if (allDefeated) {
-            if (this.currentBatchIndex < this.arena.enemys.length - 1) {
+            if (this.currentBatchIndex < this.enemys.length - 1) {
             // if all dead next batch
-            this.currentBatchIndex++;
-                this.currentBatch =  this.arena.enemys[this.currentBatchIndex];
+                this.currentBatchIndex++;
+                this.currentBatch =  this.enemys[this.currentBatchIndex];
                 this.combinedUnits = [...this.team, ...this.currentBatch];
                 this.sortedUnits = this.combinedUnits.sort((a, b) => b.stats.MS - a.stats.MS);
                 this.attackOrder = this.sortedUnits;
                 this.currentAttackerIndex = 0;
                 this.currentAttacker = this.attackOrder[this.currentAttackerIndex];
+
             } else {
            
                  // code below if player win the battle
-                console.log(this.arena.drop.dropID.openRelict())
-                this.player.inventory.updateItem(Dex.generate(this.arena.drop.dropID.openRelict()))
+                this.drop = Dex.generate(this.dropTable.dropID.openRelict())
+                this.player.inventory.updateItem(this.drop)
 
-                /* this.player.inventory.updateItem(Dex.generate(30001)) 
+                this.player.inventory.updateItem(Dex.generate(30001)) 
                 this.player.inventory.updateItem(Dex.generate(30002)) 
                 this.player.inventory.updateItem(Dex.generate(30003)) 
                 this.player.inventory.updateItem(Dex.generate(30004))
-                this.player.inventory.updateItem(Dex.generate(30005)) */
+                this.player.inventory.updateItem(Dex.generate(30005)) 
                 
                 this.player.team.map((mon) =>{
-                    mon.exp += this.arena.drop.exp
+                    mon.exp += this.drop.exp
                     mon.levelProgess()
                     
                 })
@@ -330,50 +348,26 @@ advanceTurn = () => {
       
         setTimeout(() => {
             this.dmgTracker = this.dmgTracker.filter(num => num.id === Date.now());
-           console.log(this.dmgTracker)
         },2000)
             
     }
+    genEnemys(){
+        this.dex = new dex();
+        this.enemys = []
+        this.enemyStageList = []
+       
+        this.dropTable =  this.dex.generate(this.dropID)
+    
+        this.enemyMons = this.enemyList.map(row => {
+            row.map(id  => {  
+                    this.enemyStageList.push(this.dex.generate(id))
+                    
+            })
+            
+            this.enemys.push(this.enemyStageList)
+            this.enemyStageList = []
+        return this.enemys
+    })};
 
     };
-
-
-class Arena {
-dex: dex
-enemyList: any[]
-enemys: any[]
-enemyStageList: any[]
-expDrop: number
-enemyMons: any
-drop: any;
-dropID:number;
-number: number;
-
-constructor(enemyList: number[], id: number, lv?:number) {
-    this.dropID = id;
-    this.dex = new dex();
-    this.enemyList = enemyList || [[10000,10000,10000],[10000,10001,10000]]
-    this.enemys = []
-    this.enemyStageList = []
-    this.drop =  this.dex.generate(id)
-    this.lv = lv
-    
-}
-genEnemys(){
-    
-    this.enemyMons = this.enemyList.map(row => {
-        row.map(id  => {  
-                this.enemyStageList.push(this.dex.generate(id))
-                
-        })
-        
-        this.enemys.push(this.enemyStageList)
-        this.enemyStageList = []
-    return this.enemys
-})};
-
-
-
-
-}
 

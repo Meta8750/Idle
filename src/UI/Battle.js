@@ -4,7 +4,7 @@ import styles from '../UIcss/Battle.module.css'
 import StatusEffect from "./components/StatusEffects.tsx";
 import FightStats from "./components/FightStats.tsx"
 import Statscomp from "./components/Statscomp.tsx"
-import {monData} from "../system/dex/fetchData.ts"
+import { monData } from "../system/dex/fetchData.ts"
 
 const battleLogs = []
 
@@ -14,11 +14,11 @@ function Battle({ player, fight }) {
   const [battleLog, setBattleLog] = useState(false)
 
   const borderUI = (mon) => {
-    
-    if (fight.attackOrder[fight.currentAttackerIndex] === mon){
+
+    if (fight.attackOrder[fight.currentAttackerIndex] === mon) {
       return styles.activeMon
     }
-    if (fight.attackTarget === mon){
+    if (fight.attackTarget === mon) {
       return styles.target
     }
   }
@@ -26,7 +26,7 @@ function Battle({ player, fight }) {
   const digitUI = (mon) => {
     let filteredDmg = fight.dmgTracker.filter(dmg => dmg.monUID === mon.uid);
 
-    if (filteredDmg.length > 0){
+    if (filteredDmg.length > 0) {
       let num = filteredDmg[0].damage
       return (
         <div className={`
@@ -34,10 +34,10 @@ function Battle({ player, fight }) {
         ${num > 0 ? "!text-green-400" : ""}
         ${fight.currentAttacker.elementMultiplier === 1.5 ? "!text-2xl !text-red-300" : ""}
         ${fight.currentAttacker.elementMultiplier === 0.5 ? "!text-2xl !text-gray-400" : ""}
-        ${fight.currentAttacker.attackCritted ? "!text-xl !text-red-600"  : ""}`}>
-           {num}
+        ${fight.currentAttacker.attackCritted ? "!text-xl !text-red-600" : ""}`}>
+          {num}
           <img className={fight.currentAttacker.attackCritted ? "" : "hidden"} src="/icons/symbols/Crit.png"></img>
-      </div>
+        </div>
       )
     }
   }
@@ -49,11 +49,11 @@ function Battle({ player, fight }) {
         <div className={styles.hpUnder} style={hpBarCalc(mon)}></div>
         <div className={styles.hpFill} style={hpBarCalc(mon)}></div>
         <div className={styles.shieldBar} style={shieldBarCalc(mon)}></div>
-    </div>
+      </div>
     )
-    
+
   }
-  
+
 
   const playAgain = () => {
     fight.startFight(player, fight.lastFight.enemyList, fight.lastFight.dropID, fight.lastFight.lv)
@@ -77,11 +77,11 @@ function Battle({ player, fight }) {
     fight.reset("lost")
   }
   const shieldBarCalc = (mon) => {
-    if (mon.shield > 0){
+    if (mon.shield > 0) {
       return {
-        width:  `${(mon.shield / mon.stats.maxHealth) * 100}%`,
+        width: `${(mon.shield / mon.stats.maxHealth) * 100}%`,
       };
-    } 
+    }
   }
   const hpBarCalc = (mon) => {
     let pWidth = `${(mon.health / mon.stats.maxHealth) * 100}%`;
@@ -105,28 +105,28 @@ function Battle({ player, fight }) {
       if (key >= '1' && key <= '4') {
         handleAttackSelection(Number(key));
       }
-      if (key === "q"){
+      if (key === "q") {
         handleTargetSelection(4)
       }
-      if (key === "w"){
+      if (key === "w") {
         handleTargetSelection(5)
       }
-      if (key === "e"){
+      if (key === "e") {
         handleTargetSelection(6)
       }
-      if (key === "re"){
+      if (key === "re") {
         handleTargetSelection(7)
       }
-      if (key === "a"){
+      if (key === "a") {
         handleTargetSelection(0)
       }
-      if (key === "s"){
+      if (key === "s") {
         handleTargetSelection(1)
       }
-      if (key === "d"){
+      if (key === "d") {
         handleTargetSelection(2)
       }
-      if (key === "f"){
+      if (key === "f") {
         handleTargetSelection(3)
       }
     };
@@ -138,22 +138,22 @@ function Battle({ player, fight }) {
     };
   }, []);
 
-  const handleAttackSelection = (num) =>{
-    if (fight.currentAttacker){
+  const handleAttackSelection = (num) => {
+    if (fight.currentAttacker) {
       fight.handleAttack(fight.currentAttacker.attacks[num - 1], fight.currentAttacker)
-      
+
     }
   }
 
   const handleTargetSelection = (num) => {
-    if (fight.combinedUnits){
+    if (fight.combinedUnits) {
       fight.attackTarget = fight.combinedUnits[num]
     }
   }
 
   const renderTeam = () => {
     return fight.team.map((mon, index) => (
-      <div 
+      <div
         key={index}
         className={`${styles.mon}  ${borderUI(mon)}`}
       >
@@ -163,7 +163,7 @@ function Battle({ player, fight }) {
 
         <StatusEffect mon={mon} />
 
-        <img onClick={() => fight.handleTarget(mon)}  class="w-60 h-52" alt={mon.name} src={mon.img}></img>
+        <img onClick={() => fight.handleTarget(mon)} class="w-60 h-52" alt={mon.name} src={mon.img}></img>
 
         <ul class={fight.currentAttacker === mon ? "" : ""}>
           {mon.attacks.map((attack, attackIndex) => (
@@ -181,9 +181,11 @@ function Battle({ player, fight }) {
   };
 
   const renderEnemies = () => {
-    if (!fight.arena || !fight.arena.enemys || fight.arena.enemys.length === 0) return null;
+   
+    if ( !fight.enemys || fight.enemys.length === 0) return null;
+   
 
-    const currentBatch = fight.arena.enemys[fight.currentBatchIndex];
+    const currentBatch = fight.enemys[fight.currentBatchIndex];
 
     if (!currentBatch) return <p>No more enemies!</p>;
 
@@ -194,7 +196,7 @@ function Battle({ player, fight }) {
       >
         <p>{enemy.name} {enemy.level}</p>
         {hpBar(enemy)}
-        
+
         {digitUI(enemy)}
 
         <StatusEffect mon={enemy} />
@@ -206,14 +208,14 @@ function Battle({ player, fight }) {
 
   return (
     <div>
-      <div className={fight.state === "Combat" ? "": "hidden"}>
+      <div className={fight.state === "Combat" ? "" : "hidden"}>
         <button onClick={() => autoBattler()}>Auto Battle</button>
         <button onClick={() => ff()}>FF</button>
         <button onClick={() => setBattleLog(true)}>Battelog</button>
         <button onClick={() => showDetails()}>Details</button>
       </div>
-      
-      {fight.arena ? (
+
+      {fight.enemys ? (
         <div className={styles.arena}>
           <div className={styles.enemyContainer}>
             {renderEnemies()}
@@ -222,12 +224,12 @@ function Battle({ player, fight }) {
             {renderTeam()}
           </div>
           <div className="flex flex-col grid-area:'stats">
-        {fight.arena ? (
-          fight.team.map((mon, index) => (
-              <FightStats mon={mon} stats={fight.getHighestStats()}/>
-          ))) : (<p></p>)}
-        </div>
-        <p>Round: {fight.round}  Wave: {fight.currentBatchIndex + 1}/{fight.arena.enemys.length}</p>
+            {fight.arena ? (
+              fight.team.map((mon, index) => (
+                <FightStats mon={mon} stats={fight.getHighestStats()} />
+              ))) : (<p></p>)}
+          </div>
+          <p>Round: {fight.round}  Wave: {fight.currentBatchIndex + 1}/{fight.enemys.length}</p>
           <div class={styles.order}>{fight.attackOrder.map((mon, index) => (
             <span className={`${styles.orderTab} ${fight.attackOrder[fight.currentAttackerIndex] === mon ? styles.activeOrder : ""} ${fight.attackTarget === mon ? styles.target : ""}`}>
               {mon.ally ? (<i></i>) : ""} {mon.name}
@@ -245,10 +247,10 @@ function Battle({ player, fight }) {
       ) : (
         <p>No current Battle</p>
       )}
-      
+
       {fight.attackTarget && fight.attackTarget != "none" ? (<div>
-        
-        <Statscomp mon={fight.attackTarget} prev={fight.copyCombindeUnits.filter(mon => mon.id === fight.attackTarget.id)[0]}/>
+
+        <Statscomp mon={fight.attackTarget} prev={fight.copyCombindeUnits.filter(mon => mon.id === fight.attackTarget.id)[0]} />
 
 
       </div>) : (<p></p>)}
@@ -256,10 +258,10 @@ function Battle({ player, fight }) {
       <div className={fight.result === "won" || fight.result === "lost" ? styles.visible : styles.hidden}>
         <p>{fight.result}</p>
         <button onClick={() => playAgain()}>Again?</button>
-       
-        <p>{fight.drop ? (Object.entries(fight.drop).map(([name, drop]) => {
-          return <p>{name} {drop}</p>
+        <p>{fight.drop ? (Object.entries(fight.drop).map(([drop]) => {
+          return <p>{drop.name}</p>
         })) : (<p></p>)}</p>
+
         <p></p>
       </div>
     </div>

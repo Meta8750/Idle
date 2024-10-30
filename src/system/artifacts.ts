@@ -24,6 +24,7 @@ export default class artifacts{
         if (this.maxLevel != this.level) {
             for (const stat in this.stats){
                 this.stats[stat] *= 1.1
+                this.level++
             }
         }
     }
@@ -33,13 +34,19 @@ export default class artifacts{
             
             const rng = Math.random();
             const rStat = this.randomBaseStats[Math.floor(rng * this.randomBaseStats.length)];
-            let rDigit  = rng * (0.3 - 0.01) + 0.01;
-            
-            if (rng >= 0.5 && Number.isInteger(this.stats[rStat]) && rStat !== "baseCritDamage" && rStat !== "baseCritRate"){
-                rDigit = Math.round(Math.floor(rng * (50 - 1 + 1)) + 1);
-              
+            //rng * (max - min) + min | if min is a negative dig - and + swap
+            let rDigit  = rng * (1 + 1) - 1;
+
+            if ( rStat === "maxHealth"){
+                rDigit = rng * (2 - 1) + 1 
             }
 
+            
+            if (Math.random() >= 0.5 && Number.isInteger(this.stats[rStat]) && rStat !== "baseCritDamage" && rStat !== "baseCritRate"){
+                rDigit = Math.round(rng * (100 + 100) - 100);
+              
+            }
+            
             if (this.stats[rStat] != undefined){
                
                 this.stats[rStat] += rDigit;

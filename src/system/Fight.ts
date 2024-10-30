@@ -301,6 +301,9 @@ advanceTurn = () => {
                 this.player.inventory.updateItem(Dex.generate(30003)) 
                 this.player.inventory.updateItem(Dex.generate(30004))
                 this.player.inventory.updateItem(Dex.generate(30005)) 
+                this.player.inventory.updateItem(Dex.generate(30008))
+                this.player.inventory.updateItem(Dex.generate(30008))
+                this.player.inventory.updateItem(Dex.generate(30008))   
                 
                 this.player.team.map((mon) =>{
                     mon.exp += this.drop.exp
@@ -311,8 +314,10 @@ advanceTurn = () => {
            
             this.reset("won")
             if (this.type === "Story"){
-                this.player.coins += 100
-                this.player.essence += 100
+                this.dropEssence = 100 + Math.pow(1.1, this.player.zone)
+                this.dropCoins = 100 * this.player.zone
+                this.player.coins += 100 + Math.pow(1.1, this.player.zone)
+                this.player.essence += 100 + Math.pow(1.1, this.player.zone)
             }
             
             }

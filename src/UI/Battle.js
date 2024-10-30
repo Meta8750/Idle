@@ -95,7 +95,7 @@ function Battle({ player, fight }) {
 
   const manaBar = (mon) => {
     let pWidth = `${(mon.mana / mon.stats.maxmana) * 100}%`;
-    if (mon.mana <= 0) { pWidth = '0%' } return { width: pWidth, };
+    if (mon.mana <= 0) { pWidth = '0%' } return { width: pWidth, }; 
   }
 
   useEffect(() => {
@@ -245,22 +245,25 @@ function Battle({ player, fight }) {
           </div>
         </div>
       ) : (
-        <p>No current Battle</p>
+        <p></p>
       )}
 
       {fight.attackTarget && fight.attackTarget != "none" ? (<div>
-
         <Statscomp mon={fight.attackTarget} prev={fight.copyCombindeUnits.filter(mon => mon.id === fight.attackTarget.id)[0]} />
-
-
       </div>) : (<p></p>)}
 
       <div className={fight.result === "won" || fight.result === "lost" ? styles.visible : styles.hidden}>
         <p>{fight.result}</p>
-        <button onClick={() => playAgain()}>Again?</button>
-        <p>{fight.drop ? (Object.entries(fight.drop).map(([drop]) => {
-          return <p>{drop.name}</p>
-        })) : (<p></p>)}</p>
+        <button className={fight.type === "Story" ? "hidden" : ""}onClick={() => playAgain()}>Again?</button>
+        <p>{fight.drop ? 
+          <div>
+            You got:  
+            <p>Item: {fight.drop.name}</p> 
+            <p>Coins: {fight.dropCoins}</p>
+            <p>Essence: {fight.dropEssence}</p>
+          </div>
+        
+         : (<p></p>)}</p>
 
         <p></p>
       </div>

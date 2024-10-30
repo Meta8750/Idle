@@ -20,7 +20,10 @@ function Raid({player}){
         
             <div>
                 <div className={fight.state === "Combat" ? "hidden" : "flex"}>
-                    <button onClick={()=> startRaid([[10001, 10044, 10001]], 10)}>Raid 1</button>
+                    <div>
+                        <button onClick={()=> startRaid([[10001, 10044, 10001]], 10)}>Raid: Storm Terror Rec Lv: 10</button>
+                        <button onClick={()=> startRaid([[10001, 10044, 10001]], 10)}>Raid: Storm Terror Rec Lv: 10</button>
+                    </div>
                 </div> 
                 <Battle player={player} fight={fight}/>
             </div>

@@ -12,7 +12,7 @@ function ItemManager({ player, mon, setTab }) {
     return <p>No Mons available</p>; // break if player dont have mons
   }
 
-  
+
   const equipItem = () => {
 
     if (focusedItem.equipped === true) {
@@ -23,7 +23,10 @@ function ItemManager({ player, mon, setTab }) {
     }
   }
 
- 
+  const upgradeItem = () => {
+    focusedItem.name != "Riven Mod" ? focusedItem.upgradeStats(focusedItem) : focusedItem.randomStats(focusedItem)
+  
+  }
 
   return (
     <div className={styles.mainContainer}>
@@ -48,59 +51,59 @@ function ItemManager({ player, mon, setTab }) {
         <button onClick={() => setTab("mon")}>back</button>
         <p>{mon.name}</p>
 
-     
         <p>{mon.capacity} / {mon.usedCapacity}</p>
         <MonStats mon={mon} />
 
       </div>
 
-
       <div className={styles.equipment}>
-      {mon.equipment.map((item, itemIndex) => {
-            return(
-              
-                   <div >
-                  {item ? (<div>
+        {mon.equipment.map((item, itemIndex) => {
+          return (
 
-                      
-                        <p>{item.name}</p>
-                        <p>{item.level}</p>
-                        <p>{item.capacity}</p>
+            <div >
+              {item ? (<div>
 
 
-                        {Object.entries(item.stats).map(([stat, value]) => {
-                          return <p>{stat} {value}</p>
-                        })}
+                <p>{item.name}</p>
+                <p>{item.level}</p>
+                <p>{item.capacity}</p>
 
-                        <img class="px-35" src={item.img}></img>
 
-                       </div>) : (<div className={styles.emptySlot}></div>)}
-                  
-                  </div>
-            
-           )})}
+                {Object.entries(item.stats).map(([stat, value]) => {
+                  return <p>{stat} {value}</p>
+                })}
+
+                <img class="px-35" src={item.img}></img>
+
+              </div>) : (<div className={styles.emptySlot}></div>)}
+
+            </div>
+
+          )
+        })}
       </div>
 
-     
-           <div className={styles.stats}>
+
+      <div className={styles.stats}>
         {focusedItem ? (
           <div >
             <p>{focusedItem.name} Level: {focusedItem.level}/{focusedItem.maxLevel}</p>
-       
-          
 
-           
+
+
+
             {Object.entries(focusedItem.stats).map(([stat, value]) => {
               return <p>{stat} {value}</p>
             })}
 
             <img class="px-35" src={focusedItem.img}></img>
             <button onClick={() => equipItem()}>equip</button>
+            <button onClick={() => upgradeItem()}>Upgrade</button>
           </div>) : (<p>No Item selected</p>)}
 
       </div>
-      </div>
-   
+    </div>
+
   );
 }
 //  <button onClick={() => focusedItem.randomStats()}>upgrade</button>

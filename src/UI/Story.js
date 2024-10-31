@@ -20,8 +20,8 @@ function Story({player}){
 
     const startStory = () => {
         if (player.team.length != 0) {
-            
-            fight.startFight(player, genBattle.getStory(player.section, player.zone, player.section + ((player.zone - 1) * 10) ), 40000)
+           
+            fight.startFight(player, genBattle.getStory(player.section, player.zone, player.section + ((player.zone - 1) * 10) ), 40000, player.section + ((player.zone - 1) * 10))
             fight.type = "Story"
 
         }

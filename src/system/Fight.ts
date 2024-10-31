@@ -40,6 +40,8 @@ export default class Fight{
     dropID:number;
     number: number;
     dropTable: any;
+    dropCoins: number;
+    dropEssence: number;
     
     constructor(){
         this.state = "outOfCombat"
@@ -82,6 +84,7 @@ startFight = async (player: any, batch: number[],drop: number, lv?: number) => {
     this.battleLogs = [];
     this.battleLogs.push("Battle Started");
     this.advanceTurn()
+    console.log(lv)
 
     if(lv){
         if (this.type === "Raid") {
@@ -95,7 +98,7 @@ startFight = async (player: any, batch: number[],drop: number, lv?: number) => {
                 enemy.levelProgess(enemy.level)
             }
             if (enemy.boss === true){
-                console.log(enemy)
+              
                 enemy.stats.maxHealth *= 10
                 enemy.health = enemy.stats.maxHealth
             }
@@ -118,6 +121,8 @@ reset(result: string): void{
     this.state = "outOfCombat"
     this.lastFight = { ...this }
     this.enemys = null
+    
+    this.attackTarget = null
     
     
   
@@ -239,6 +244,9 @@ handleAttack(attack: any, mon: any){
 advanceTurn = () => {
     setTimeout(() => {
         this.checkAndAdvanceBatch()
+        if(this.enemys === null){
+            return
+        }
         this.round++
         this.attackOrder = [...this.attackOrder].sort((a, b) => b.stats.baseMS - a.stats.baseMS);
        
@@ -258,7 +266,7 @@ advanceTurn = () => {
             }
         }
       
-        if (this.currentAttacker && this.arena && this.arena.enemys.flat().includes(this.currentAttacker)) {
+        if (this.currentAttacker && this.enemys.flat().includes(this.currentAttacker) ) {
             this.enemyAi();
             
 
@@ -306,18 +314,17 @@ advanceTurn = () => {
                 this.player.inventory.updateItem(Dex.generate(30008))   
                 
                 this.player.team.map((mon) =>{
-                    mon.exp += this.drop.exp
                     mon.levelProgess()
-                    
                 })
             
            
             this.reset("won")
-            if (this.type === "Story"){
+            if (this.type === "Story" ){
                 this.dropEssence = 100 + Math.pow(1.1, this.player.zone)
                 this.dropCoins = 100 * this.player.zone
                 this.player.coins += 100 + Math.pow(1.1, this.player.zone)
                 this.player.essence += 100 + Math.pow(1.1, this.player.zone)
+                
             }
             
             }

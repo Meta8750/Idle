@@ -151,9 +151,7 @@ export default class Animon {
 
     }
 
-    monStats() {
-
-    }
+ 
     upgradeTier() {
         if (this.tier === 10) { return }
         

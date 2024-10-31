@@ -171,6 +171,8 @@
   border: solid 2px aqua;
   width: 14vh; 
   animation: rainbowText 7s infinite;
+  transform: translateX(-10px);
+  transition: all 1s ease;
 }
 
 

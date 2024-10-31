@@ -23,7 +23,7 @@ export default class artifacts{
     upgradeStats(): void {
         if (this.maxLevel != this.level) {
             for (const stat in this.stats){
-                this.stats[stat] *= 1.149 // after 5 Upgrades its around 200% in the end
+                this.stats[stat] *= 1.1
                 this.level++
             }
         }
@@ -35,14 +35,17 @@ export default class artifacts{
             const rng = Math.random();
             const rStat = this.randomBaseStats[Math.floor(rng * this.randomBaseStats.length)];
             //rng * (max - min) + min | if min is a negative dig - and + swap
-            let rDigit  = rng * (1 + 1) - 1;
+            let rDigit  = rng * (2 + 1) - 1;
 
             if ( rStat === "maxHealth"){
                 rDigit = rng * (2 - 1) + 1 
             }
 
+            if(Number.isInteger(this.stats[rStat])){
+                rDigit = Math.round(rng * (100 + 100) - 100);
+            }
             
-            if (Math.random() >= 0.5 && Number.isInteger(this.stats[rStat]) && rStat !== "baseCritDamage" && rStat !== "baseCritRate"){
+            if (Math.random() >= 0.5 &&  rStat !== "baseCritDamage" && rStat !== "baseCritRate"  ){
                 rDigit = Math.round(rng * (100 + 100) - 100);
               
             }

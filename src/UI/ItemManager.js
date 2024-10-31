@@ -69,9 +69,7 @@ function ItemManager({ player, mon, setTab }) {
                 <p>{item.capacity}</p>
 
 
-                {Object.entries(item.stats).map(([stat, value]) => {
-                  return <p>{stat} {value}</p>
-                })}
+                
 
                 <img class="px-35" src={item.img}></img>
 
@@ -89,11 +87,8 @@ function ItemManager({ player, mon, setTab }) {
           <div >
             <p>{focusedItem.name} Level: {focusedItem.level}/{focusedItem.maxLevel}</p>
 
-
-
-
             {Object.entries(focusedItem.stats).map(([stat, value]) => {
-              return <p>{stat} {value}</p>
+              return <p>{stat} {Number.isInteger(value) ? value : `${Math.round(value * 100)}%`}</p>
             })}
 
             <img class="px-35" src={focusedItem.img}></img>

@@ -4,7 +4,8 @@ import styles from '../UIcss/Battle.module.css'
 import StatusEffect from "./components/StatusEffects.tsx";
 import FightStats from "./components/FightStats.tsx"
 import Statscomp from "./components/Statscomp.tsx"
-import { monData } from "../system/dex/fetchData.ts"
+import { AttackUI } from './components/AttackUI.tsx'
+
 
 const battleLogs = []
 
@@ -171,7 +172,7 @@ function Battle({ player, fight }) {
               onClick={() => fight.handleAttack(attack, mon)}
               className={styles.attackOption}
             >
-              {attack.name} {attack.currentCD > 0 ? attack.currentCD : ""} {attack.element}
+              <AttackUI attack={attack} />
             </li>
           ))}
         </ul>
@@ -215,7 +216,7 @@ function Battle({ player, fight }) {
         <button onClick={() => showDetails()}>Details</button>
       </div>
 
-      {fight.enemys ? (
+      {fight.enemys  ? (
         <div className={styles.arena}>
           <div className={styles.enemyContainer}>
             {renderEnemies()}
@@ -254,7 +255,7 @@ function Battle({ player, fight }) {
 
       <div className={fight.result === "won" || fight.result === "lost" ? styles.visible : styles.hidden}>
         <p>{fight.result}</p>
-        <button className={fight.type === "Story" ? "hidden" : ""}onClick={() => playAgain()}>Again?</button>
+        <button className={fight.type === "Story" && fight.result === "won" ? "hidden" : ""}onClick={() => playAgain()}>Again?</button>
         <p>{fight.drop ? 
           <div>
             You got:  

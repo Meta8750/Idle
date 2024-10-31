@@ -13,20 +13,21 @@
 .team{
     grid-area: team;
     display:flex;
-    flex-wrap: wrap;
+   
     background: Linear-gradient(0deg, rgb(51, 51, 51), rgb(34, 34, 34) );
     padding: 1vh 2vw 0px 2vw;
     border-top-right-radius: 12px;
     border-top-left-radius: 12px;
     margin: 10px 0px 0px 10px;
+    
     img {
         
     }
 
     div {
         flex-grow: 1;
-        flex-basis: 200;
         padding: 0px 15px 0px 15px;
+        transition: all 2s ease;
 
     }
     

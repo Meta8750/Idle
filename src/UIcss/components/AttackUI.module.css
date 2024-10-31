@@ -1,10 +1,12 @@
 
 .attackBox {
     display:flex;
+    position: relative;
     justify-content: space-between;
     border: 1px solid white !important;
     width: 90%;
-    padding: 0px 5px 0px 5px;
+    padding: 0px 5px 0px 2%;
+    margin: 0px 5% 0px 5%;
     cursor: pointer;
 
     position: relative;
@@ -17,13 +19,28 @@
 }
 
 .attackBox:hover div {
-    display:block !important;
+    display:flex !important;
     position:absolute !important;
     background-color: rgb(36, 36, 36);
     border:solid 1px;
     border-color: rgb(84, 84, 84);
-    top: -100%;
+    white-space: nowrap;
+    top: -120%;
     left:50%;
-    width: 100%;
+    width: auto;
+    animation: slide 1s;
+    padding: 0.5% 3% 0.5% 3%;
 }
 
+@keyframes slide{
+    
+        from{
+            transform: translateY(-50%);
+            opacity: 0;
+        }
+        to{
+            transform: translateY(0);
+            opacity: 1;
+        }
+    
+}

@@ -109,6 +109,7 @@
     background-color: rgb(0, 0, 0);
     border: solid 2px rgb(0, 0, 0);
     margin: 5px 0.5vh 0px 0.5vh;
+    padding: 3px;
     position: relative;
     z-index: 1;
     min-width: 30vh;
@@ -117,13 +118,16 @@
 
 .target {
   border: solid 2px red !important;
+  box-shadow: 0px 0px 15px red;
+  
  
 }
 
 .activeMon{
     border: solid 2px aqua;
     transition: border 1s ease, transform 1s ease;
-    animation: rainbowText 7s infinite;
+    animation: rainbowTextShadow 7s infinite;
+    
     
 }
 
@@ -133,6 +137,7 @@
     transition:  1s ease;
     margin: 5px;
     min-width: 30vh;
+    padding: 3px;
     
 }
 
@@ -212,9 +217,11 @@
 @keyframes rainbowText {
   100%,0%{
     border-color: rgb(255,0,0);
+    
   }
   8%{
     border-color: rgb(255,127,0);
+    
   }
   16%{
     border-color: rgb(255,255,0);
@@ -245,5 +252,56 @@
   }
   91%{
     border-color: rgb(255,0,127);
+  }
+}
+
+@keyframes rainbowTextShadow {
+  0%, 100% {
+    border-color: rgb(255,0,0);
+    box-shadow: 0 0 15px rgb(255,0,0);
+  }
+  8% {
+    border-color: rgb(255,127,0);
+    box-shadow: 0 0 15px rgb(255,127,0);
+  }
+  16% {
+    border-color: rgb(255,255,0);
+    box-shadow: 0 0 15px rgb(255,255,0);
+  }
+  25% {
+    border-color: rgb(127,255,0);
+    box-shadow: 0 0 15px rgb(127,255,0);
+  }
+  33% {
+    border-color: rgb(0,255,0);
+    box-shadow: 0 0 15px rgb(0,255,0);
+  }
+  41% {
+    border-color: rgb(0,255,127);
+    box-shadow: 0 0 15px rgb(0,255,127);
+  }
+  50% {
+    border-color: rgb(0,255,255);
+    box-shadow: 0 0 15px rgb(0,255,255);
+  }
+  58% {
+    border-color: rgb(0,127,255);
+    box-shadow: 0 0 15px rgb(0,127,255);
+  }
+  66% {
+    border-color: rgb(0,0,255);
+    box-shadow: 0 0 15px rgb(0,0,255);
+  }
+  75% {
+    border-color: rgb(127,0,255);
+    box-shadow: 0 0 15px rgb(127,0,255);
+  }
+  83% {
+    border-color: rgb(255,0,255);
+    box-shadow: 0 0 15px rgb(255,0,255);
+  }
+  91% {
+    border-color: rgb(255,0,127);
+    box-shadow: 0 0 15px rgb(255,0,127);
   }
 }

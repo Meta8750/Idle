@@ -101,6 +101,7 @@ startFight = async (player: any, batch: number[],drop: number, lv?: number) => {
               
                 enemy.stats.maxHealth *= 10
                 enemy.health = enemy.stats.maxHealth
+                enemy.immune = true
             }
         }
         
@@ -160,13 +161,13 @@ autoBattleAi(){
     if ( this.currentAttack.aoe){
         this.arena.enemys[this.currentBatchIndex].map((enemy) =>{
         this.dmgAmount = this.currentAttacker.calculateDmg( this.currentAttack, this.currentAttacker, enemy);
-        this.updateDamage(enemy.uid, this.dmgAmount);
+       
     })} else {
         let target = this.currentBatch.filter(mon => mon.aggro === true)
         target = this.currentBatch[Math.floor(Math.random() * target.length)];
         this.dmgAmount = this.currentAttacker.calculateDmg( this.currentAttack, this.currentAttacker, target);
         //this.battleLogs.push(`${this.currentAttacker.name} uses ${attack.name} and dealt ${target.calculateDmg(attack, this.currentAttacker, target)}`)
-        this.updateDamage(this.attackTarget.uid, -this.dmgAmount);
+        
         
     }
     this.battleLogs.push(`${this.currentAttacker.name} uses ${ this.currentAttack.name} and dealt ${this.dmgAmount}`)
@@ -212,19 +213,19 @@ handleAttack(attack: any, mon: any){
         if (attack.aoe){
                 this.enemys[this.currentBatchIndex].map((enemy) =>{
                 this.dmgAmount = mon.calculateDmg(attack, mon, enemy);
-                this.updateDamage(enemy.uid, -this.dmgAmount);
+                
             })
         } else {
             // this.battleLogs.push(`${this.currentAttacker.name} uses ${this.currentAttacker.name} and dealt ${mon.calculateDmg(attack, mon, this.attackTarget)}`);
             this.dmgAmount = mon.calculateDmg(attack, mon, this.attackTarget);
-            this.updateDamage(this.attackTarget.uid, -this.dmgAmount);
+    
         }
         
         this.battleState = "End phase"
         this.checkPassive()
 
         
-        this.updateDamage(mon.uid, mon.heal);
+       
         this.battleLogs.push(`${this.currentAttacker.name} uses ${attack.name} and dealt ${this.dmgAmount}`)
     
         this.attackTarget = "none"
@@ -353,16 +354,6 @@ advanceTurn = () => {
         return highestStats; 
     }
 
-    updateDamage(monId, damageAmount) {
-        
-        this.dmgTracker.push({monUID: monId, damage: damageAmount, id: Date.now() });
-       
-      
-        setTimeout(() => {
-            this.dmgTracker = this.dmgTracker.filter(num => num.id === Date.now());
-        },2000)
-            
-    }
     genEnemys(){
         this.dex = new dex();
         this.enemys = []

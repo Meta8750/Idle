@@ -24,24 +24,36 @@ function Battle({ player, fight }) {
     }
   }
 
-  const digitUI = (mon) => {
-    let filteredDmg = fight.dmgTracker.filter(dmg => dmg.monUID === mon.uid);
+ const digitUI = (mon) => {
+  
+  return (
+    <div className={styles.dmgContainer}>
+      
+      {mon.dmgTaken.map((dmg, index) => {
+        if (dmg) {
+          const critClass = fight.currentAttacker.attackCritted ? "!text-xl !text-red-600" : "";
+          const multiplierClass = fight.currentAttacker.elementMultiplier === 1.5 ? "!text-2xl !text-red-300" : 
+                                  fight.currentAttacker.elementMultiplier === 0.5 ? "!text-2xl !text-gray-400" : "";
+          const healClass = dmg > 0 ? "!text-green-400" : "";
+          
+          return (
+            <div 
+              key={index}
+              className={`${styles.damageIndicator} ${healClass} ${multiplierClass} ${critClass}`}
+            >
+              {dmg}
+              {fight.currentAttacker.attackCritted && (
+                <img src="/icons/symbols/Crit.png" alt="Crit Icon" />
+              )}
+            </div>
+          );
+        }
+        return null;
+      })}
+    </div>
+  );
+};
 
-    if (filteredDmg.length > 0) {
-      let num = filteredDmg[0].damage
-      return (
-        <div className={`
-        ${styles.damageIndicator}
-        ${num > 0 ? "!text-green-400" : ""}
-        ${fight.currentAttacker.elementMultiplier === 1.5 ? "!text-2xl !text-red-300" : ""}
-        ${fight.currentAttacker.elementMultiplier === 0.5 ? "!text-2xl !text-gray-400" : ""}
-        ${fight.currentAttacker.attackCritted ? "!text-xl !text-red-600" : ""}`}>
-          {num}
-          <img className={fight.currentAttacker.attackCritted ? "" : "hidden"} src="/icons/symbols/Crit.png"></img>
-        </div>
-      )
-    }
-  }
 
   const hpBar = (mon) => {
     return (
@@ -152,7 +164,7 @@ function Battle({ player, fight }) {
     }
   }
 
-  const renderTeam = () => {
+  const renderTeam = () => { 
     return fight.team.map((mon, index) => (
       <div
         key={index}
@@ -161,7 +173,6 @@ function Battle({ player, fight }) {
         <p>{mon.name} {mon.level}</p>
         {hpBar(mon)}
         {digitUI(mon)}
-
         <StatusEffect mon={mon} />
 
         <img onClick={() => fight.handleTarget(mon)} class="w-60 h-52" alt={mon.name} src={mon.img}></img>
@@ -197,7 +208,7 @@ function Battle({ player, fight }) {
       >
         <p>{enemy.name} {enemy.level}</p>
         {hpBar(enemy)}
-
+        {}
         {digitUI(enemy)}
 
         <StatusEffect mon={enemy} />

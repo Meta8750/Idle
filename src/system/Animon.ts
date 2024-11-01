@@ -1,20 +1,5 @@
 import { v4 as uuidv4 } from 'uuid';
 
-interface TempStats {
-    AD: number;
-    AP: number;
-    armour: number;
-    MR: number;
-    MS: number;
-    critRate: number;
-    critDamage: number;
-    armourPen: number;
-    mrPen: number;
-    mana: number;
-    health: number;
-    maxHealth: number;
-    dmgAmp: number;
-}
 
 const elementMatrix = {
     //    D    L    W    P    F    E    S    I
@@ -35,7 +20,6 @@ export default class Animon {
     name: string;
     level: number;
     maxLevel: number;
-    rarity: string;
     role: string;
     attacks: any[];
     healthGrowth: number;
@@ -66,7 +50,6 @@ export default class Animon {
     nextLevel: number;
     id: number
     img: string;
-    dmgDealt: number;
     dmg: number;
     alive: boolean;
     uid: string;
@@ -85,7 +68,10 @@ export default class Animon {
     attackCritted: boolean;
     elementMultiplier: number;
     dmgAmp: number;
-    dmgTaken: number;
+    dmgDealt: number[];
+    dmgTaken: number[] = [];
+    totalDmgDealt: number;
+    totalDmgTaken: number;
     healingDone: number;
     roundReset: number;
     shield: number;
@@ -134,8 +120,10 @@ export default class Animon {
         this.dmg = 0
         this.dmgAmp = 0;
 
-        this.dmgDealt = 0;
-        this.dmgTaken = 0;
+        this.totalDmgDealt = 0;
+        this.totalDmgTaken = 0;
+        
+        this.dmgDealt = [];
         this.healingDone = 0;
 
         this.ally = false
@@ -266,6 +254,7 @@ export default class Animon {
         this.elementMultiplier = 1
         this.heal = 0
         let rng = Math.random()
+       
 
         if (attack.status) {
             for (const status in attack.status) {
@@ -317,11 +306,13 @@ export default class Animon {
         }
    
         this.dmg *= this.elementMultiplier
+        
         this.dmg = this.dmg + (this.dmg * this.dmgAmp)
         this.dmg = Math.round(this.dmg)
 
-        this.dmgDealt += this.dmg
-        defender.dmgTaken += this.dmg
+        this.dmgDealt.push(this.dmg)
+        this.totalDmgDealt += this.dmg
+        
 
         if (defender.shield > 0) {
             let shieldDmg = this.dmg - defender.shield
@@ -334,7 +325,9 @@ export default class Animon {
             defender.shield = 0
 
         }
-        defender.health -= this.dmg
+        defender.reduceHealth(this.dmg)
+  
+
         if (defender.alive) {
             this.heal = this.dmg * this.lifeSteal
             this.setHealth(this.heal)
@@ -386,8 +379,6 @@ export default class Animon {
     }
     getItemStats(item): void {
         // Iteriere über die ausgerüsteten Items
-
-
         if (item && item.stats) { // Prüfen, ob ein Item vorhanden ist und temp-Stats hat
             for (const stat in item.stats) {
                 if (this.stats[stat] !== undefined) {
@@ -421,7 +412,15 @@ export default class Animon {
         }
     }
 
+    reduceHealth(dmg){
+        let BHealing = this.health;
+        this.health -= dmg
+        this.dmgTaken.push(this.health - BHealing)
+        this.totalDmgTaken += (this.health - BHealing)
+        setTimeout(() => this.dmgTaken.slice(this.dmgTaken.length), 5000)
+    }
     setHealth(health) {
+        
         let BHealing = this.health;
         if (health.isInteger) {
             this.health *= health;
@@ -431,7 +430,9 @@ export default class Animon {
         if (health > 0) {
             this.healingDone += (this.health - BHealing);
         } else {
-            this.dmgTaken += (this.health - BHealing)
+            this.health -= health
+            this.dmgTaken.push(this.health - BHealing)
+            this.totalDmgTaken += (this.health - BHealing)
         }
 
         if (this.health > this.stats.maxHealth) {

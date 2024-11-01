@@ -6,10 +6,10 @@ import styles from '../../UIcss/components/FightStats.module.css'
 function FightStats({mon, stats}){
 
     let dealing = {
-        width: `${(mon.dmgDealt / stats[0]) * 100}%`,
+        width: `${(mon.totalDmgDealt / stats[0]) * 100}%`,
     }
     let taking = {
-        width: `${(mon.dmgTaken / stats[1]) * 100}%`,
+        width: `${(mon.totalDmgTaken / stats[1]) * 100}%`,
     }
     let healing = {
         width: `${(mon.healingDone / stats[2]) * 100}%`,

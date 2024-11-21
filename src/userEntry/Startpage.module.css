@@ -1,0 +1,16 @@
+.startpage {
+    color: white;
+    display: block;
+    scroll-behavior: smooth;
+
+    body{
+        
+        display: block;
+    }
+    
+    header {
+        display: block;
+        background-color: aqua;
+        position: sticky;
+    }
+}

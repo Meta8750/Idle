@@ -1,25 +1,29 @@
 import React from "react";
 import { useState } from "react";
 // import styles from '../UIcss/S.module.css'
+import styles from "./Startpage.module.css"
 
 
 function Startpage() {
     
     return (
-       <div>
+       <body className={styles.startpage}>
         <header>
             <div>
-
+                <a href="./LoginPage.js">Login</a> <a>Register</a>
             </div>
         </header>
         
         <aside></aside>
         
-        <main></main>
+        <main>
+
+
+        </main>
         
         <footer></footer>
        
-       </div>
+       </body>
     )
 }
 

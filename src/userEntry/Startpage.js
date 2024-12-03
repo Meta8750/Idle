@@ -18,6 +18,10 @@ function Startpage() {
         
         <main>
 
+            <div className={styles.login}>
+                <img src="./backgrounds/japan_hill.jpg"></img>
+                <p>Login</p>
+            </div>
 
         </main>
         

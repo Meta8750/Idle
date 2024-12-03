@@ -1,18 +1,19 @@
 import './App.css';
 import { useState, useEffect } from 'react';
+import { BrowserRouter as Router, Route, Routes, Link } from "react-router-dom";
 
 import styles from './UIcss/Main.module.css';
 import Sidebar from './UI/Sidebar.js';
-import Header from './UI/Header.js';
+import Header from './UI/Header.js'
 
 import Startpage from './userEntry/Startpage.js'
+import LoginPage from './userEntry/LoginPage.js'
 
 import Mining from './UI/skills/Mining.js';
 import Gambling from './UI/skills/Gambling.js';
 import Smithing from './UI/skills/Smithing.js';
 import Cutting from './UI/skills/Cutting.js';
 import Crafting from './UI/skills/Crafting.js';
-
 import DisplayInventory from './UI/DisplayInventory.js';
 import MonManager from './UI/MonManager.js';
 import Battle from './UI/Battle.js';
@@ -109,7 +110,7 @@ function App() {
   } else {
     return (
       <div>
-        <Startpage />
+        <LoginPage />
         
       </div>
     );

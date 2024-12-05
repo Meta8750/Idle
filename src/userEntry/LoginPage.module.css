@@ -44,7 +44,16 @@
 
         p {
             text-align: left;
+            
+            button {
+                border:0px #ffffff;
+                padding: 0px;
+                box-shadow: none;
+                color: rgb(164, 0, 246);
+                font-weight: bold;
+            }
         }
+
      
       
     }
@@ -64,7 +73,7 @@ input:focus-visible{
 
 input{
     transition: background-position 0.5s ease;
-    color:rgb(246, 210, 248);
+    color:rgb(33, 21, 33);
     background-color: rgba(0, 0, 0, 0.0);
     border: solid 2px rgb(246, 210, 248);
     border-radius: 10px;
@@ -77,3 +86,4 @@ input{
     outline:none;
     margin: 10px 0px;
 }
+

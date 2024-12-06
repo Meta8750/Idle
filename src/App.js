@@ -14,23 +14,21 @@ import LoginPage from './userEntry/LoginPage.js'
 
 function App() {
 
-
- 
     return (
-      <AuthProvider>
+    <AuthProvider>
       <Router>
         <Routes>
-          <Route path="LoginPage" element={<LoginPage />} />
+        <Route
+              path="/"
+              element={<Navigate to="/LoginPage" replace />}
+            />
+          <Route path="/LoginPage" element={<LoginPage />} />
         </Routes>
       </Router>
       </AuthProvider>
+     
     );
-
-
 }
-
-  
-
 
 export default App;
 

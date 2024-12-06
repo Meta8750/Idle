@@ -18,7 +18,7 @@ function LoginPage() {
     const [isRegistering, setIsRegistering] = useState(false);
     const [errorMessage, setErrorMessage] = useState('')
 
-   const onSubmit = async (e) => {
+   const onSubmitLog = async (e) => {
     e.preventDefault();
     if(!isSigningIn) {
         setIsSigningIn(true);
@@ -58,15 +58,13 @@ function LoginPage() {
                 <div className={tab === "login" ? "block" : 'hidden'}>
                     <h1>Login</h1>
                     
-                    <form>
-                    <input placeholder="Email" type="email" ></input>
-                 
-                    
+                    <form onSubmit={onSubmitLog}>
+                    <input placeholder="Email" type="email" value={email}></input>
         
-                    <input placeholder="Password" type="password"></input>
+                    <input placeholder="Password" type="password" value={password}></input>
                   
                     <p>Forgot Password?</p>
-                    <button>Login</button>
+                    <button type="submit" disabled={isRegistering}>Login</button>
                     </form>
                     <p>Don't have an account <button onClick={()=> setTab("register")}>Register</button></p>
                 </div>

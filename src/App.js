@@ -4,7 +4,7 @@ import { BrowserRouter as Router, Route, Routes, Link } from "react-router-dom";
 import { Navigate } from 'react-router-dom';
 
 import { useAuth } from "./userEntry/Auth.jsx";
-import { AuthProvider } from "./userEntry/Auth.jsx";
+
 
 
 import MainPage from './MainPage.jsx'
@@ -14,10 +14,16 @@ import LoginPage from './userEntry/LoginPage.js'
 
 function App() {
 
+    const { userLoggedIn } = useAuth();
+
     return (
-    <AuthProvider>
+
       <Router>
         <Routes>
+        <Route
+        path="/"
+        element={userLoggedIn ? <MainPage /> : <Navigate to="/login" replace />}
+      />
         <Route
               path="/"
               element={<Navigate to="/LoginPage" replace />}
@@ -25,7 +31,7 @@ function App() {
           <Route path="/LoginPage" element={<LoginPage />} />
         </Routes>
       </Router>
-      </AuthProvider>
+    
      
     );
 }

@@ -24,6 +24,7 @@ function LoginPage() {
         setIsSigningIn(true);
         try {
             await doSignInWithEmailAndPassword( email, password);
+              // doSendEmailVerification()
          
         } catch (error) {
             setErrorMessage(error.message);
@@ -61,7 +62,7 @@ function LoginPage() {
                     <form onSubmit={onSubmitLog}>
                     <input placeholder="Email" type="email" value={email}></input>
         
-                    <input placeholder="Password" type="password" value={password}></input>
+                    <input placeholder="Password" type="password" autoComplete='current-password' value={password}></input>
                   
                     <p>Forgot Password?</p>
                     <button type="submit" disabled={isRegistering}>Login</button>

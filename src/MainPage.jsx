@@ -1,9 +1,9 @@
 import React from "react"
 
 import { useEffect,useState } from "react";
+import { AuthProvider } from "./userEntry/Auth.jsx";
 
 import styles from './UIcss/Main.module.css';
-
 import Sidebar from './UI/Sidebar.js';
 import Header from './UI/Header.js'
 import Mining from './UI/skills/Mining.js';
@@ -42,7 +42,9 @@ function MainPage(){
       const tick = () => {
         setTime((prev) => {
           let newTime = prev + 0.0167;  
+          
           if (flag){newTime = 0}
+          
           return newTime
         });
         requestAnimationFrame(tick);
@@ -58,7 +60,8 @@ function MainPage(){
     
     return (
     
-    <div>
+    <div className={styles.App}>
+      <AuthProvider></AuthProvider>
     <header> <Header player={player}/> </header>
         <aside> <Sidebar player={player} setTime={setTime} time={time}/> </aside>
         <main className={styles.main}> 

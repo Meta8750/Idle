@@ -1,7 +1,7 @@
 import React from "react";
 import { useEffect, useState, useContext} from "react";
 import { auth } from "../firebaseConfig.js";
-import { onAuthStateChanged } from "firebase/auth";
+import { onAuthStateChanged, signOut } from "firebase/auth";
 
 const AuthContext = React.createContext();
 
@@ -19,6 +19,12 @@ export function AuthProvider({children}) {
         const unsubscribe = onAuthStateChanged(auth, initializeUser);
         return () => unsubscribe(); 
     }, []);
+
+    const logout = async () => {
+        await signOut(auth);
+        setCurrentUser(null);
+        setUserLoggedIn(false);
+    };
     
     async function initializeUser(user) {
         if (user) {
@@ -31,13 +37,13 @@ export function AuthProvider({children}) {
         setLoginLoading(false)
     }
     
-    
     const value = {
         currentUser,
         setCurrentUser,
         userLoggedIn,
         loading,
         isEmailUser,
+        logout,
     }
     
     return (

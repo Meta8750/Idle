@@ -1,3 +1,58 @@
+.App {
+  display: grid;
+  grid-template-areas:
+    "aside header header"
+    "aside main main";
+  grid-template-rows: auto 1fr;
+  grid-template-columns: 0.6fr 6fr;
+  height: auto;
+  overflow: auto; 
+  -ms-overflow-style: none; 
+  scrollbar-width: none;  
+  background-color: black;
+  
+}
+
+body{
+  background-color: black;
+}
+
+header {
+  grid-area: header;
+  background-color: black;
+
+ 
+}
+
+aside {
+  grid-area: aside;
+  background-color: #1c1c1d;
+ 
+}
+
+main {
+  grid-area: main;
+  background-color: rgb(0, 0, 0);
+  
+}
+
+.MonManager{
+  
+  background-color: #1c1c1d;
+  padding: 1rem;
+}
+
+@media (max-width: 768px) {
+  .App{
+    grid-template-areas:
+    "header header header"
+    "aside main main";
+    grid-template-columns: 0fr 1fr !important;
+  }
+  
+}
+
+
 .hidden {
     display: none;
   }

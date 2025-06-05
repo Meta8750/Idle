@@ -7,7 +7,9 @@ import MonStats from "./components/MonStats.tsx";
 
 import styles from '../UIcss/MonManager.module.css'
 
+import dex from '../system/dex/generator.ts'
 
+const Dex = new dex() // only for testing, remove later
 
 function MonManager({player}) {
 
@@ -24,6 +26,14 @@ function MonManager({player}) {
     player.setMons(10095)
     player.setMons(10115)
     player.setMons(10117)
+    player.inventory.updateItem(Dex.generate(30001)) 
+    player.inventory.updateItem(Dex.generate(30002)) 
+    player.inventory.updateItem(Dex.generate(30003)) 
+    player.inventory.updateItem(Dex.generate(30004))
+    player.inventory.updateItem(Dex.generate(30005)) 
+    player.inventory.updateItem(Dex.generate(30008))
+    player.inventory.updateItem(Dex.generate(30008))
+    player.inventory.updateItem(Dex.generate(30008))   
    }
    const test2 = () => {
   

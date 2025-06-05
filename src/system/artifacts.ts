@@ -23,9 +23,10 @@ export default class artifacts{
     upgradeStats(): void {
         if (this.maxLevel != this.level) {
             for (const stat in this.stats){
-                this.stats[stat] *= 1.1
+                this.stats[stat] += Math.round(this.stats[stat] * Math.random())
                 this.level++
             }
+        
         }
     }
 

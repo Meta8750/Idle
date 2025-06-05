@@ -39,7 +39,7 @@ function Laboratory({ player }) {
   }
   const tierUpgrade = (mon) => {
     mon.upgradeTier()
-    if ((player.inventory.findItem(`${mon.name}cell`)?.quantity || 0) >= mon.reqCells) {
+    if ((player.inventory.findItem(`${mon.name}cell`)?.quantity || 0) <= mon.reqCells) {
       mon.upgradeTier()
     }
   }

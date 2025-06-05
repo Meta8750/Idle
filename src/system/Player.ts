@@ -142,7 +142,6 @@ class Player {
 
     }
     removeItemFromMon(uid: number): void {
-        // Iteriere durch die Mons-Sammlung
         for (const mon of this.mons) {
             if (mon.equipment.length > 0) {
                 let item = mon.equipment.filter(item => item.uid === uid)[0]

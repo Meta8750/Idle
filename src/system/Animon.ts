@@ -136,12 +136,11 @@ export default class Animon {
         this.capacity = 10 * this.tier
         this.usedCapacity = 0;
 
-
     }
 
  
     upgradeTier() {
-        if (this.tier === 10) { return }
+        if (this.tier === 100) { return }
         
         let level = this.level - 1
         let tierMultiplier = 0.5 // per extra tier growth stats are 50% increased
@@ -353,8 +352,6 @@ export default class Animon {
 
     equipItem(item): void {
 
-
-
         if (item.equipped === false && this.capacity >= item.capacity + this.usedCapacity) {
 
             item.equipped = true;
@@ -363,6 +360,7 @@ export default class Animon {
             this.usedCapacity += item.capacity
         }
         else {
+            item.equipped = false;
             this.usedCapacity -= item.capacity
             this.removeItem(item)
             this.removeItemStats(item)

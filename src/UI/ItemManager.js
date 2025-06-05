@@ -34,7 +34,7 @@ function ItemManager({ player, mon, setTab }) {
       <div className={styles.box}>
 
         {player.inventory.getArtifacts().map((item, index) => (
-          <ul className={styles.items} onClick={() => setFocusedItem(item)}>
+          <ul className={`${styles.items} ${item === focusedItem ? styles.focusedItem : ""} ${item.equipped ? styles.equippedItem: ""}`} onClick={() => setFocusedItem(item)}>
             <li key={index}>
               <p class="px-0 m-0 f text-sm" >{item.name}</p>
               <img class="px-1 w-9 mr-auto ml-auto" src={item.img}></img>
@@ -63,13 +63,9 @@ function ItemManager({ player, mon, setTab }) {
             <div >
               {item ? (<div>
 
-
                 <p>{item.name}</p>
                 <p>{item.level}</p>
                 <p>{item.capacity}</p>
-
-
-                
 
                 <img class="px-35" src={item.img}></img>
 

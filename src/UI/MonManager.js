@@ -26,14 +26,15 @@ function MonManager({player}) {
     player.setMons(10095)
     player.setMons(10115)
     player.setMons(10117)
-    player.inventory.updateItem(Dex.generate(30001)) 
+    for (let i = 0; i < 10; i++) {
+      player.inventory.updateItem(Dex.generate(30001)) 
     player.inventory.updateItem(Dex.generate(30002)) 
     player.inventory.updateItem(Dex.generate(30003)) 
     player.inventory.updateItem(Dex.generate(30004))
     player.inventory.updateItem(Dex.generate(30005)) 
     player.inventory.updateItem(Dex.generate(30008))
-    player.inventory.updateItem(Dex.generate(30008))
-    player.inventory.updateItem(Dex.generate(30008))   
+    }
+     
    }
    const test2 = () => {
   

@@ -2,21 +2,24 @@ import { v4 as uuidv4 } from 'uuid';
 
 export default class artifacts{
 
-    uid: number;
+    uid: string;
     level:number;
     maxLevel:number;
+    tier: number;
     randomBaseStats: string[];
     info: any;
     stats: any;
+    reqExtract: number;
 
     constructor(monItemInfo:any){
         Object.assign(this, monItemInfo)
-          // Erstelle eine tiefe Kopie von monItemInfo.temp
         this.stats = JSON.parse(JSON.stringify(monItemInfo.stats));
         this.uid = uuidv4()
         this.level = 0
         this.maxLevel = 5
-        this.randomBaseStats = ["baseAD","baseAP","maxHealth","baseCritDamage","baseCritRate","baseArmour","baseMR"] // list for every possbible random statS
+        this.tier = 0
+        this.reqExtract = 1
+        this.randomBaseStats = ["additionalAD","additionalAP","additionalMaxHealth","additionalCritDamage, additionalCritRate","additionalArmour","additionalMR"] // list for every possbible random statS
 
     }
 
@@ -26,8 +29,13 @@ export default class artifacts{
                 this.stats[stat] += Math.round(this.stats[stat] * Math.random())
                 this.level++
             }
-        
         }
+    }
+
+    evolveItem(): void {
+        this.maxLevel += 5;
+        this.tier++;
+        this.reqExtract += 1;
     }
 
     randomStats(): void{

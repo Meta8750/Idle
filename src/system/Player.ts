@@ -147,7 +147,7 @@ class Player {
                 let item = mon.equipment.filter(item => item.uid === uid)[0]
                 if (item) {
                     mon.equipItem(item)
-                    return;
+                    break;
         }}}}
     getSkills(skill: any) { //return the hole obj
         return this.skills[skill]

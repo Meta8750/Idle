@@ -38,8 +38,9 @@ function Laboratory({ player }) {
     }
   }
   const tierUpgrade = (mon) => {
-    mon.upgradeTier()
-    if ((player.inventory.findItem(`${mon.name}cell`)?.quantity || 0) <= mon.reqCells) {
+    const item = player.inventory.findItem(`${mon.name}cell`)
+    if ((item?.quantity || 0) <= mon.reqCells) {
+      player.inventory.adjustItem(item, -mon.reqCells)
       mon.upgradeTier()
     }
   }

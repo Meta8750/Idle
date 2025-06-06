@@ -12,9 +12,7 @@ function ItemManager({ player, mon, setTab }) {
     return <p>No Mons available</p>; // break if player dont have mons
   }
 
-
   const equipItem = () => {
-
     if (focusedItem.equipped === true) {
       player.removeItemFromMon(focusedItem.uid)
 
@@ -23,8 +21,26 @@ function ItemManager({ player, mon, setTab }) {
     }
   }
 
+  const extractItem = () => {
+    if (focusedItem.equipped === true) {
+      player.removeItemFromMon(focusedItem.uid)
+    }
+    player.inventory.updateItem({ name: `${focusedItem.name}extract`, quantity: 1, value: 100 })
+    player.inventory.removeItem(focusedItem.uid);
+    setFocusedItem(null);
+  }
+
   const upgradeItem = () => {
     focusedItem.name != "Riven Mod" ? focusedItem.upgradeStats(focusedItem) : focusedItem.randomStats(focusedItem)
+  }
+  const evolveItem = () => {
+    
+    const item = player.inventory.findItem(`${mon.name}cell`);
+    
+    if ((item?.quantity || 0) <= focusedItem.reqExtract) {
+        player.inventory.adjustItem(item, -focusedItem.reqExtract);
+        focusedItem.evolveItem();
+    }
   
   }
 
@@ -40,6 +56,7 @@ function ItemManager({ player, mon, setTab }) {
               <img class="px-1 w-9 mr-auto ml-auto" src={item.img}></img>
               <h1 class="">{item.quantity}</h1>
               <ItemStar num={item.stars} />
+              <p>{item.level}</p>
               <span></span>
             </li>
           </ul>
@@ -76,9 +93,11 @@ function ItemManager({ player, mon, setTab }) {
           )
         })}
       </div>
-
-
       <div className={styles.stats}>
+         <button onClick={() => equipItem()}>equip</button>
+          <button onClick={() => upgradeItem()}>Upgrade</button>
+          <button onClick={() => extractItem()}>extract</button>
+          <button onClick={() => evolveItem()}>evolve</button>
         {focusedItem ? (
           <div >
             <p>{focusedItem.name} Level: {focusedItem.level}/{focusedItem.maxLevel}</p>
@@ -88,8 +107,7 @@ function ItemManager({ player, mon, setTab }) {
             })}
 
             <img class="px-35" src={focusedItem.img}></img>
-            <button onClick={() => equipItem()}>equip</button>
-            <button onClick={() => upgradeItem()}>Upgrade</button>
+           
           </div>) : (<p>No Item selected</p>)}
 
       </div>

@@ -59,16 +59,24 @@ export default class Inventory {
 
     adjustItem(item: Item, ammount: number){
         // reduce the Item quantity based on the ammount
-        const existingItemIndex = this.inventory.findIndex(i => i.name === item.name)
-        this.inventory[existingItemIndex] = {
-            ...this.inventory[existingItemIndex],
-            quantity: this.inventory[existingItemIndex].quantity + ammount
-        };
-        // if quantity is 0 delete it from the Inventory
-        if (this.inventory[existingItemIndex].quantity <= 0) {
-            this.inventory = this.inventory.filter(i => i.name !== item.name)
-            
-        }   
+        if (item) {
+            const existingItemIndex = this.inventory.findIndex(i => i.name === item.name)
+            this.inventory[existingItemIndex] = {
+                ...this.inventory[existingItemIndex],
+                quantity: this.inventory[existingItemIndex].quantity + ammount
+            };
+            // if quantity is 0 delete it from the Inventory
+            if (this.inventory[existingItemIndex].quantity <= 0) {
+                this.removeItem(item.uid)
+                
+            }   
+        }
+      
+    }
+
+    removeItem(uid: string) {
+        // remove the Item from the inventory
+        this.inventory = this.inventory.filter(i => i.uid !== uid);
     }
    
     getInventory(){

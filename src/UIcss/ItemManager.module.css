@@ -32,8 +32,6 @@
     align-items: flex-start;
     border: solid 1px aqua;
     
-    
-    
 }
 .equipment{
     grid-area: equipment;

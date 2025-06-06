@@ -90,22 +90,37 @@ export default class Animon {
         this.stats = {
             maxMana: monData.stats.maxMana,
             maxHealth: monData.stats.maxHealth,
+            additionalMaxHealth: 0,
+            totalMaxHealth:0,
             baseAD: monData.stats.baseAD,
+            additionalAD: 0,
+            totalAD: 0,
             baseAP: monData.stats.baseAP,
+            additionalAP: 0,
+            totalAP: 0,
             baseArmour: monData.stats.baseArmour,
+            additionalArmour: 0,
+            totalArmour: 0,
             baseMR: monData.stats.baseMR,
+            additionalMR: 0,
+            totalMR: 0,
             baseMS: monData.stats.baseMS,
             baseCritDamage: monData.stats.baseCritDamage,
+            additionalCritDamage: 0,
+            totalCritDamage: 0,
             baseCritRate: monData.stats.baseCritRate,
+            additionalCritRate: 0,
+            totalCritRate: 0,
             armourPen: monData.stats.armourPen,
             mrPen: monData.stats.mrPen,
             currentHealthDmg: monData.stats.currentHealthDmg,
             maxHealthDmg: monData.stats.maxHealthDmg,
-
         }
 
-        this.ADReduction = this.calculateDmgReduction(this.stats.baseArmour)
-        this.APReduction = this.calculateDmgReduction(this.stats.baseMR)
+        
+
+        this.ADReduction = this.calculateDmgReduction(this.stats.totalArmour)
+        this.APReduction = this.calculateDmgReduction(this.stats.totalMR)
 
         this.mana = this.stats.maxMana
         this.health = this.stats.maxHealth
@@ -154,8 +169,8 @@ export default class Animon {
         this.stats.maxHealth += this.healthGrowth * tierMultiplier * level
         this.stats.maxMana += this.manaGrowth * tierMultiplier * level
         this.health = this.stats.maxHealth
-        this.ADReduction = this.calculateDmgReduction(this.stats.baseArmour)
-        this.APReduction = this.calculateDmgReduction(this.stats.baseMR)
+        this.ADReduction = this.calculateDmgReduction(this.stats.totalArmour)
+        this.APReduction = this.calculateDmgReduction(this.stats.totalMR)
         this.reqCells += 5
         this.maxLevel += 5
     }
@@ -179,8 +194,8 @@ export default class Animon {
                 this.health = this.stats.maxHealth
                 this.stats.maxMana += this.manaGrowth * tier * level
                 this.nextLevel = this.calculateNextLevel()
-                this.ADReduction = this.calculateDmgReduction(this.stats.baseArmour)
-                this.APReduction = this.calculateDmgReduction(this.stats.baseMR)
+                this.ADReduction = this.calculateDmgReduction(this.stats.totalArmour)
+                this.APReduction = this.calculateDmgReduction(this.stats.totalMR)
                 this.exp = 0
             }
         }
@@ -210,7 +225,7 @@ export default class Animon {
                     this.health *= 0.9
                 }
                 if (status === "poised") {
-                    this.health -= this.stats.maxHealth * 0.95
+                    this.health -= this.stats.totalMaxHealth * 0.95
                 }
                 if (status === "burning") {
                     this.stats.baseArmour *= 0.9
@@ -252,6 +267,7 @@ export default class Animon {
         this.attackCritted = false
         this.elementMultiplier = 1
         this.heal = 0
+
         let rng = Math.random()
        
 
@@ -263,10 +279,10 @@ export default class Animon {
             }
         }
 
-        this.dmg = attack.baseDMG + (attacker.stats.baseAD * attack.adScaling || 0)
-        this.dmg += (attacker.stats.baseAP * attack.apScaling || 0)
-        this.dmg += (attacker.stats.baseArmour * attack.armourScaling || 0)
-        this.dmg += (attacker.stats.baseMR * attack.MRScaling || 0)
+        this.dmg = attack.baseDMG + (attacker.stats.totalAD * attack.adScaling || 0)
+        this.dmg += (attacker.stats.totalAP * attack.apScaling || 0)
+        this.dmg += (attacker.stats.totalArmour * attack.armourScaling || 0)
+        this.dmg += (attacker.stats.totalMR * attack.MRScaling || 0)
 
         if (attack.heal) {
             this.dmg = Math.round(this.dmg)
@@ -276,23 +292,23 @@ export default class Animon {
         }
 
         if (attack.type == "AD") {
-            let reduceDmg = this.calculateDmgReduction(defender.stats.baseArmour - (this.stats.armourPen || 0 * defender.stats.baseArmour)) / 100
+            let reduceDmg = this.calculateDmgReduction(defender.stats.totalArmour - (this.stats.armourPen || 0 * defender.stats.totalArmour)) / 100
             this.dmg = this.dmg - (reduceDmg * this.dmg)
 
         }
 
         if (attack.type == "AP") {
-            let reduceDmg = this.calculateDmgReduction(defender.stats.baseMR - (this.stats.mrPen || 0 * defender.stats.baseMR)) / 100
+            let reduceDmg = this.calculateDmgReduction(defender.stats.totalMR - (this.stats.mrPen || 0 * defender.stats.totalMR)) / 100
 
             this.dmg = this.dmg - (reduceDmg * this.dmg)
         }
 
-        if (Math.random() <= attacker.stats.baseCritRate) {
-            this.dmg *= (attacker.stats.baseCritDamage)
+        if (Math.random() <= attacker.stats.totalCritRate) {
+            this.dmg *= (attacker.stats.totalCritDamage)
             this.attackCritted = true
         }
 
-        this.dmg += defender.stats.maxHealth * attack.maxHealthDmg || 0
+        this.dmg += defender.stats.totalMaxHealth * attack.maxHealthDmg || 0
 
 
         this.dmg += defender.health * attack.currentHealthDmg || 0
@@ -369,28 +385,45 @@ export default class Animon {
     }
 
     removeItem(item): void {
-        console.log(item)
+     
         this.equipment = this.equipment.filter(equipItem => equipItem.uid !== item.uid);
         item.equipped = false;
-        console.log(this.equipment)
+      
 
     }
+
+    calculateStats(): void {
+        this.stats.totalMaxHealth = this.stats.maxHealth + this.stats.additionalMaxHealth;
+        this.stats.totalAD = this.stats.baseAD + this.stats.additionalAD;
+        this.stats.totalAP = this.stats.baseAP + this.stats.additionalAP;
+        this.stats.totalArmour = this.stats.baseArmour + this.stats.additionalArmour;
+        this.stats.totalMR = this.stats.baseMR + this.stats.additionalMR;
+        this.stats.totalCritDamage = this.stats.baseCritDamage + this.stats.additionalCritDamage;
+        this.stats.totalCritRate = this.stats.baseCritRate + this.stats.additionalCritRate;
+    }
+
     getItemStats(item): void {
-        // Iteriere über die ausgerüsteten Items
-        if (item && item.stats) { // Prüfen, ob ein Item vorhanden ist und temp-Stats hat
-            for (const stat in item.stats) {
-                if (this.stats[stat] !== undefined) {
-                    if (Number.isInteger(item.stats[stat])) {
-                        this.stats[stat] += item.stats[stat];
-                    } else {
-                        this.stats[stat] *= item.stats[stat];
+
+        for (item of this.equipment) {
+            if (item && item.stats) { // Prüfen, ob ein Item vorhanden ist und temp-Stats hat
+                for (const stat in item.stats) {
+                    if (this.stats[stat] !== undefined) {
+                        if (Number.isInteger(item.stats[stat])) {
+                            this.stats[stat] += item.stats[stat];
+                        } else {
+                            this.stats[stat] *= item.stats[stat];
                     }
-                } else {
-                    this.stats[stat] = item.stats[stat]; // Initialisiere, falls der Stat nicht existiert
+                    } else {
+                        this.stats[stat] = item.stats[stat]; // Initialisiere, falls der Stat nicht existiert
                 }
             }
         }
+        }
+        // Iteriere über die ausgerüsteten Items
+        
     }
+
+
 
     removeItemStats(item): void {
 
@@ -433,8 +466,8 @@ export default class Animon {
             this.totalDmgTaken += (this.health - BHealing)
         }
 
-        if (this.health > this.stats.maxHealth) {
-            this.health = this.stats.maxHealth;
+        if (this.health > this.stats.totalMaxHealth) {
+            this.health = this.stats.totalMaxHealth;
         }
     }
 }
